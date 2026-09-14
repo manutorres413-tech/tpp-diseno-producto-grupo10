@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diseño de Producto | Grupo 10 - Protección Auditiva Integral</title>
+  <!-- Google Fonts & Chart.js -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      /* CASACUSIA Design Tokens & Dark Mode UI */
+      --casacusia-verde: #1DB97B;
+      --casacusia-violeta: #5533C2;
+      --casacusia-amarillo: #F5B800;
+      --casacusia-rosa: #F44475;
+      --casacusia-naranja: #F5631A;
+      --casacusia-ink: #143642;
+
+      --bg-main: #0C1524;
+      --bg-surface: #142238;
+      --bg-card: rgba(20, 34, 56, 0.85);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --accent-cyan: #1DB97B; /* Primary Casacusia Green */
+      --accent-coral: #F44475; /* Casacusia Rose */
+      --accent-purple: #5533C2; /* Casacusia Violet */
+      --accent-amber: #F5B800; /* Casacusia Yellow */
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-display: 'Space Grotesk', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      line-height: 1.6;
+      background-image: radial-gradient(circle at 10% 20%, rgba(29, 185, 123, 0.08) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(244, 68, 117, 0.07) 0%, transparent 40%);
+    }
+    header {
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: blur(16px);
+      background: rgba(12, 21, 36, 0.88);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo-badge {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-family: var(--font-display); font-size: 1.25rem; font-weight: 700;
+      color: var(--text-primary); text-decoration: none;
+    }
+    .logo-icon {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 15px rgba(29, 185, 123, 0.4);
+    }
+    nav ul { display: flex; list-style: none; gap: 1.5rem; }
+    nav a {
+      color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500;
+      transition: all 0.2s; padding: 0.4rem 0.8rem; border-radius: 6px;
+    }
+    nav a:hover { color: var(--accent-cyan); background: rgba(29, 185, 123, 0.1); }
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .hero { padding: 4rem 0 2.5rem; text-align: center; }
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.35rem 1rem; border-radius: 50px;
+      background: rgba(29, 185, 123, 0.12); border: 1px solid var(--accent-cyan);
+      color: var(--accent-cyan); font-size: 0.85rem; font-weight: 600; margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.5rem);
+      line-height: 1.15; margin-bottom: 1.25rem; font-weight: 700;
+      background: linear-gradient(135deg, #FFFFFF 40%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p { font-size: 1.15rem; color: var(--text-secondary); max-width: 820px; margin: 0 auto 2rem; }
+    .team-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 1.5rem; }
+    .team-chip {
+      background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
+      padding: 0.4rem 0.9rem; border-radius: 20px; font-size: 0.85rem; color: var(--text-primary);
+    }
+    section { padding: 3.5rem 0; border-bottom: 1px solid var(--border-color); }
+    .section-header { margin-bottom: 2.5rem; }
+    .section-tag {
+      font-family: var(--font-display); text-transform: uppercase; font-size: 0.8rem;
+      font-weight: 700; color: var(--accent-cyan); letter-spacing: 1.5px; margin-bottom: 0.5rem;
+    }
+    .section-title { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: #FFF; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px;
+      padding: 1.75rem; transition: all 0.25s ease; position: relative;
+    }
+    .card:hover { transform: translateY(-4px); border-color: rgba(29, 185, 123, 0.4); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); }
+    .card-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem; color: #FFF; display: flex; align-items: center; gap: 0.5rem; }
+    .card-stat { font-family: var(--font-display); font-size: 2.4rem; font-weight: 700; color: var(--accent-cyan); line-height: 1; margin: 0.5rem 0; }
+    .card-desc { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.5; }
+    .problem-banner {
+      background: linear-gradient(135deg, rgba(244, 68, 117, 0.12), rgba(12, 21, 36, 0.95));
+      border: 1px solid rgba(244, 68, 117, 0.3); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;
+    }
+    .problem-quote { font-size: 1.25rem; font-weight: 600; color: #FFF; margin-bottom: 0.75rem; line-height: 1.4; }
+    .bench-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9rem; }
+    .bench-table th, .bench-table td { padding: 0.9rem 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+    .bench-table th { background: rgba(255, 255, 255, 0.04); color: var(--text-primary); font-weight: 600; }
+    .bench-table td { color: var(--text-secondary); }
+    .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+    .badge-success { background: rgba(29, 185, 123, 0.2); color: var(--accent-cyan); }
+    .onion-wrapper { display: flex; flex-direction: column; gap: 0.75rem; margin: 1.5rem 0; }
+    .onion-layer { border-radius: 10px; padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; }
+    .ol-1 { background: rgba(255, 255, 255, 0.05); border-left: 5px solid #94A3B8; }
+    .ol-2 { background: rgba(29, 185, 123, 0.10); border-left: 5px solid #38BDF8; }
+    .ol-3 { background: rgba(29, 185, 123, 0.18); border-left: 5px solid #0284C7; }
+    .ol-4 { background: rgba(29, 185, 123, 0.26); border-left: 5px solid var(--accent-cyan); }
+    .ol-5 { background: rgba(244, 68, 117, 0.22); border-left: 5px solid var(--accent-coral); font-weight: 700; }
+    .brief-box { background: var(--bg-surface); border: 1px solid rgba(29, 185, 123, 0.3); border-radius: 16px; padding: 2.25rem; }
+    .brief-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+    .brief-item { background: rgba(12, 21, 36, 0.75); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; }
+    .brief-item h4 { font-size: 1rem; color: var(--accent-cyan); margin-bottom: 0.5rem; }
+    .pitch-widget {
+      background: linear-gradient(135deg, rgba(85, 51, 194, 0.2), rgba(12, 21, 36, 0.95));
+      border: 1px solid var(--accent-purple); border-radius: 16px; padding: 2.5rem; text-align: center; margin: 2.5rem 0;
+    }
+    .timer-display { font-family: var(--font-display); font-size: 4rem; font-weight: 700; color: #FFF; margin: 1rem 0; letter-spacing: 2px; }
+    .timer-btns { display: flex; justify-content: center; gap: 1rem; }
+    .btn { padding: 0.65rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-family: var(--font-body); }
+    .btn-primary { background: var(--accent-cyan); color: #0C1524; }
+    .btn-outline { background: transparent; border: 1px solid var(--border-color); color: #FFF; }
+    .quote-card { background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--accent-coral); padding: 1rem 1.25rem; margin-bottom: 0.75rem; border-radius: 0 8px 8px 0; font-size: 0.9rem; font-style: italic; color: #E2E8F0; }
+    .stages-track { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+    .stage-pill { background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem; text-align: center; }
+    .stage-pill.active { border-color: var(--accent-cyan); background: rgba(29, 185, 123, 0.12); }
+    .stage-tag { font-size: 0.75rem; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; }
+    .stage-name { font-size: 0.95rem; font-weight: 600; margin-top: 0.35rem; color: #FFF; }
+    footer { border-top: 1px solid var(--border-color); padding: 2.5rem 0; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="#" class="logo-badge"><div class="logo-icon">👂</div><span>AURA • GRUPO 10</span></a>
+    <nav>
+      <ul>
+        <li><a href="#diagnostico">Diagnóstico</a></li>
+        <li><a href="#sondeo">Sondeo (N=132)</a></li>
+        <li><a href="#mercado">P & Q</a></li>
+        <li><a href="#brief">Pre-Brief</a></li>
+        <li><a href="#roadmap">Fases TPP</a></li>
+        <li><a href="#pitch">Pitch 60s</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <div class="hero">
+      <div class="hero-pill">Diseño de Producto • Cátedra UTN - UBA - ITBA 2026</div>
+      <h1>Protección Integral para Dispositivos Auditivos</h1>
+      <p>Desarrollo estratégico y de diseño industrial para mitigar las barreras de sudor, lluvia, arena y golpes en procesadores externos de implantes cocleares y audífonos retroauriculares.</p>
+      <div class="team-chips">
+        <span class="team-chip">👤 Manuel Torres</span>
+        <span class="team-chip">👤 Luisina Infante</span>
+        <span class="team-chip">👤 Sofia Salinas</span>
+        <span class="team-chip">👤 Pedro Buzzeo</span>
+      </div>
+    </div>
+  </div>
+  <section id="diagnostico">
+    <div class="container">
+      <div class="section-header"><div class="section-tag">Fase 1: Diagnóstico</div><h2 class="section-title">Objetivos A & B — El Problema & Benchmark</h2></div>
+      <div class="problem-banner">
+        <div class="problem-quote">“Las personas con audífonos o implantes cocleares sufren vulnerabilidad física y aislamiento preventivo en situaciones cotidianas de deporte, lluvia o aire libre, al no contar con protecciones acústicamente permeables y accesibles.”</div>
+        <div style="color: var(--accent-coral); font-weight: 600; font-size: 0.9rem;">Costo de reposición fuera de garantía: USD 7.000 a USD 10.700 (~$9.000.000 a $13.000.000 ARS)</div>
+      </div>
+      <div class="grid-4">
+        <div class="card"><div class="card-title">🏃 Deporte & Sudor</div><div class="card-desc">El sudor sulfata bornes y apaga el micrófono. Los rebotes en saltos provocan desprendimiento magnético.</div></div>
+        <div class="card"><div class="card-title">🌧️ Lluvia Repentina</div><div class="card-desc">Salpicaduras directas filtran en ranuras de micrófono. El usuario queda incomunicado para no quemar el chip.</div></div>
+        <div class="card"><div class="card-title">🏖️ Arena & Viento</div><div class="card-desc">Partículas abrasivas obstruyen membranas y el viento satura la relación señal-ruido anulando inteligibilidad.</div></div>
+        <div class="card"><div class="card-title">🚴 Movilidad Urbana</div><div class="card-desc">Retirarse el procesador en la vía pública para protegerlo elimina alertas de bocinas y vehículos, arriesgando la vida.</div></div>
+      </div>
+      <h3 style="margin: 2.5rem 0 1rem; color: #FFF;">Benchmark de Soluciones Existentes vs. Nuestra Propuesta</h3>
+      <table class="bench-table">
+        <thead>
+          <tr><th>Solución</th><th>Protección Ofrecida</th><th>Transparencia Acústica</th><th>Precio Mercado (ARS)</th><th>Limitación Crítica Detectada</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Ear Gear</strong> (Funda tela)</td><td>Polvo y sudor leve</td><td>Buena</td><td>$20.000 - $38.000</td><td>No impermeable ante lluvia o caídas con impacto.</td></tr>
+          <tr><td><strong>Cochlear Aqua+</strong></td><td>Inmersión acuática</td><td>Regular</td><td>$81.500 - $317.000</td><td>Requiere desarmar el implante; costoso y no apto uso deportivo diario.</td></tr>
+          <tr><td><strong>Otoclip / Diademas</strong></td><td>Solo retención / anticaída</td><td>Neutra</td><td>$17.000 - $52.000</td><td>Cero resguardo ante lluvia, sudor copioso o arena.</td></tr>
+          <tr><td><strong>Deshumidificador</strong></td><td>Secado posterior nocturno</td><td>N/A</td><td>$174.000</td><td>Actúa tarde: no protege durante la actividad física real.</td></tr>
+          <tr style="background: rgba(29, 185, 123, 0.08);"><td><strong>Propuesta Grupo 10</strong></td><td><span class="badge badge-success">Integral (Agua+Polvo+Caída)</span></td><td><span class="badge badge-success">Máxima (&lt; 2.5 dB)</span></td><td><strong>$40.000 (Accesible)</strong></td><td>Diseño ergonómico, colocación rápida &lt;15s, universal.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <section id="sondeo">
+    <div class="container">
+      <div class="section-header"><div class="section-tag">Objetivo C: Análisis Interdisciplinario</div><h2 class="section-title">Validación Empírica del Sondeo de Mercado (N = 132)</h2></div>
+      <div class="grid-4" style="margin-bottom: 2rem;">
+        <div class="card"><div class="card-desc">Muestra Relevada</div><div class="card-stat">132</div><div class="card-desc">96.2% vínculo usuario o padres</div></div>
+        <div class="card"><div class="card-desc">Estilo de Vida Activo</div><div class="card-stat">65.1%</div><div class="card-desc">Entrena varias veces o diario</div></div>
+        <div class="card"><div class="card-desc">Aislamiento / Limitación</div><div class="card-stat" style="color: var(--accent-coral);">78.8%</div><div class="card-desc">Evitó actividades por miedo</div></div>
+        <div class="card"><div class="card-desc">Utilidad Accesorio Integral</div><div class="card-stat">90.1%</div><div class="card-desc">Calificación 4 y 5 sobre 5</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-title">Atributos más valorados por los usuarios (%)</div><canvas id="chartAtributos" height="210"></canvas></div>
+        <div class="card"><div class="card-title">Testimonios Reales del Dolor (Pregunta Abierta)</div>
+          <div class="quote-card">“Mi hijo juega al vóley; al saltar el imán suele caerse. Claramente en kayak o altura se lo saca por miedo a que se rompa.”</div>
+          <div class="quote-card">“En funcional en el gimnasio se me caía al piso. Queda empapado de sudor, pero sin ellos no escucho al profesor.”</div>
+          <div class="quote-card">“Se largó una lluvia fuerte sin paraguas, se me mojó el procesador y tardó días en deshumidificarse.”</div>
+          <div class="quote-card">“Atendiendo pacientes en la guardia como médico muchas veces se me cayó al agacharme.”</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="mercado">
+    <div class="container">
+      <div class="section-header"><div class="section-tag">Objetivo C: Métricas Cuantitativas</div><h2 class="section-title">Determinación de Precio (P) y Volumen Anual (Q)</h2></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Curva de Demanda & Fijación de P</div>
+          <canvas id="chartDemanda" height="190"></canvas>
+          <div style="margin-top: 1.25rem; font-size: 0.9rem; color: var(--text-secondary);">
+            <p>• <strong>PVP (con IVA 21%):</strong> <span style="color:#FFF; font-weight:700;">$40.000 ARS</span> (valida el 59.1% de compra directa y maximiza ingresos).</p>
+            <p>• <strong>Precio Neto:</strong> $33.058 ARS | <strong>Precio Salida de Fábrica (PSF):</strong> $26.000 ARS.</p>
+            <p>• <strong>Costo Variable Máx. (Regla 2:1 Cátedra):</strong> <span style="color: var(--accent-cyan); font-weight:700;">&le; $13.000 ARS</span>.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Modelo de Cebolla (TAM - SAM - SOM) & Q</div>
+          <div class="onion-wrapper">
+            <div class="onion-layer ol-1"><span>Población Total Argentina (INDEC 2022)</span><strong>46.000.000 hab.</strong></div>
+            <div class="onion-layer ol-2"><span>TAM: Usuarios de prótesis retroauriculares</span><strong>130.000 usuarios</strong></div>
+            <div class="onion-layer ol-3"><span>SAM: Usuarios activos limitados por riesgo (51.3%)</span><strong>66.700 usuarios</strong></div>
+            <div class="onion-layer ol-4"><span>SOM: Mercado objetivo dispuesto a pagar ($40k)</span><strong>39.400 personas</strong></div>
+            <div class="onion-layer ol-5"><span>Q Anual: Market Share 3.8% (Canal audiológico + web)</span><span style="font-size: 1.25rem;">1.500 un./año</span></div>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); text-align: right;">Equivale a 125 unidades mensuales de producción.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="brief">
+    <div class="container">
+      <div class="section-header"><div class="section-tag">Objetivo D: Documento Rector</div><h2 class="section-title">El Pre-Brief del Proyecto</h2></div>
+      <div class="brief-box">
+        <div class="brief-grid">
+          <div class="brief-item"><h4>1. ¿QUÉ? (Problema a solucionar)</h4><p class="card-desc">Vulnerabilidad ambiental y mecánica del procesador externo ante sudor, lluvia, arena y caídas, que genera aislamiento preventivo y retiro forzoso del dispositivo en actividades cotidianas y deportivas.</p></div>
+          <div class="brief-item"><h4>2. ¿QUIÉN? (Cliente Objetivo)</h4><p class="card-desc"><strong>Usuario:</strong> Niños/adolescentes (5-17 años) y adultos activos (18-60) de sectores C1, C2, ABC1.<br><strong>Comprador:</strong> Padres de niños con hipoacusia y adultos deportistas independientes.</p></div>
+          <div class="brief-item"><h4>3. ¿DÓNDE Y CUÁNDO?</h4><p class="card-desc">Espacios deportivos (canchas, gimnasios), vía pública con lluvia o viento, playas y transporte público. Frecuencia de uso: <strong>3 a 7 días por semana</strong>.</p></div>
+          <div class="brief-item"><h4>4. CANTIDAD (Q)</h4><p class="card-desc"><strong>Q = 1.500 unidades anuales</strong> (~125 unidades/mes), fundamentado en una penetración del 3.8% sobre el SOM de 39.400 personas.</p></div>
+          <div class="brief-item"><h4>5. ¿CUÁNTO? (P)</h4><p class="card-desc"><strong>PVP: $40.000 ARS</strong> (IVA incluido).<br><strong>PSF: $26.000 ARS</strong> (sin IVA).<br><strong>Costo Variable Máx: $13.000 ARS</strong> (cumple holgadamente la regla 2:1 del Objetivo I).</p></div>
+          <div class="brief-item"><h4>6. PUNTOS DUROS (Restricciones Técnicas)</h4><p class="card-desc">• <strong>Acústica:</strong> Atenuación &le; 2.5 dB (500-4000 Hz).<br>• <strong>Estanqueidad:</strong> Mínimo IP54 (polvo y salpicaduras).<br>• <strong>Masa:</strong> Peso total &lt; 8 gramos.<br>• <strong>Retención:</strong> Resistencia a tracción &ge; 5 N.<br>• <strong>Ergonomía:</strong> Tiempo de postura &lt; 15 seg.<br>• <strong>Material:</strong> Silicona médica hipoalergénica ISO 10993.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="roadmap">
+    <div class="container">
+      <div class="section-header"><div class="section-tag">Cronograma General</div><h2 class="section-title">Evolución de las Etapas del T.P.P.</h2></div>
+      <div class="stages-track">
+        <div class="stage-pill active"><div class="stage-tag">Obj A - D</div><div class="stage-name">Diagnóstico & Pre-Brief</div></div>
+        <div class="stage-pill"><div class="stage-tag">Obj E</div><div class="stage-name">Bocetos & 5 Alternativas</div></div>
+        <div class="stage-pill"><div class="stage-tag">Obj F</div><div class="stage-name">Selección de Alternativa</div></div>
+        <div class="stage-pill"><div class="stage-tag">Obj G</div><div class="stage-name">Maqueta de Estudio</div></div>
+        <div class="stage-pill"><div class="stage-tag">Obj H</div><div class="stage-name">Ingeniería & Materiales</div></div>
+        <div class="stage-pill"><div class="stage-tag">Obj I & J</div><div class="stage-name">Costos, Marca & Packaging</div></div>
+      </div>
+    </div>
+  </section>
+  <section id="pitch">
+    <div class="container">
+      <div class="pitch-widget">
+        <div class="section-tag" style="color: #FFF;">Entrenador para el Jueves 24/9</div>
+        <h2 style="font-family: var(--font-display); font-size: 2rem; color: #FFF;">Presentación del Brief: Pitch de 60 Segundos</h2>
+        <p style="color: #E2E8F0; max-width: 600px; margin: 0.5rem auto;">Cronometrá la exposición oral de 1 minuto sin medios digitales exigida por los profesores.</p>
+        <div class="timer-display" id="timerDisplay">01:00</div>
+        <div class="timer-btns">
+          <button class="btn btn-primary" onclick="startTimer()">Iniciar 60s</button>
+          <button class="btn btn-outline" onclick="pauseTimer()">Pausar</button>
+          <button class="btn btn-outline" onclick="resetTimer()">Reiniciar</button>
+        </div>
+        <div style="text-align: left; max-width: 800px; margin: 2rem auto 0; background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 12px; font-size: 0.95rem;">
+          <p><strong>[0:00 - 0:12] El Dolor:</strong> ¿Sabían que reponer el procesador de un implante coclear cuesta más de USD 8.000? Por miedo a romperlo con el sudor, la lluvia o una caída, el <strong>78% de los usuarios</strong> prefiere sacárselo y aislarse.</p>
+          <p style="margin-top: 0.5rem;"><strong>[0:13 - 0:25] El Cliente:</strong> Apuntamos a deportistas activos y padres de niños hipoacúsicos que necesitan que sus hijos jueguen libres sin pánico constante a arruinar su audición.</p>
+          <p style="margin-top: 0.5rem;"><strong>[0:26 - 0:40] El Negocio (P y Q):</strong> Validado con 132 encuestas: nuestro gráfico de cebolla proyecta un <strong>Q de 1.500 unidades/año</strong>. La curva de demanda fijó el precio óptimo en <strong>$40.000 ARS</strong>, garantizando holgadamente la relación 2:1 con un costo menor a $13.000.</p>
+          <p style="margin-top: 0.5rem;"><strong>[0:41 - 0:60] Puntos Duros:</strong> Menos de <strong>8 gramos</strong> de peso, protección <strong>IP54</strong>, soporte de <strong>5 N de tironeo</strong> y lo crítico: <strong>no atenuar la voz más de 2.5 dB</strong>. Una solución que devuelve la libertad de moverse sin apagar los sonidos de la vida.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="container">
+      <p>Trabajo Práctico Principal • Cátedra Diseño de Producto 2026</p>
+      <p>UTN Buenos Aires • Grupo 10: Manuel Torres, Luisina Infante, Sofia Salinas, Pedro Buzzeo</p>
+      <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--accent-cyan);">Inspirado en la paleta de identidad comunitaria de CASACUSIA</p>
+    </div>
+  </footer>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const ctxAtributos = document.getElementById('chartAtributos')?.getContext('2d');
+      if (ctxAtributos) {
+        new Chart(ctxAtributos, {
+          type: 'bar',
+          data: {
+            labels: ['Sonido intacto', 'Precio accesible', 'Fácil postura', 'Durabilidad', 'Impermeable', 'Anticaída'],
+            datasets: [{
+              label: '% Menciones',
+              data: [81.1, 56.8, 53.0, 47.7, 47.0, 40.2],
+              backgroundColor: ['#1DB97B', '#5533C2', '#F5B800', '#F44475', '#F5631A', '#38BDF8'],
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { beginAtZero: true, max: 100, ticks: { color: '#94A3B8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+              x: { ticks: { color: '#94A3B8', font: { size: 10 } }, grid: { display: false } }
+            }
+          }
+        });
+      }
+      const ctxDemanda = document.getElementById('chartDemanda')?.getContext('2d');
+      if (ctxDemanda) {
+        new Chart(ctxDemanda, {
+          type: 'line',
+          data: {
+            labels: ['$0', '$20k', '$40k (Óptimo)', '$60k', '$100k+'],
+            datasets: [{
+              label: '% Dispuesto a Pagar',
+              data: [100, 83.3, 59.1, 36.4, 10.6],
+              borderColor: '#1DB97B',
+              backgroundColor: 'rgba(29, 185, 123, 0.15)',
+              fill: true,
+              tension: 0.35,
+              pointRadius: 6,
+              pointBackgroundColor: '#FFF'
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { beginAtZero: true, max: 100, ticks: { color: '#94A3B8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+              x: { ticks: { color: '#94A3B8', font: { size: 10 } }, grid: { display: false } }
+            }
+          }
+        });
+      }
+    });
+
+    let timeLeft = 60;
+    let timerInterval = null;
+    function updateTimerDisplay() {
+      const mins = Math.floor(timeLeft / 60);
+      const secs = timeLeft % 60;
+      const d = document.getElementById('timerDisplay');
+      if (d) {
+        d.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        d.style.color = (timeLeft <= 10) ? '#F44475' : '#FFFFFF';
+      }
+    }
+    function startTimer() {
+      if (timerInterval) return;
+      timerInterval = setInterval(() => {
+        if (timeLeft > 0) {
+          timeLeft--;
+          updateTimerDisplay();
+        } else {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          alert('¡Tiempo cumplido! Fin de los 60 segundos de pitch.');
+        }
+      }, 1000);
+    }
+    function pauseTimer() { clearInterval(timerInterval); timerInterval = null; }
+    function resetTimer() { pauseTimer(); timeLeft = 60; updateTimerDisplay(); }
+  </script>
+</body>
+</html>
