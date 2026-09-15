@@ -28,4 +28,4 @@ Desarrollo estratégico y diseño industrial de una solución integral de protec
 ---
 
 ## 🚀 Visualización Web
-Este repositorio contiene la presentación interactiva del proyecto con gráficos de demanda, análisis de mercado y entrenador para el pitch de 60 segundos.
+Este repositorio contiene la presentación interactiva del proyecto con análisis de campo, validación empírica (N = 132), curvas de demanda y pre-brief preliminar.

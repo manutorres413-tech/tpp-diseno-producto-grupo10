@@ -3,167 +3,731 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diseño de Producto | Grupo 10 - Protección Auditiva Integral</title>
-  <!-- Google Fonts & Chart.js -->
+  <title>AURA • Protección Auditiva Integral | UTN FRBA 2026</title>
+  
+  <!-- Tipografía Oficial: Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js para visualización de métricas -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
     :root {
-      /* CASACUSIA Design Tokens & Dark Mode UI */
-      --casacusia-verde: #1DB97B;
-      --casacusia-violeta: #5533C2;
-      --casacusia-amarillo: #F5B800;
-      --casacusia-rosa: #F44475;
-      --casacusia-naranja: #F5631A;
-      --casacusia-ink: #143642;
+      /* Paleta de Identidad Visual */
+      --color-menta: #00B980;
+      --color-purpura: #563AB3;
+      --color-amatista: #B462CC;
+      --color-ambar: #FFC001;
+      --color-rosa: #F44475;
+      --color-violeta: #C224B9;
+      --color-crema: #FFF9F2;
+      --color-gris: #143642;
+      --color-blanco: #FFFFFF;
 
-      --bg-main: #0C1524;
-      --bg-surface: #142238;
-      --bg-card: rgba(20, 34, 56, 0.85);
-      --border-color: rgba(255, 255, 255, 0.1);
-      --accent-cyan: #1DB97B; /* Primary Casacusia Green */
-      --accent-coral: #F44475; /* Casacusia Rose */
-      --accent-purple: #5533C2; /* Casacusia Violet */
-      --accent-amber: #F5B800; /* Casacusia Yellow */
-      --text-primary: #F8FAFC;
-      --text-secondary: #94A3B8;
-      --text-muted: #64748B;
-      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-      --font-display: 'Space Grotesk', system-ui, sans-serif;
+      /* Tokens de Interfaz & Dark Mode UI */
+      --bg-base: #0B131F;
+      --bg-surface: #121E30;
+      --bg-card: rgba(18, 30, 48, 0.85);
+      --bg-card-hover: rgba(25, 42, 68, 0.95);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(0, 185, 128, 0.4);
+
+      --text-main: #F8FAFC;
+      --text-soft: #CBD5E1;
+      --text-muted: #94A3B8;
+
+      --font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: var(--font-body);
-      background-color: var(--bg-main);
-      color: var(--text-primary);
-      line-height: 1.6;
-      background-image: radial-gradient(circle at 10% 20%, rgba(29, 185, 123, 0.08) 0%, transparent 40%),
-                        radial-gradient(circle at 90% 80%, rgba(244, 68, 117, 0.07) 0%, transparent 40%);
+      font-family: var(--font-family);
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      line-height: 1.65;
+      background-image: 
+        radial-gradient(circle at 10% 15%, rgba(0, 185, 128, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 90% 25%, rgba(86, 58, 179, 0.14) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, rgba(244, 68, 117, 0.07) 0%, transparent 55%);
+      background-attachment: fixed;
+      -webkit-font-smoothing: antialiased;
     }
+
+    /* Header y Navegación */
     header {
-      position: sticky; top: 0; z-index: 1000;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
       backdrop-filter: blur(16px);
-      background: rgba(12, 21, 36, 0.88);
-      border-bottom: 1px solid var(--border-color);
-      padding: 1rem 2rem;
-      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(11, 19, 31, 0.88);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.9rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s var(--ease-spring);
     }
-    .logo-badge {
-      display: flex; align-items: center; gap: 0.75rem;
-      font-family: var(--font-display); font-size: 1.25rem; font-weight: 700;
-      color: var(--text-primary); text-decoration: none;
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+      color: var(--text-main);
     }
-    .logo-icon {
-      width: 34px; height: 34px;
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-      border-radius: 8px; display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 0 15px rgba(29, 185, 123, 0.4);
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--color-menta), var(--color-purpura));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 14px rgba(0, 185, 128, 0.35);
     }
-    nav ul { display: flex; list-style: none; gap: 1.5rem; }
+
+    .brand-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: rgba(0, 185, 128, 0.15);
+      color: var(--color-menta);
+      padding: 0.2rem 0.55rem;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 185, 128, 0.3);
+      margin-left: 0.5rem;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.2rem;
+    }
+
     nav a {
-      color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500;
-      transition: all 0.2s; padding: 0.4rem 0.8rem; border-radius: 6px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: all 0.2s var(--ease-spring);
+      padding: 0.45rem 0.75rem;
+      border-radius: 8px;
     }
-    nav a:hover { color: var(--accent-cyan); background: rgba(29, 185, 123, 0.1); }
-    .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
-    .hero { padding: 4rem 0 2.5rem; text-align: center; }
+
+    nav a:hover {
+      color: var(--color-menta);
+      background: rgba(0, 185, 128, 0.09);
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 4.5rem 0 3rem;
+      text-align: center;
+    }
+
     .hero-pill {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.35rem 1rem; border-radius: 50px;
-      background: rgba(29, 185, 123, 0.12); border: 1px solid var(--accent-cyan);
-      color: var(--accent-cyan); font-size: 0.85rem; font-weight: 600; margin-bottom: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.4rem 1.2rem;
+      border-radius: 50px;
+      background: rgba(0, 185, 128, 0.12);
+      border: 1px solid var(--color-menta);
+      color: var(--color-menta);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.6rem;
     }
+
     .hero h1 {
-      font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.5rem);
-      line-height: 1.15; margin-bottom: 1.25rem; font-weight: 700;
-      background: linear-gradient(135deg, #FFFFFF 40%, var(--accent-cyan) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      font-size: clamp(2.3rem, 5.2vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.18;
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #FFFFFF 45%, var(--color-menta) 95%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    .hero p { font-size: 1.15rem; color: var(--text-secondary); max-width: 820px; margin: 0 auto 2rem; }
-    .team-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 1.5rem; }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-soft);
+      max-width: 820px;
+      margin: 0 auto 2.2rem;
+      font-weight: 400;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      max-width: 960px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .hero-stat-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.25rem 1rem;
+      backdrop-filter: blur(10px);
+      transition: transform 0.25s var(--ease-spring);
+    }
+
+    .hero-stat-box:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-focus);
+    }
+
+    .hero-stat-num {
+      font-size: 1.95rem;
+      font-weight: 800;
+      color: var(--color-menta);
+      line-height: 1.1;
+    }
+
+    .hero-stat-lbl {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+      font-weight: 500;
+    }
+
+    .team-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
     .team-chip {
-      background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color);
-      padding: 0.4rem 0.9rem; border-radius: 20px; font-size: 0.85rem; color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      padding: 0.4rem 0.95rem;
+      border-radius: 25px;
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      font-weight: 500;
     }
-    section { padding: 3.5rem 0; border-bottom: 1px solid var(--border-color); }
-    .section-header { margin-bottom: 2.5rem; }
+
+    /* Secciones Generales */
+    section {
+      padding: 4.2rem 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .section-header {
+      margin-bottom: 2.5rem;
+    }
+
     .section-tag {
-      font-family: var(--font-display); text-transform: uppercase; font-size: 0.8rem;
-      font-weight: 700; color: var(--accent-cyan); letter-spacing: 1.5px; margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--color-menta);
+      letter-spacing: 1.5px;
+      margin-bottom: 0.4rem;
     }
-    .section-title { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: #FFF; }
-    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
-    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+
+    .section-title {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: -0.3px;
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      max-width: 780px;
+    }
+
+    /* Grillas & Tarjetas */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.6rem;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.25rem;
+    }
+
     .card {
-      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px;
-      padding: 1.75rem; transition: all 0.25s ease; position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.8rem;
+      transition: all 0.28s var(--ease-spring);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(8px);
     }
-    .card:hover { transform: translateY(-4px); border-color: rgba(29, 185, 123, 0.4); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); }
-    .card-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem; color: #FFF; display: flex; align-items: center; gap: 0.5rem; }
-    .card-stat { font-family: var(--font-display); font-size: 2.4rem; font-weight: 700; color: var(--accent-cyan); line-height: 1; margin: 0.5rem 0; }
-    .card-desc { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.5; }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-focus);
+      background: var(--bg-card-hover);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .card-stat {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--color-menta);
+      line-height: 1.1;
+      margin: 0.5rem 0;
+    }
+
+    .card-desc {
+      color: var(--text-soft);
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    /* Banner de Diagnóstico */
     .problem-banner {
-      background: linear-gradient(135deg, rgba(244, 68, 117, 0.12), rgba(12, 21, 36, 0.95));
-      border: 1px solid rgba(244, 68, 117, 0.3); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;
+      background: linear-gradient(135deg, rgba(86, 58, 179, 0.25), rgba(18, 30, 48, 0.95));
+      border: 1px solid rgba(180, 98, 204, 0.35);
+      border-radius: 18px;
+      padding: 2.2rem;
+      margin-bottom: 2.2rem;
+      position: relative;
+      overflow: hidden;
     }
-    .problem-quote { font-size: 1.25rem; font-weight: 600; color: #FFF; margin-bottom: 0.75rem; line-height: 1.4; }
-    .bench-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9rem; }
-    .bench-table th, .bench-table td { padding: 0.9rem 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
-    .bench-table th { background: rgba(255, 255, 255, 0.04); color: var(--text-primary); font-weight: 600; }
-    .bench-table td { color: var(--text-secondary); }
-    .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
-    .badge-success { background: rgba(29, 185, 123, 0.2); color: var(--accent-cyan); }
-    .onion-wrapper { display: flex; flex-direction: column; gap: 0.75rem; margin: 1.5rem 0; }
-    .onion-layer { border-radius: 10px; padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; }
-    .ol-1 { background: rgba(255, 255, 255, 0.05); border-left: 5px solid #94A3B8; }
-    .ol-2 { background: rgba(29, 185, 123, 0.10); border-left: 5px solid #38BDF8; }
-    .ol-3 { background: rgba(29, 185, 123, 0.18); border-left: 5px solid #0284C7; }
-    .ol-4 { background: rgba(29, 185, 123, 0.26); border-left: 5px solid var(--accent-cyan); }
-    .ol-5 { background: rgba(244, 68, 117, 0.22); border-left: 5px solid var(--accent-coral); font-weight: 700; }
-    .brief-box { background: var(--bg-surface); border: 1px solid rgba(29, 185, 123, 0.3); border-radius: 16px; padding: 2.25rem; }
-    .brief-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
-    .brief-item { background: rgba(12, 21, 36, 0.75); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; }
-    .brief-item h4 { font-size: 1rem; color: var(--accent-cyan); margin-bottom: 0.5rem; }
-    .pitch-widget {
-      background: linear-gradient(135deg, rgba(85, 51, 194, 0.2), rgba(12, 21, 36, 0.95));
-      border: 1px solid var(--accent-purple); border-radius: 16px; padding: 2.5rem; text-align: center; margin: 2.5rem 0;
+
+    .problem-quote {
+      font-size: 1.28rem;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin-bottom: 1rem;
+      line-height: 1.45;
     }
-    .timer-display { font-family: var(--font-display); font-size: 4rem; font-weight: 700; color: #FFF; margin: 1rem 0; letter-spacing: 2px; }
-    .timer-btns { display: flex; justify-content: center; gap: 1rem; }
-    .btn { padding: 0.65rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-family: var(--font-body); }
-    .btn-primary { background: var(--accent-cyan); color: #0C1524; }
-    .btn-outline { background: transparent; border: 1px solid var(--border-color); color: #FFF; }
-    .quote-card { background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--accent-coral); padding: 1rem 1.25rem; margin-bottom: 0.75rem; border-radius: 0 8px 8px 0; font-size: 0.9rem; font-style: italic; color: #E2E8F0; }
-    .stages-track { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
-    .stage-pill { background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem; text-align: center; }
-    .stage-pill.active { border-color: var(--accent-cyan); background: rgba(29, 185, 123, 0.12); }
-    .stage-tag { font-size: 0.75rem; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; }
-    .stage-name { font-size: 0.95rem; font-weight: 600; margin-top: 0.35rem; color: #FFF; }
-    footer { border-top: 1px solid var(--border-color); padding: 2.5rem 0; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
+
+    .problem-highlight {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      color: var(--color-rosa);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    /* Tabla Benchmark */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      margin-top: 1.5rem;
+      background: var(--bg-card);
+    }
+
+    .bench-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      text-align: left;
+    }
+
+    .bench-table th, .bench-table td {
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .bench-table th {
+      background: rgba(255, 255, 255, 0.03);
+      color: #FFFFFF;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .bench-table td {
+      color: var(--text-soft);
+    }
+
+    .row-highlight {
+      background: rgba(0, 185, 128, 0.08);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .badge-success {
+      background: rgba(0, 185, 128, 0.2);
+      color: var(--color-menta);
+      border: 1px solid rgba(0, 185, 128, 0.3);
+    }
+
+    /* Testimonios */
+    .quote-card {
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid var(--color-rosa);
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.85rem;
+      border-radius: 0 10px 10px 0;
+      font-size: 0.92rem;
+      font-style: italic;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+
+    /* Galería Interactiva del Sondeo */
+    .survey-gallery-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    .survey-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1rem;
+    }
+
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-family);
+      transition: all 0.2s var(--ease-spring);
+    }
+
+    .tab-btn:hover {
+      background: rgba(0, 185, 128, 0.1);
+      color: var(--color-menta);
+      border-color: rgba(0, 185, 128, 0.25);
+    }
+
+    .tab-btn.active {
+      background: var(--color-menta);
+      color: #0B131F;
+      border-color: var(--color-menta);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    @media (max-width: 860px) {
+      .tab-content.active {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tab-chart-img {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      background: #FFFFFF;
+      padding: 0.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .tab-info h4 {
+      font-size: 1.3rem;
+      color: #FFFFFF;
+      margin-bottom: 0.75rem;
+    }
+
+    .tab-info p {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .tab-insight {
+      background: rgba(0, 185, 128, 0.08);
+      border-left: 3px solid var(--color-menta);
+      padding: 0.85rem 1.1rem;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.88rem;
+      color: var(--color-crema);
+    }
+
+    /* Modelo de Cebolla */
+    .onion-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin: 1.5rem 0;
+    }
+
+    .onion-layer {
+      border-radius: 12px;
+      padding: 1.1rem 1.3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform 0.2s var(--ease-spring);
+    }
+
+    .onion-layer:hover {
+      transform: translateX(4px);
+    }
+
+    .ol-1 {
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 5px solid #64748B;
+    }
+
+    .ol-2 {
+      background: rgba(86, 58, 179, 0.15);
+      border-left: 5px solid var(--color-purpura);
+    }
+
+    .ol-3 {
+      background: rgba(180, 98, 204, 0.18);
+      border-left: 5px solid var(--color-amatista);
+    }
+
+    .ol-4 {
+      background: rgba(0, 185, 128, 0.22);
+      border-left: 5px solid var(--color-menta);
+    }
+
+    .ol-5 {
+      background: rgba(244, 68, 117, 0.25);
+      border-left: 5px solid var(--color-rosa);
+      font-weight: 700;
+    }
+
+    /* Pre-Brief Rectangular */
+    .brief-container {
+      background: var(--bg-surface);
+      border: 1px solid rgba(0, 185, 128, 0.25);
+      border-radius: 20px;
+      padding: 2.4rem;
+    }
+
+    .brief-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.6rem;
+      margin-top: 1.5rem;
+    }
+
+    .brief-item {
+      background: rgba(11, 19, 31, 0.75);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.4rem;
+      transition: border-color 0.2s ease;
+    }
+
+    .brief-item:hover {
+      border-color: rgba(0, 185, 128, 0.4);
+    }
+
+    .brief-item h4 {
+      font-size: 1.05rem;
+      color: var(--color-menta);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Etapas Roadmap */
+    .stages-track {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.1rem;
+      margin-top: 2rem;
+    }
+
+    .stage-pill {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.25rem 1rem;
+      text-align: center;
+      transition: all 0.25s var(--ease-spring);
+    }
+
+    .stage-pill.active {
+      border-color: var(--color-menta);
+      background: rgba(0, 185, 128, 0.12);
+      box-shadow: 0 4px 20px rgba(0, 185, 128, 0.15);
+    }
+
+    .stage-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--color-menta);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stage-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-top: 0.4rem;
+      color: #FFFFFF;
+    }
+
+    .stage-status {
+      font-size: 0.75rem;
+      margin-top: 0.4rem;
+      color: var(--text-muted);
+    }
+
+    .stage-pill.active .stage-status {
+      color: var(--color-menta);
+      font-weight: 600;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 3rem 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      background: #080E17;
+    }
+
+    footer p {
+      margin-bottom: 0.4rem;
+    }
+
+    .footer-team {
+      color: var(--text-soft);
+      font-weight: 500;
+    }
+
+    .footer-sub {
+      font-size: 0.78rem;
+      color: #64748B;
+      margin-top: 0.8rem;
+    }
   </style>
 </head>
 <body>
+
+  <!-- Barra Superior de Navegación -->
   <header>
-    <a href="#" class="logo-badge"><div class="logo-icon">👂</div><span>AURA • GRUPO 10</span></a>
+    <a href="#" class="brand-logo">
+      <div class="brand-icon">👂</div>
+      <div>
+        <span class="brand-name">AURA</span>
+        <span class="brand-badge">Grupo 10 • UTN</span>
+      </div>
+    </a>
     <nav>
       <ul>
-        <li><a href="#diagnostico">Diagnóstico</a></li>
-        <li><a href="#sondeo">Sondeo (N=132)</a></li>
-        <li><a href="#mercado">P & Q</a></li>
+        <li><a href="#diagnostico">El Problema</a></li>
+        <li><a href="#sondeo">Sondeo Comunitario</a></li>
+        <li><a href="#mercado">Precio (P) & Volumen (Q)</a></li>
         <li><a href="#brief">Pre-Brief</a></li>
         <li><a href="#roadmap">Fases TPP</a></li>
-        <li><a href="#pitch">Pitch 60s</a></li>
       </ul>
     </nav>
   </header>
+
+  <!-- Hero Principal -->
   <div class="container">
     <div class="hero">
-      <div class="hero-pill">Diseño de Producto • Cátedra UTN - UBA - ITBA 2026</div>
-      <h1>Protección Integral para Dispositivos Auditivos</h1>
-      <p>Desarrollo estratégico y de diseño industrial para mitigar las barreras de sudor, lluvia, arena y golpes en procesadores externos de implantes cocleares y audífonos retroauriculares.</p>
+      <div class="hero-pill">
+        <span>✨</span> Diseño de Producto • UTN Buenos Aires 2026
+      </div>
+      <h1>Que el agua, el sudor o una caída no apaguen tu día</h1>
+      <p>
+        Desarrollamos una solución integral de protección física y climática para procesadores externos de implantes cocleares y audífonos retroauriculares. Buscamos devolver la libertad y seguridad en el deporte y la rutina diaria, sin aislar a las personas y sin perder nitidez acústica.
+      </p>
+
+      <!-- Métricas Clave Destacadas -->
+      <div class="hero-stats">
+        <div class="hero-stat-box">
+          <div class="hero-stat-num">132</div>
+          <div class="hero-stat-lbl">Respuestas en sondeo real de usuarios y familias</div>
+        </div>
+        <div class="hero-stat-box">
+          <div class="hero-stat-num" style="color: var(--color-rosa);">78.8%</div>
+          <div class="hero-stat-lbl">Evitó actividades por miedo a dañar su dispositivo</div>
+        </div>
+        <div class="hero-stat-box">
+          <div class="hero-stat-num" style="color: var(--color-ambar);">$40.000</div>
+          <div class="hero-stat-lbl">PVP accesible estimado (Maximiza ingresos y acceso)</div>
+        </div>
+        <div class="hero-stat-box">
+          <div class="hero-stat-num">&lt; 2.5 dB</div>
+          <div class="hero-stat-lbl">Pérdida acústica máxima permitida en voz</div>
+        </div>
+      </div>
+
+      <!-- Integrantes del Equipo -->
       <div class="team-chips">
         <span class="team-chip">👤 Manuel Torres</span>
         <span class="team-chip">👤 Luisina Infante</span>
@@ -172,139 +736,511 @@
       </div>
     </div>
   </div>
+
+  <!-- SECCIÓN 1: DIAGNÓSTICO Y BENCHMARK (Objetivos A & B) -->
   <section id="diagnostico">
     <div class="container">
-      <div class="section-header"><div class="section-tag">Fase 1: Diagnóstico</div><h2 class="section-title">Objetivos A & B — El Problema & Benchmark</h2></div>
+      <div class="section-header">
+        <div class="section-tag">Objetivos A & B • El Diagnóstico</div>
+        <h2 class="section-title">La vulnerabilidad cotidiana del procesador</h2>
+        <p class="section-subtitle">
+          Un implante coclear o audífono retroauricular no es solo un equipo electrónico: es el puente directo con el mundo sonoro, la comunicación y la autonomía de una persona.
+        </p>
+      </div>
+
+      <!-- Banner del Dolor -->
       <div class="problem-banner">
-        <div class="problem-quote">“Las personas con audífonos o implantes cocleares sufren vulnerabilidad física y aislamiento preventivo en situaciones cotidianas de deporte, lluvia o aire libre, al no contar con protecciones acústicamente permeables y accesibles.”</div>
-        <div style="color: var(--accent-coral); font-weight: 600; font-size: 0.9rem;">Costo de reposición fuera de garantía: USD 7.000 a USD 10.700 (~$9.000.000 a $13.000.000 ARS)</div>
+        <div class="problem-quote">
+          “Las personas con audífonos o implantes cocleares experimentan una constante angustia por roturas mecánicas o filtraciones de humedad en situaciones cotidianas de deporte, lluvia o viento. Ante la falta de protectores accesibles y acústicamente permeables, la única salida suele ser sacarse el dispositivo y aislarse.”
+        </div>
+        <div class="problem-highlight">
+          <span>⚠️</span>
+          <span>Costo de reposición fuera de garantía oficial: USD 7.000 a USD 10.700 (~$9.000.000 a $13.000.000 ARS). Ninguna familia o estudiante puede afrontar este recambio con tranquilidad.</span>
+        </div>
       </div>
+
+      <!-- 4 Situaciones Críticas Relevadas -->
       <div class="grid-4">
-        <div class="card"><div class="card-title">🏃 Deporte & Sudor</div><div class="card-desc">El sudor sulfata bornes y apaga el micrófono. Los rebotes en saltos provocan desprendimiento magnético.</div></div>
-        <div class="card"><div class="card-title">🌧️ Lluvia Repentina</div><div class="card-desc">Salpicaduras directas filtran en ranuras de micrófono. El usuario queda incomunicado para no quemar el chip.</div></div>
-        <div class="card"><div class="card-title">🏖️ Arena & Viento</div><div class="card-desc">Partículas abrasivas obstruyen membranas y el viento satura la relación señal-ruido anulando inteligibilidad.</div></div>
-        <div class="card"><div class="card-title">🚴 Movilidad Urbana</div><div class="card-desc">Retirarse el procesador en la vía pública para protegerlo elimina alertas de bocinas y vehículos, arriesgando la vida.</div></div>
+        <div class="card">
+          <div class="card-title">🏃 Deporte y Sudor</div>
+          <div class="card-desc">
+            El sudor salino sulfata los bornes de la batería y obstruye los micrófonos. Los saltos provocan desprendimiento magnético constante.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🌧️ Lluvia Repentina</div>
+          <div class="card-desc">
+            Una llovizna imprevista en la calle obliga a sacarse el procesador y guardarlo a oscuras sonoras, arriesgando la seguridad vial.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🏖️ Polvo, Arena y Viento</div>
+          <div class="card-desc">
+            Partículas finas saturan las membranas de protección y el viento genera turbulencia anulando la inteligibilidad de la voz.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">💥 Caídas y Golpes</div>
+          <div class="card-desc">
+            Carcasas plásticas rígidas que se fisuran ante un golpe contra el suelo al realizar actividades recreativas o escolares.
+          </div>
+        </div>
       </div>
-      <h3 style="margin: 2.5rem 0 1rem; color: #FFF;">Benchmark de Soluciones Existentes vs. Nuestra Propuesta</h3>
-      <table class="bench-table">
-        <thead>
-          <tr><th>Solución</th><th>Protección Ofrecida</th><th>Transparencia Acústica</th><th>Precio Mercado (ARS)</th><th>Limitación Crítica Detectada</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>Ear Gear</strong> (Funda tela)</td><td>Polvo y sudor leve</td><td>Buena</td><td>$20.000 - $38.000</td><td>No impermeable ante lluvia o caídas con impacto.</td></tr>
-          <tr><td><strong>Cochlear Aqua+</strong></td><td>Inmersión acuática</td><td>Regular</td><td>$81.500 - $317.000</td><td>Requiere desarmar el implante; costoso y no apto uso deportivo diario.</td></tr>
-          <tr><td><strong>Otoclip / Diademas</strong></td><td>Solo retención / anticaída</td><td>Neutra</td><td>$17.000 - $52.000</td><td>Cero resguardo ante lluvia, sudor copioso o arena.</td></tr>
-          <tr><td><strong>Deshumidificador</strong></td><td>Secado posterior nocturno</td><td>N/A</td><td>$174.000</td><td>Actúa tarde: no protege durante la actividad física real.</td></tr>
-          <tr style="background: rgba(29, 185, 123, 0.08);"><td><strong>Propuesta Grupo 10</strong></td><td><span class="badge badge-success">Integral (Agua+Polvo+Caída)</span></td><td><span class="badge badge-success">Máxima (&lt; 2.5 dB)</span></td><td><strong>$40.000 (Accesible)</strong></td><td>Diseño ergonómico, colocación rápida &lt;15s, universal.</td></tr>
-        </tbody>
-      </table>
+
+      <!-- Tabla Benchmark -->
+      <div style="margin-top: 3.5rem;">
+        <h3 style="font-size: 1.4rem; color: #FFFFFF; margin-bottom: 0.5rem;">Benchmark de Alternativas Comerciales vs. Propuesta AURA</h3>
+        <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.2rem;">
+          Analizamos las opciones que existen hoy en el mercado para entender por qué los usuarios siguen manifestando insatisfacción.
+        </p>
+
+        <div class="table-container">
+          <table class="bench-table">
+            <thead>
+              <tr>
+                <th>Alternativa</th>
+                <th>Protección Brindada</th>
+                <th>Transparencia Sonora</th>
+                <th>Precio Mercado (ARS)</th>
+                <th>Limitación Crítica Detectada</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Ear Gear</strong> (Funda de tela)</td>
+                <td>Polvo y transpiración leve</td>
+                <td>Buena (&lt; 2 dB)</td>
+                <td>$20.000 - $38.000</td>
+                <td>Se empapa con lluvia o sudor copioso; nula amortiguación ante caídas.</td>
+              </tr>
+              <tr>
+                <td><strong>Cochlear Aqua+</strong> (Funda silicona cerrada)</td>
+                <td>Inmersión total en agua</td>
+                <td>Regular (atenúa 4 a 6 dB)</td>
+                <td>$81.500 - $317.000</td>
+                <td>Requiere desarmar antena e imán; excesivamente costoso y poco práctico para uso diario.</td>
+              </tr>
+              <tr>
+                <td><strong>Otoclip / Diademas</strong></td>
+                <td>Solo sujeción anticaída</td>
+                <td>Neutra (no cubre)</td>
+                <td>$17.000 - $52.000</td>
+                <td>Cero resguardo ante agua, transpiración, arena o salpicaduras.</td>
+              </tr>
+              <tr>
+                <td><strong>Deshumidificador Eléctrico</strong></td>
+                <td>Secado posterior nocturno</td>
+                <td>N/A (se usa apagado)</td>
+                <td>$174.000</td>
+                <td>Acción reactiva: no protege mientras la persona está entrenando o en la calle.</td>
+              </tr>
+              <tr class="row-highlight">
+                <td><strong>Propuesta AURA (Grupo 10)</strong></td>
+                <td><span class="badge badge-success">Integral (Agua + Polvo + Impacto)</span></td>
+                <td><span class="badge badge-success">Óptima (&lt; 2.5 dB)</span></td>
+                <td><strong>$40.000 (Accesible)</strong></td>
+                <td>Ergonomía de postura en &lt;15s, permeable al sonido y con retención anticaída integrada.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </section>
+
+  <!-- SECCIÓN 2: SONDEO COMUNITARIO (Objetivo C) -->
   <section id="sondeo">
     <div class="container">
-      <div class="section-header"><div class="section-tag">Objetivo C: Análisis Interdisciplinario</div><h2 class="section-title">Validación Empírica del Sondeo de Mercado (N = 132)</h2></div>
-      <div class="grid-4" style="margin-bottom: 2rem;">
-        <div class="card"><div class="card-desc">Muestra Relevada</div><div class="card-stat">132</div><div class="card-desc">96.2% vínculo usuario o padres</div></div>
-        <div class="card"><div class="card-desc">Estilo de Vida Activo</div><div class="card-stat">65.1%</div><div class="card-desc">Entrena varias veces o diario</div></div>
-        <div class="card"><div class="card-desc">Aislamiento / Limitación</div><div class="card-stat" style="color: var(--accent-coral);">78.8%</div><div class="card-desc">Evitó actividades por miedo</div></div>
-        <div class="card"><div class="card-desc">Utilidad Accesorio Integral</div><div class="card-stat">90.1%</div><div class="card-desc">Calificación 4 y 5 sobre 5</div></div>
+      <div class="section-header">
+        <div class="section-tag">Objetivo C • Evidencia de Campo</div>
+        <h2 class="section-title">Sondeo Comunitario y Validación Empírica (N = 132)</h2>
+        <p class="section-subtitle">
+          Realizamos un relevamiento directo con usuarios de implantes cocleares, audífonos y sus familias. Reorganizamos las respuestas en 4 categorías claras para comprender los hábitos reales y validar la necesidad del producto.
+        </p>
       </div>
-      <div class="grid-2">
-        <div class="card"><div class="card-title">Atributos más valorados por los usuarios (%)</div><canvas id="chartAtributos" height="210"></canvas></div>
-        <div class="card"><div class="card-title">Testimonios Reales del Dolor (Pregunta Abierta)</div>
-          <div class="quote-card">“Mi hijo juega al vóley; al saltar el imán suele caerse. Claramente en kayak o altura se lo saca por miedo a que se rompa.”</div>
-          <div class="quote-card">“En funcional en el gimnasio se me caía al piso. Queda empapado de sudor, pero sin ellos no escucho al profesor.”</div>
-          <div class="quote-card">“Se largó una lluvia fuerte sin paraguas, se me mojó el procesador y tardó días en deshumidificarse.”</div>
-          <div class="quote-card">“Atendiendo pacientes en la guardia como médico muchas veces se me cayó al agacharme.”</div>
+
+      <!-- Tarjetas de Métricas del Sondeo -->
+      <div class="grid-4" style="margin-bottom: 2.5rem;">
+        <div class="card">
+          <div class="card-desc">Público Informante</div>
+          <div class="card-stat">96.2%</div>
+          <div class="card-desc">Usuarios directos (68.9%) o madres/padres (27.3%) de implantados.</div>
+        </div>
+        <div class="card">
+          <div class="card-desc">Estilo de Vida Activo</div>
+          <div class="card-stat">65.1%</div>
+          <div class="card-desc">Realiza actividad física varias veces por semana o todos los días.</div>
+        </div>
+        <div class="card">
+          <div class="card-desc">Aislamiento por Miedo</div>
+          <div class="card-stat" style="color: var(--color-rosa);">78.8%</div>
+          <div class="card-desc">Dejó de hacer deportes, salir bajo lluvia o ir a la playa por temor a roturas.</div>
+        </div>
+        <div class="card">
+          <div class="card-desc">Interés en la Solución</div>
+          <div class="card-stat" style="color: var(--color-menta);">90.1%</div>
+          <div class="card-desc">Calificó la utilidad del protector integral con 4 y 5 sobre 5 puntos.</div>
+        </div>
+      </div>
+
+      <!-- Grilla con Atributos y Testimonios Reales -->
+      <div class="grid-2" style="margin-bottom: 3rem;">
+        <div class="card">
+          <div class="card-title">Prioridades de los Usuarios (% de Menciones)</div>
+          <p class="card-desc" style="margin-bottom: 1rem;">¿Qué es lo más importante al momento de evaluar un protector?</p>
+          <canvas id="chartAtributos" height="220"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-title">La Voz Real de Quienes lo Viven</div>
+          <p class="card-desc" style="margin-bottom: 1rem;">Respuestas directas extraídas de la pregunta abierta de la encuesta:</p>
+          
+          <div class="quote-card">
+            “Mi hijo juega al vóley; al saltar el imán suele caerse al suelo. En kayak o cuando hace calor prefiere sacárselo por miedo a que se le rompa.”
+          </div>
+          <div class="quote-card">
+            “En funcional en el gimnasio se me caía al piso. Queda empapado de transpiración, pero si me lo saco no escucho las indicaciones del profe.”
+          </div>
+          <div class="quote-card">
+            “Se largó una lluvia fuerte sin paraguas, se me mojó el procesador y tardó tres días en el deshumidificador para volver a encender.”
+          </div>
+          <div class="quote-card">
+            “Atendiendo pacientes en la guardia médica muchas veces se me desprendió al agacharme. Un protector discreto y seguro cambiaría todo.”
+          </div>
+        </div>
+      </div>
+
+      <!-- VISUALIZADOR INTERACTIVO DE TODOS LOS GRÁFICOS DE LA ENCUESTA -->
+      <div class="survey-gallery-container">
+        <h3 style="font-size: 1.3rem; color: #FFFFFF; margin-bottom: 0.5rem;">Galería de Resultados del Sondeo (10 Preguntas Clave)</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.2rem;">
+          Explorá cada una de las 10 preguntas analizadas en nuestra investigación con sus gráficos categorizados:
+        </p>
+
+        <!-- Tabs Selector -->
+        <div class="survey-tabs">
+          <button class="tab-btn active" onclick="showSurveyTab(1)">1. Relación</button>
+          <button class="tab-btn" onclick="showSurveyTab(2)">2. Dispositivo</button>
+          <button class="tab-btn" onclick="showSurveyTab(3)">3. Edad</button>
+          <button class="tab-btn" onclick="showSurveyTab(4)">4. Actividad</button>
+          <button class="tab-btn" onclick="showSurveyTab(5)">5. Limitación</button>
+          <button class="tab-btn" onclick="showSurveyTab(6)">6. Preocupación</button>
+          <button class="tab-btn" onclick="showSurveyTab(7)">7. Accesorios</button>
+          <button class="tab-btn" onclick="showSurveyTab(8)">8. Utilidad</button>
+          <button class="tab-btn" onclick="showSurveyTab(9)">9. Atributos</button>
+          <button class="tab-btn" onclick="showSurveyTab(10)">10. Precio</button>
+        </div>
+
+        <!-- Contenido de las Tabs con Gráficos Reales -->
+        <div id="surveyTab1" class="tab-content active">
+          <div><img src="graficos/01_relacion_dispositivo.png" alt="Relación con el dispositivo" class="tab-chart-img"></div>
+          <div class="tab-info">
+            <h4>Pregunta 1: Relación con el dispositivo auditivo</h4>
+            <p>El <strong>68.9%</strong> de los encuestados son usuarios directos de implantes o audífonos, complementados por un <strong>27.3%</strong> de madres, padres o familiares directos. Esto garantiza que la muestra tiene conocimiento vivencial y técnico directo del dolor cotidiano.</p>
+            <div class="tab-insight">📌 <strong>Conclusión:</strong> El 96.2% de los informantes son quienes sufren la limitación o quienes pagan las reparaciones.</div>
+          </div>
+        </div>
+
+        <div id="surveyTab2" class="tab-content">
+          <div><img src="graficos/02_tipo_dispositivo.png" alt="Tipo de dispositivo auditivo" class="tab-chart-img"></div>
+          <div class="tab-info">
+            <h4>Pregunta 2: Tipo de tecnología utilizada</h4>
+            <p>Los procesadores de <strong>Implante Coclear</strong> representan el <strong>68.9%</strong> del universo relevado, mientras que los <strong>Audífonos Retroauriculares</strong> alcanzan el <strong>22.0%</strong>. Ambos comparten la zona crítica detrás del pabellón auricular y la susceptibilidad al sudor.</p>
+            <div class="tab-insight">📌 <strong>Conclusión:</strong> El diseño morfológico debe priorizar la compatibilidad geométrica con procesadores retroauriculares y antenas imantadas.</div>
+          </div>
+        </div>
+
+        <div id="surveyTab3" class="tab-content">
+          <div><img src="graficos/03_edad_usuario.png" alt="Rango de edad del usuario" class="tab-chart-img"></div>
+          <div class="tab-info">
+            <h4>Pregunta 3: Rango de edad de los portadores</h4>
+            <p>Existe una distribución bimodal: un <strong>42.4%</strong> de adultos activos (30 a 59 años) y un <strong>25.0%</strong> de niños y adolescentes (hasta 17 años). Los jóvenes de 18 a 29 años representan el <strong>22.7%</strong>.</p>
+            <div class="tab-insight">📌 <strong>Conclusión:</strong> Requerimos una propuesta que satisfaga tanto al adulto que busca sobriedad y discreción como al niño que necesita máxima sujeción en juegos escolares.</div>
+          </div>
+        </div>
+
+        <div id="surveyTab4" class="tab-content">
+          <div><img src="graficos/04_frecuencia_actividad.png" alt="Frecuencia de actividad física" class="tab-chart-img"></div>
+          <div class="tab-info">
+            <h4>Pregunta 4: Frecuencia de ejercicio o deporte</h4>
+            <p>El <strong>65.1%</strong> de los encuestados realiza actividad física regular (48.5% varias veces a la semana y 16.7% a diario). La exposición al sudor y al movimiento no es una excepción, sino una constante semanal.</p>
+            <div class="tab-insight">📌 <strong>Conclusión:</strong> La resistencia a la transpiración salina y la firmeza de agarre son requerimientos funcionales de primer orden.</div>
+          </div>
+        </div>
+
+        <div id="surveyTab5" class="tab-content">
+          <div><img src="graficos/05_aislamiento_por_miedo.png" alt="Limitación o aislamiento por miedo" class="tab-chart-img"></div>
+          <div class="tab-info">
+            <h4>Pregunta 5: Aislamiento preventivo y miedo a roturas</h4>
+            <p>Un contundente <strong>78.8%</strong> de las personas reconoció haber evitado situaciones placenteras, entrenamientos o salidas al aire libre por miedo a que se moje, se ensucie o se caiga su procesador.</p>
+            <div class="tab-insight">📌 <strong>Conclusión:</strong> El producto resuelve una barrera de integración social y emocional, no solo una protección plástica.</div>
+          </div>
+        </div>
+
+        <div id="surveyTab6" class="tab-content">
+          <div><img src="graficos/06_situacion_preocupacion.png" alt="Situaciones de mayor preocupación" class="tab-chart-img"></div>
+          <div class="tab-info">
+            <h4>Pregunta 6: Situaciones que generan mayor angustia</h4>
+            <p>La <strong>lluvia o tormenta repentina</strong> lidera con un <strong>80.3%</strong> de menciones, seguida de cerca por el <strong>deporte intenso con sudor</strong> (67.4%), las <strong>caídas contra el piso</strong> (50.8%) y la <strong>arena de la playa</strong> (44.7%).</p>
+            <div class="tab-insight">📌 <strong>Conclusión:</strong> La solución debe ser integral y no enfocarse en un único factor aislado.</div>
+          </div>
+        </div>
+
+        <div id="surveyTab7" class="tab-content">
+          <div><img src="graficos/07_accesorios_actuales.png" alt="Accesorios de protección utilizados hoy" class="tab-chart-img"></div>
+          <div class="tab-info">
+            <h4>Pregunta 7: Accesorios utilizados en la actualidad</h4>
+            <p>El <strong>34.1%</strong> no utiliza absolutamente nada por incomodidad o costo, un <strong>26.5%</strong> recurre a fundas de tela básicas (tipo Ear Gear) y un <strong>25.8%</strong> usa clips o tanzas de sujeción. La funda sumergible solo es usada por el <strong>9.8%</strong> por lo engorrosa que resulta.</p>
+            <div class="tab-insight">📌 <strong>Conclusión:</strong> Existe una oportunidad de mercado vacante para una solución ergonómica, accesible y verdaderamente práctica.</div>
+          </div>
+        </div>
+
+        <div id="surveyTab8" class="tab-content">
+          <div><img src="graficos/08_utilidad_accesorio.png" alt="Utilidad percibida de un protector integral" class="tab-chart-img"></div>
+          <div class="tab-info">
+            <h4>Pregunta 8: Utilidad percibida del producto</h4>
+            <p>El <strong>90.1%</strong> de la comunidad califica la propuesta con las notas máximas de 4 y 5 sobre 5 (con un <strong>66.7%</strong> otorgando la calificación máxima absoluta). El rechazo o indiferencia es inferior al 4%.</p>
+            <div class="tab-insight">📌 <strong>Conclusión:</strong> La demanda latente por este producto está plenamente validada y entusiasmada.</div>
+          </div>
+        </div>
+
+        <div id="surveyTab9" class="tab-content">
+          <div><img src="graficos/09_atributos_mas_valorados.png" alt="Atributos más valorados" class="tab-chart-img"></div>
+          <div class="tab-info">
+            <h4>Pregunta 9: Atributos clave de diseño requeridos</h4>
+            <p>El atributo número 1 e innegociable es que <strong>no afecte la audición ni el sonido (81.1%)</strong>, seguido de un <strong>precio accesible (56.8%)</strong>, la <strong>facilidad y rapidez para colocarlo (53.0%)</strong> y la <strong>resistencia/durabilidad (47.7%)</strong>.</p>
+            <div class="tab-insight">📌 <strong>Conclusión:</strong> La permeabilidad acústica de la membrana es el corazón técnico del proyecto.</div>
+          </div>
+        </div>
+
+        <div id="surveyTab10" class="tab-content">
+          <div><img src="graficos/10_disposicion_pagar.png" alt="Disposición a pagar" class="tab-chart-img"></div>
+          <div class="tab-info">
+            <h4>Pregunta 10: Disposición económica de compra</h4>
+            <p>El <strong>42.4%</strong> se ubica en el rango de $20.000 a $40.000 ARS y un <strong>22.7%</strong> pagaría entre $40.000 y $60.000 ARS. Sumados, validan un piso de precios competitivo que sustenta nuestro análisis de curva de demanda.</p>
+            <div class="tab-insight">📌 <strong>Conclusión:</strong> Un precio de venta sugerido de $40.000 ARS maximiza el alcance comunitario y la viabilidad del proyecto.</div>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- SECCIÓN 3: VARIABLES ECONÓMICAS P Y Q (Objetivo C) -->
   <section id="mercado">
     <div class="container">
-      <div class="section-header"><div class="section-tag">Objetivo C: Métricas Cuantitativas</div><h2 class="section-title">Determinación de Precio (P) y Volumen Anual (Q)</h2></div>
+      <div class="section-header">
+        <div class="section-tag">Objetivo C • Métricas Cuantitativas</div>
+        <h2 class="section-title">Determinación de Precio (P) y Volumen Anual (Q)</h2>
+        <p class="section-subtitle">
+          Cruzamos la disposición a pagar empírica con el modelo de cebolla del mercado argentino para fijar los parámetros productivos del proyecto.
+        </p>
+      </div>
+
       <div class="grid-2">
+        <!-- Curva de Demanda y P -->
         <div class="card">
-          <div class="card-title">Curva de Demanda & Fijación de P</div>
-          <canvas id="chartDemanda" height="190"></canvas>
-          <div style="margin-top: 1.25rem; font-size: 0.9rem; color: var(--text-secondary);">
-            <p>• <strong>PVP (con IVA 21%):</strong> <span style="color:#FFF; font-weight:700;">$40.000 ARS</span> (valida el 59.1% de compra directa y maximiza ingresos).</p>
-            <p>• <strong>Precio Neto:</strong> $33.058 ARS | <strong>Precio Salida de Fábrica (PSF):</strong> $26.000 ARS.</p>
-            <p>• <strong>Costo Variable Máx. (Regla 2:1 Cátedra):</strong> <span style="color: var(--accent-cyan); font-weight:700;">&le; $13.000 ARS</span>.</p>
+          <div class="card-title">Curva de Demanda Empírica & Fijación de P</div>
+          <p class="card-desc">Evaluación del porcentaje de usuarios dispuestos a adquirir el producto según el escalón de precio:</p>
+          
+          <div style="margin: 1.2rem 0;">
+            <canvas id="chartDemanda" height="190"></canvas>
+          </div>
+
+          <div style="background: rgba(0, 185, 128, 0.06); border: 1px solid rgba(0, 185, 128, 0.2); border-radius: 12px; padding: 1.2rem; font-size: 0.9rem;">
+            <p>• <strong>Precio de Venta al Público (PVP con IVA):</strong> <span style="color: #FFFFFF; font-weight: 700;">$40.000 ARS</span> (valida el 59.1% de aceptación directa y genera el mayor ingreso total proyectado).</p>
+            <p style="margin-top: 0.4rem;">• <strong>Precio Neto (sin IVA 21%):</strong> $33.058 ARS.</p>
+            <p style="margin-top: 0.4rem;">• <strong>Precio Salida de Fábrica (PSF estimado):</strong> $26.000 ARS.</p>
+            <p style="margin-top: 0.4rem;">• <strong>Costo Variable Unitario Máximo:</strong> <span style="color: var(--color-menta); font-weight: 700;">&le; $13.000 ARS</span> (cumple con holgura la regla de oro 2:1 exigida por la cátedra para el Objetivo I).</p>
           </div>
         </div>
+
+        <!-- Modelo de Cebolla y Q -->
         <div class="card">
           <div class="card-title">Modelo de Cebolla (TAM - SAM - SOM) & Q</div>
+          <p class="card-desc">Segmentación paso a paso de la población para llegar a un volumen de producción alcanzable y realista:</p>
+
           <div class="onion-wrapper">
-            <div class="onion-layer ol-1"><span>Población Total Argentina (INDEC 2022)</span><strong>46.000.000 hab.</strong></div>
-            <div class="onion-layer ol-2"><span>TAM: Usuarios de prótesis retroauriculares</span><strong>130.000 usuarios</strong></div>
-            <div class="onion-layer ol-3"><span>SAM: Usuarios activos limitados por riesgo (51.3%)</span><strong>66.700 usuarios</strong></div>
-            <div class="onion-layer ol-4"><span>SOM: Mercado objetivo dispuesto a pagar ($40k)</span><strong>39.400 personas</strong></div>
-            <div class="onion-layer ol-5"><span>Q Anual: Market Share 3.8% (Canal audiológico + web)</span><span style="font-size: 1.25rem;">1.500 un./año</span></div>
+            <div class="onion-layer ol-1">
+              <div>
+                <strong>Población Argentina</strong>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Censo INDEC 2022</div>
+              </div>
+              <span style="font-size: 1.1rem; font-weight: 700;">46.000.000 hab.</span>
+            </div>
+
+            <div class="onion-layer ol-2">
+              <div>
+                <strong>TAM: Mercado Total</strong>
+                <div style="font-size: 0.75rem; color: var(--text-soft);">Usuarios de audífonos retroauriculares e IC</div>
+              </div>
+              <span style="font-size: 1.1rem; font-weight: 700;">130.000 usuarios</span>
+            </div>
+
+            <div class="onion-layer ol-3">
+              <div>
+                <strong>SAM: Mercado Disponible</strong>
+                <div style="font-size: 0.75rem; color: var(--text-soft);">Usuarios activos con temor real al daño (51.3%)</div>
+              </div>
+              <span style="font-size: 1.1rem; font-weight: 700;">66.700 usuarios</span>
+            </div>
+
+            <div class="onion-layer ol-4">
+              <div>
+                <strong>SOM: Mercado Objetivo</strong>
+                <div style="font-size: 0.75rem; color: var(--text-soft);">Dispuestos a comprar a $40.000 (59.1%)</div>
+              </div>
+              <span style="font-size: 1.1rem; font-weight: 700;">39.400 usuarios</span>
+            </div>
+
+            <div class="onion-layer ol-5">
+              <div>
+                <strong>Q Anual de Producción</strong>
+                <div style="font-size: 0.75rem; color: #FFF;">Market Share conservador: 3.8% del SOM</div>
+              </div>
+              <span style="font-size: 1.35rem; font-weight: 800; color: #FFFFFF;">1.500 u./año</span>
+            </div>
           </div>
-          <p style="font-size: 0.85rem; color: var(--text-muted); text-align: right;">Equivale a 125 unidades mensuales de producción.</p>
+
+          <p style="font-size: 0.85rem; color: var(--text-muted); text-align: right;">
+            Equivale a <strong>125 unidades mensuales</strong>, un lote ideal para moldeo por inyección de silicona o termoformado.
+          </p>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- SECCIÓN 4: PRE-BRIEF (Objetivo D) -->
   <section id="brief">
     <div class="container">
-      <div class="section-header"><div class="section-tag">Objetivo D: Documento Rector</div><h2 class="section-title">El Pre-Brief del Proyecto</h2></div>
-      <div class="brief-box">
+      <div class="section-header">
+        <div class="section-tag">Objetivo D • Documento Rector</div>
+        <h2 class="section-title">Pre-Brief Preliminar del Proyecto</h2>
+        <p class="section-subtitle">
+          Las 6 dimensiones fundamentales que definen el alcance y los límites técnicos del desarrollo antes de comenzar la etapa de bocetos.
+        </p>
+      </div>
+
+      <div class="brief-container">
         <div class="brief-grid">
-          <div class="brief-item"><h4>1. ¿QUÉ? (Problema a solucionar)</h4><p class="card-desc">Vulnerabilidad ambiental y mecánica del procesador externo ante sudor, lluvia, arena y caídas, que genera aislamiento preventivo y retiro forzoso del dispositivo en actividades cotidianas y deportivas.</p></div>
-          <div class="brief-item"><h4>2. ¿QUIÉN? (Cliente Objetivo)</h4><p class="card-desc"><strong>Usuario:</strong> Niños/adolescentes (5-17 años) y adultos activos (18-60) de sectores C1, C2, ABC1.<br><strong>Comprador:</strong> Padres de niños con hipoacusia y adultos deportistas independientes.</p></div>
-          <div class="brief-item"><h4>3. ¿DÓNDE Y CUÁNDO?</h4><p class="card-desc">Espacios deportivos (canchas, gimnasios), vía pública con lluvia o viento, playas y transporte público. Frecuencia de uso: <strong>3 a 7 días por semana</strong>.</p></div>
-          <div class="brief-item"><h4>4. CANTIDAD (Q)</h4><p class="card-desc"><strong>Q = 1.500 unidades anuales</strong> (~125 unidades/mes), fundamentado en una penetración del 3.8% sobre el SOM de 39.400 personas.</p></div>
-          <div class="brief-item"><h4>5. ¿CUÁNTO? (P)</h4><p class="card-desc"><strong>PVP: $40.000 ARS</strong> (IVA incluido).<br><strong>PSF: $26.000 ARS</strong> (sin IVA).<br><strong>Costo Variable Máx: $13.000 ARS</strong> (cumple holgadamente la regla 2:1 del Objetivo I).</p></div>
-          <div class="brief-item"><h4>6. PUNTOS DUROS (Restricciones Técnicas)</h4><p class="card-desc">• <strong>Acústica:</strong> Atenuación &le; 2.5 dB (500-4000 Hz).<br>• <strong>Estanqueidad:</strong> Mínimo IP54 (polvo y salpicaduras).<br>• <strong>Masa:</strong> Peso total &lt; 8 gramos.<br>• <strong>Retención:</strong> Resistencia a tracción &ge; 5 N.<br>• <strong>Ergonomía:</strong> Tiempo de postura &lt; 15 seg.<br>• <strong>Material:</strong> Silicona médica hipoalergénica ISO 10993.</p></div>
+          <div class="brief-item">
+            <h4>1. ¿QUÉ? (Problema a Solucionar)</h4>
+            <p class="card-desc">
+              Vulnerabilidad ambiental y mecánica del procesador ante sudor, lluvia, arena y caídas, que genera aislamiento preventivo y retiro forzoso del dispositivo en la vida activa.
+            </p>
+          </div>
+
+          <div class="brief-item">
+            <h4>2. ¿QUIÉN? (Cliente Objetivo)</h4>
+            <p class="card-desc">
+              <strong>Usuario:</strong> Niños/adolescentes (5-17 años) y adultos activos (18-60) con estilo de vida dinámico.<br>
+              <strong>Comprador:</strong> Padres de niños con hipoacusia y adultos deportistas independientes.
+            </p>
+          </div>
+
+          <div class="brief-item">
+            <h4>3. ¿DÓNDE Y CUÁNDO? (Situación de Uso)</h4>
+            <p class="card-desc">
+              Espacios deportivos (gimnasios, canchas, running), vía pública bajo lluvia o viento, playa y recreación al aire libre. Frecuencia de uso estimada: <strong>3 a 7 días por semana</strong>.
+            </p>
+          </div>
+
+          <div class="brief-item">
+            <h4>4. ¿CUÁNTAS UNIDADES? (Cantidad Q)</h4>
+            <p class="card-desc">
+              <strong>Q = 1.500 unidades anuales</strong> (~125 unidades mensuales). Se fundamenta en una captura del 3.8% del SOM (39.400 personas) mediante canal audiológico y venta digital.
+            </p>
+          </div>
+
+          <div class="brief-item">
+            <h4>5. ¿A QUÉ VALOR? (Precio P)</h4>
+            <p class="card-desc">
+              <strong>PVP: $40.000 ARS</strong> (IVA incluido).<br>
+              <strong>PSF: $26.000 ARS</strong>.<br>
+              <strong>Costo Variable Unitario Máximo: $13.000 ARS</strong> (asegura cumplimiento de la relación 2:1 del Objetivo I).
+            </p>
+          </div>
+
+          <div class="brief-item">
+            <h4>6. PUNTOS DUROS (Requisitos Técnicos)</h4>
+            <p class="card-desc" style="font-size: 0.88rem; line-height: 1.5;">
+              • <strong>Acústica:</strong> Pérdida de inserción &le; 2.5 dB (500 a 4000 Hz).<br>
+              • <strong>Estanqueidad:</strong> Protección mínima IP54 (salpicaduras y polvo).<br>
+              • <strong>Masa:</strong> Peso pluma inferior a 8 gramos.<br>
+              • <strong>Retención:</strong> Resistencia a tracción vertical &ge; 5 N.<br>
+              • <strong>Ergonomía:</strong> Tiempo de colocación &lt; 15 segundos.<br>
+              • <strong>Biocompatibilidad:</strong> Silicona médica grado piel (ISO 10993).
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- SECCIÓN 5: ROADMAP Y ETAPAS DEL TPP -->
   <section id="roadmap">
     <div class="container">
-      <div class="section-header"><div class="section-tag">Cronograma General</div><h2 class="section-title">Evolución de las Etapas del T.P.P.</h2></div>
+      <div class="section-header">
+        <div class="section-tag">Cronograma General de Cátedra</div>
+        <h2 class="section-title">Evolución de las Fases del T.P.P.</h2>
+        <p class="section-subtitle">
+          El proceso metodológico del proyecto estructurado a lo largo del ciclo lectivo 2026.
+        </p>
+      </div>
+
       <div class="stages-track">
-        <div class="stage-pill active"><div class="stage-tag">Obj A - D</div><div class="stage-name">Diagnóstico & Pre-Brief</div></div>
-        <div class="stage-pill"><div class="stage-tag">Obj E</div><div class="stage-name">Bocetos & 5 Alternativas</div></div>
-        <div class="stage-pill"><div class="stage-tag">Obj F</div><div class="stage-name">Selección de Alternativa</div></div>
-        <div class="stage-pill"><div class="stage-tag">Obj G</div><div class="stage-name">Maqueta de Estudio</div></div>
-        <div class="stage-pill"><div class="stage-tag">Obj H</div><div class="stage-name">Ingeniería & Materiales</div></div>
-        <div class="stage-pill"><div class="stage-tag">Obj I & J</div><div class="stage-name">Costos, Marca & Packaging</div></div>
+        <div class="stage-pill active">
+          <div class="stage-tag">Obj A - D</div>
+          <div class="stage-name">Diagnóstico & Pre-Brief</div>
+          <div class="stage-status">✅ En Aprobación</div>
+        </div>
+        <div class="stage-pill">
+          <div class="stage-tag">Obj E</div>
+          <div class="stage-name">Bocetos & 5 Alternativas</div>
+          <div class="stage-status">⏳ Próxima etapa</div>
+        </div>
+        <div class="stage-pill">
+          <div class="stage-tag">Obj F</div>
+          <div class="stage-name">Selección de Alternativa</div>
+          <div class="stage-status">Matriz multicriterio</div>
+        </div>
+        <div class="stage-pill">
+          <div class="stage-tag">Obj G</div>
+          <div class="stage-name">Maqueta de Estudio</div>
+          <div class="stage-status">Prototipo volumétrico</div>
+        </div>
+        <div class="stage-pill">
+          <div class="stage-tag">Obj H</div>
+          <div class="stage-name">Ingeniería & Materiales</div>
+          <div class="stage-status">CAD 3D y Matricería</div>
+        </div>
+        <div class="stage-pill">
+          <div class="stage-tag">Obj I & J</div>
+          <div class="stage-name">Costos, Marca & Packaging</div>
+          <div class="stage-status">Presentación final</div>
+        </div>
       </div>
     </div>
   </section>
-  <section id="pitch">
-    <div class="container">
-      <div class="pitch-widget">
-        <div class="section-tag" style="color: #FFF;">Entrenador para el Jueves 24/9</div>
-        <h2 style="font-family: var(--font-display); font-size: 2rem; color: #FFF;">Presentación del Brief: Pitch de 60 Segundos</h2>
-        <p style="color: #E2E8F0; max-width: 600px; margin: 0.5rem auto;">Cronometrá la exposición oral de 1 minuto sin medios digitales exigida por los profesores.</p>
-        <div class="timer-display" id="timerDisplay">01:00</div>
-        <div class="timer-btns">
-          <button class="btn btn-primary" onclick="startTimer()">Iniciar 60s</button>
-          <button class="btn btn-outline" onclick="pauseTimer()">Pausar</button>
-          <button class="btn btn-outline" onclick="resetTimer()">Reiniciar</button>
-        </div>
-        <div style="text-align: left; max-width: 800px; margin: 2rem auto 0; background: rgba(0,0,0,0.3); padding: 1.5rem; border-radius: 12px; font-size: 0.95rem;">
-          <p><strong>[0:00 - 0:12] El Dolor:</strong> ¿Sabían que reponer el procesador de un implante coclear cuesta más de USD 8.000? Por miedo a romperlo con el sudor, la lluvia o una caída, el <strong>78% de los usuarios</strong> prefiere sacárselo y aislarse.</p>
-          <p style="margin-top: 0.5rem;"><strong>[0:13 - 0:25] El Cliente:</strong> Apuntamos a deportistas activos y padres de niños hipoacúsicos que necesitan que sus hijos jueguen libres sin pánico constante a arruinar su audición.</p>
-          <p style="margin-top: 0.5rem;"><strong>[0:26 - 0:40] El Negocio (P y Q):</strong> Validado con 132 encuestas: nuestro gráfico de cebolla proyecta un <strong>Q de 1.500 unidades/año</strong>. La curva de demanda fijó el precio óptimo en <strong>$40.000 ARS</strong>, garantizando holgadamente la relación 2:1 con un costo menor a $13.000.</p>
-          <p style="margin-top: 0.5rem;"><strong>[0:41 - 0:60] Puntos Duros:</strong> Menos de <strong>8 gramos</strong> de peso, protección <strong>IP54</strong>, soporte de <strong>5 N de tironeo</strong> y lo crítico: <strong>no atenuar la voz más de 2.5 dB</strong>. Una solución que devuelve la libertad de moverse sin apagar los sonidos de la vida.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+
+  <!-- Footer -->
   <footer>
     <div class="container">
-      <p>Trabajo Práctico Principal • Cátedra Diseño de Producto 2026</p>
-      <p>UTN Buenos Aires • Grupo 10: Manuel Torres, Luisina Infante, Sofia Salinas, Pedro Buzzeo</p>
-      <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--accent-cyan);">Inspirado en la paleta de identidad comunitaria de CASACUSIA</p>
+      <p style="font-weight: 700; color: #FFFFFF; font-size: 1rem; margin-bottom: 0.5rem;">AURA • Protección Auditiva Integral</p>
+      <p class="footer-team">Trabajo Práctico Principal • Cátedra Diseño de Producto 2026</p>
+      <p>Universidad Tecnológica Nacional — Facultad Regional Buenos Aires (UTN FRBA)</p>
+      <p style="margin-top: 0.6rem; color: var(--color-menta); font-weight: 500;">
+        Grupo 10: Manuel Torres • Luisina Infante • Sofia Salinas • Pedro Buzzeo
+      </p>
+      <p class="footer-sub">
+        Repositorio de código y documentación abierto con GitHub Pages.
+      </p>
     </div>
   </footer>
+
+  <!-- Lógica Interactiva (Chart.js y Tabs del Sondeo) -->
   <script>
+    // Inicialización de Gráficos de Chart.js
     window.addEventListener('DOMContentLoaded', () => {
+      // 1. Gráfico de Atributos Más Valorados
       const ctxAtributos = document.getElementById('chartAtributos')?.getContext('2d');
       if (ctxAtributos) {
         new Chart(ctxAtributos, {
@@ -314,20 +1250,37 @@
             datasets: [{
               label: '% Menciones',
               data: [81.1, 56.8, 53.0, 47.7, 47.0, 40.2],
-              backgroundColor: ['#1DB97B', '#5533C2', '#F5B800', '#F44475', '#F5631A', '#38BDF8'],
+              backgroundColor: ['#00B980', '#563AB3', '#FFC001', '#F44475', '#B462CC', '#00B980'],
               borderRadius: 6
             }]
           },
           options: {
             responsive: true,
-            plugins: { legend: { display: false } },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (context) => ` ${context.raw}% de los encuestados`
+                }
+              }
+            },
             scales: {
-              y: { beginAtZero: true, max: 100, ticks: { color: '#94A3B8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-              x: { ticks: { color: '#94A3B8', font: { size: 10 } }, grid: { display: false } }
+              y: {
+                beginAtZero: true,
+                max: 100,
+                ticks: { color: '#94A3B8', font: { family: 'Montserrat' } },
+                grid: { color: 'rgba(255,255,255,0.05)' }
+              },
+              x: {
+                ticks: { color: '#CBD5E1', font: { size: 10.5, family: 'Montserrat' } },
+                grid: { display: false }
+              }
             }
           }
         });
       }
+
+      // 2. Curva de Demanda Empírica P
       const ctxDemanda = document.getElementById('chartDemanda')?.getContext('2d');
       if (ctxDemanda) {
         new Chart(ctxDemanda, {
@@ -337,52 +1290,60 @@
             datasets: [{
               label: '% Dispuesto a Pagar',
               data: [100, 83.3, 59.1, 36.4, 10.6],
-              borderColor: '#1DB97B',
-              backgroundColor: 'rgba(29, 185, 123, 0.15)',
+              borderColor: '#00B980',
+              backgroundColor: 'rgba(0, 185, 128, 0.15)',
               fill: true,
               tension: 0.35,
               pointRadius: 6,
-              pointBackgroundColor: '#FFF'
+              pointBackgroundColor: '#FFFFFF',
+              pointBorderColor: '#00B980',
+              pointBorderWidth: 2
             }]
           },
           options: {
             responsive: true,
-            plugins: { legend: { display: false } },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (context) => ` Aceptación: ${context.raw}%`
+                }
+              }
+            },
             scales: {
-              y: { beginAtZero: true, max: 100, ticks: { color: '#94A3B8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-              x: { ticks: { color: '#94A3B8', font: { size: 10 } }, grid: { display: false } }
+              y: {
+                beginAtZero: true,
+                max: 100,
+                ticks: { color: '#94A3B8', font: { family: 'Montserrat' } },
+                grid: { color: 'rgba(255,255,255,0.05)' }
+              },
+              x: {
+                ticks: { color: '#CBD5E1', font: { family: 'Montserrat' } },
+                grid: { display: false }
+              }
             }
           }
         });
       }
     });
 
-    let timeLeft = 60;
-    let timerInterval = null;
-    function updateTimerDisplay() {
-      const mins = Math.floor(timeLeft / 60);
-      const secs = timeLeft % 60;
-      const d = document.getElementById('timerDisplay');
-      if (d) {
-        d.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-        d.style.color = (timeLeft <= 10) ? '#F44475' : '#FFFFFF';
+    // Función para alternar pestañas del Sondeo
+    function showSurveyTab(index) {
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(el => el.classList.remove('active'));
+
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(el => el.classList.remove('active'));
+
+      const targetContent = document.getElementById('surveyTab' + index);
+      if (targetContent) {
+        targetContent.classList.add('active');
+      }
+
+      if (buttons[index - 1]) {
+        buttons[index - 1].classList.add('active');
       }
     }
-    function startTimer() {
-      if (timerInterval) return;
-      timerInterval = setInterval(() => {
-        if (timeLeft > 0) {
-          timeLeft--;
-          updateTimerDisplay();
-        } else {
-          clearInterval(timerInterval);
-          timerInterval = null;
-          alert('¡Tiempo cumplido! Fin de los 60 segundos de pitch.');
-        }
-      }, 1000);
-    }
-    function pauseTimer() { clearInterval(timerInterval); timerInterval = null; }
-    function resetTimer() { pauseTimer(); timeLeft = 60; updateTimerDisplay(); }
   </script>
 </body>
 </html>
