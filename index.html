@@ -660,11 +660,198 @@
       opacity: 0.85;
     }
 
-    .footer-sub {
-      font-size: 0.78rem;
-      color: #64748B;
-      margin-top: 0.8rem;
+    /* Estilos del Mapa Mental Interactivo y Alternativas (Objetivo E) */
+    .mindmap-wrapper {
+      position: relative;
+      margin: 2rem 0;
     }
+
+    .mindmap-core {
+      background: linear-gradient(135deg, rgba(86, 58, 179, 0.45), rgba(0, 185, 128, 0.35));
+      border: 2px solid var(--color-menta);
+      border-radius: 20px;
+      padding: 1.6rem 2rem;
+      text-align: center;
+      max-width: 620px;
+      margin: 0 auto 2.5rem auto;
+      box-shadow: 0 10px 32px rgba(0, 185, 128, 0.22);
+      backdrop-filter: blur(12px);
+    }
+
+    .mindmap-core h3 {
+      font-size: 1.35rem;
+      color: #FFFFFF;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .mindmap-core p {
+      font-size: 0.88rem;
+      color: var(--color-crema);
+      margin-top: 0.35rem;
+    }
+
+    .mindmap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .mm-card {
+      background: rgba(19, 34, 56, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.4rem;
+      transition: all 0.3s var(--ease-spring);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mm-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .mm-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+    }
+
+    .mm-card.c-menta::before { background: var(--color-menta); }
+    .mm-card.c-cian::before { background: #00ACC1; }
+    .mm-card.c-purpura::before { background: var(--color-purpura); }
+    .mm-card.c-ambar::before { background: #FFB300; }
+    .mm-card.c-amatista::before { background: var(--color-amatista); }
+    .mm-card.c-rosa::before { background: var(--color-rosa); }
+
+    .mm-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .mm-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .mm-card.c-menta .mm-icon { background: rgba(0, 185, 128, 0.15); color: var(--color-menta); }
+    .mm-card.c-cian .mm-icon { background: rgba(0, 172, 193, 0.15); color: #00ACC1; }
+    .mm-card.c-purpura .mm-icon { background: rgba(86, 58, 179, 0.2); color: var(--color-purpura); }
+    .mm-card.c-ambar .mm-icon { background: rgba(255, 179, 0, 0.15); color: #FFB300; }
+    .mm-card.c-amatista .mm-icon { background: rgba(180, 98, 204, 0.18); color: var(--color-amatista); }
+    .mm-card.c-rosa .mm-icon { background: rgba(244, 68, 117, 0.15); color: var(--color-rosa); }
+
+    .mm-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .mm-subtitle {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .mm-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .mm-list li {
+      font-size: 0.86rem;
+      color: var(--text-soft);
+      padding-left: 1.25rem;
+      position: relative;
+      line-height: 1.45;
+    }
+
+    .mm-list li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--color-menta);
+      font-weight: bold;
+    }
+
+    /* Alternativas de Solución */
+    .alt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.3rem;
+      margin-top: 1.5rem;
+    }
+
+    .alt-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+    }
+
+    .alt-card:hover {
+      border-color: rgba(0, 185, 128, 0.45);
+      transform: translateY(-3px);
+    }
+
+    .alt-number {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--color-menta);
+      margin-bottom: 0.35rem;
+    }
+
+    .alt-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 0.5rem;
+    }
+
+    .alt-desc {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .alt-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: auto;
+    }
+
+    .alt-tag {
+      font-size: 0.72rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      color: var(--text-main);
+    }
+
   </style>
 </head>
 <body>
@@ -684,6 +871,7 @@
         <li><a href="#sondeo">Sondeo Comunitario</a></li>
         <li><a href="#mercado">Precio (P) & Volumen (Q)</a></li>
         <li><a href="#brief">Pre-Brief</a></li>
+        <li><a href="#mapa-mental">Mapa Mental (Obj. E)</a></li>
         <li><a href="#roadmap">Fases TPP</a></li>
       </ul>
     </nav>
@@ -820,7 +1008,7 @@
                 <td><strong>Propuesta AURA (Grupo 10)</strong></td>
                 <td><span class="badge badge-success">Integral (Agua + Polvo + Impacto)</span></td>
                 <td><span class="badge badge-success">Óptima (&lt; 2.5 dB)</span></td>
-                <td><strong>$40.000 (Accesible)</strong></td>
+                <td><strong>$80.000 (Accesible)</strong></td>
                 <td>Ergonomía de postura en &lt;15s, permeable al sonido y con retención anticaída integrada.</td>
               </tr>
             </tbody>
@@ -998,8 +1186,8 @@
           <div><img src="graficos/10_disposicion_pagar.png" alt="Disposición a pagar" class="tab-chart-img"></div>
           <div class="tab-info">
             <h4>Pregunta 10: Disposición económica de compra</h4>
-            <p>El <strong>42.4%</strong> se ubica en el rango de $20.000 a $40.000 ARS y un <strong>22.7%</strong> pagaría entre $40.000 y $60.000 ARS. Sumados, validan un piso de precios competitivo que sustenta nuestro análisis de curva de demanda.</p>
-            <div class="tab-insight">📌 <strong>Conclusión:</strong> Un precio de venta sugerido de $40.000 ARS maximiza el alcance comunitario y la viabilidad del proyecto.</div>
+            <p>El <strong>42.4%</strong> se ubica en el rango de $20.000 a $40.000 ARS y un <strong>22.7%</strong> pagaría entre $40.000 y $60.000 ARS, complementado con un <strong>36.4%</strong> dispuesto a invertir $60.000 o más. Se valida un rango económico competitivo para un producto de alta durabilidad y protección acústica.</p>
+            <div class="tab-insight">📌 <strong>Conclusión:</strong> Un precio de venta sugerido de $80.000 ARS equilibra la cobertura de mercado con el margen necesario para la tecnología de membranas acústicas y bio-silicona.</div>
           </div>
         </div>
       </div>
@@ -1028,10 +1216,10 @@
           </div>
 
           <div style="background: rgba(0, 185, 128, 0.06); border: 1px solid rgba(0, 185, 128, 0.2); border-radius: 12px; padding: 1.2rem; font-size: 0.9rem;">
-            <p>• <strong>Precio de Venta al Público (PVP con IVA):</strong> <span style="color: #FFFFFF; font-weight: 700;">$40.000 ARS</span> (valida el 59.1% de aceptación directa y genera el mayor ingreso total proyectado).</p>
-            <p style="margin-top: 0.4rem;">• <strong>Precio Neto (sin IVA 21%):</strong> $33.058 ARS.</p>
-            <p style="margin-top: 0.4rem;">• <strong>Precio Salida de Fábrica (PSF estimado):</strong> $26.000 ARS.</p>
-            <p style="margin-top: 0.4rem;">• <strong>Costo Variable Unitario Máximo:</strong> <span style="color: var(--color-menta); font-weight: 700;">&le; $13.000 ARS</span> (cumple con holgura la regla de oro 2:1 exigida por la cátedra para el Objetivo I).</p>
+            <p>• <strong>Precio de Venta al Público (PVP con IVA):</strong> <span style="color: #FFFFFF; font-weight: 700;">$80.000 ARS</span> (posicionamiento estratégico competitivo y viable frente a repuestos oficiales que superan los $150.000).</p>
+            <p style="margin-top: 0.4rem;">• <strong>Precio Neto (sin IVA 21%):</strong> $66.116 ARS.</p>
+            <p style="margin-top: 0.4rem;">• <strong>Precio Salida de Fábrica (PSF estimado):</strong> $52.000 ARS.</p>
+            <p style="margin-top: 0.4rem;">• <strong>Costo Variable Unitario Máximo:</strong> <span style="color: var(--color-menta); font-weight: 700;">&le; $26.000 ARS</span> (cumple con holgura la regla de oro 2:1 exigida por la cátedra para el Objetivo I).</p>
           </div>
         </div>
 
@@ -1068,7 +1256,7 @@
             <div class="onion-layer ol-4">
               <div>
                 <strong>SOM: Mercado Objetivo</strong>
-                <div style="font-size: 0.75rem; color: var(--text-soft);">Dispuestos a comprar a $40.000 (59.1%)</div>
+                <div style="font-size: 0.75rem; color: var(--text-soft);">Dispuestos a comprar a $80.000 (36.4%)</div>
               </div>
               <span style="font-size: 1.1rem; font-weight: 700;">39.400 usuarios</span>
             </div>
@@ -1135,9 +1323,9 @@
           <div class="brief-item">
             <h4>5. ¿A QUÉ VALOR? (Precio P)</h4>
             <p class="card-desc">
-              <strong>PVP: $40.000 ARS</strong> (IVA incluido).<br>
-              <strong>PSF: $26.000 ARS</strong>.<br>
-              <strong>Costo Variable Unitario Máximo: $13.000 ARS</strong> (asegura cumplimiento de la relación 2:1 del Objetivo I).
+              <strong>PVP: $80.000 ARS</strong> (IVA incluido).<br>
+              <strong>PSF: $52.000 ARS</strong>.<br>
+              <strong>Costo Variable Unitario Máximo: $26.000 ARS</strong> (asegura cumplimiento de la relación 2:1 del Objetivo I).
             </p>
           </div>
 
@@ -1157,7 +1345,246 @@
     </div>
   </section>
 
-  <!-- SECCIÓN 5: ROADMAP Y ETAPAS DEL TPP -->
+  <!-- SECCIÓN 5: MAPA MENTAL Y ALTERNATIVAS DE DISEÑO (Objetivo E) -->
+  <section id="mapa-mental">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Objetivo E • Creatividad & Espacio de Soluciones</div>
+        <h2 class="section-title">Mapa Mental y Alternativas de Diseño</h2>
+        <p class="section-subtitle">
+          Del lenguaje de la palabra al lenguaje de las formas. Exploración divergente del espacio proyectual para proteger procesadores externos de implantes cocleares y audífonos retroauriculares.
+        </p>
+      </div>
+
+      <!-- Cita Marco Teórico Cátedra -->
+      <div class="problem-banner" style="margin-bottom: 2.5rem; background: rgba(86, 58, 179, 0.08); border-color: rgba(86, 58, 179, 0.3);">
+        <div class="problem-quote" style="font-size: 0.95rem; font-style: normal; color: var(--color-crema);">
+          💡 <em>“El concepto es el principio generativo de una morfología (Mauricio Sánchez Valencia). Bajo este punto de vista, el objeto diseñado es efectivamente la materialización de un concepto. La creatividad reemplaza a la idea meramente intuitiva, manteniéndose en los límites del problema derivados del análisis de los datos (Bruno Munari, 'Cómo nacen los objetos').”</em>
+        </div>
+      </div>
+
+      <!-- Núcleo del Mapa Mental -->
+      <div class="mindmap-wrapper">
+        <div class="mindmap-core">
+          <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--color-menta); font-weight: 700; margin-bottom: 0.4rem;">
+            Idea Rectora / Concepto Morfológico
+          </div>
+          <h3>SEGUNDA PIEL ACÚSTICA ACTIVA (AURA)</h3>
+          <p>Mapeo divergente de soluciones para procesadores BTE, RIC e implantes cocleares</p>
+        </div>
+
+        <!-- Grilla de los 6 Ejes Proyectuales -->
+        <div class="mindmap-grid">
+          <!-- Eje 1: Sellado y Estanqueidad -->
+          <div class="mm-card c-menta">
+            <div class="mm-header">
+              <div class="mm-icon">💧</div>
+              <div>
+                <div class="mm-title">Sellado & Estanqueidad</div>
+                <div class="mm-subtitle">Barrera Ambiental IP54 / IP67</div>
+              </div>
+            </div>
+            <ul class="mm-list">
+              <li>Fundas de elastómero continuo (Silicona líquida LSR) sin costuras.</li>
+              <li>Carcasas bipartitas tipo concha con laberinto perimétrico y O-ring.</li>
+              <li>Labio inferior elástico autorretentivo que sella la base de la batería.</li>
+              <li>Buje cónico elástico pasacable para frenar ingreso de sudor por capilaridad.</li>
+              <li>Recubrimiento superficial oleofóbico e hidrofóbico por inmersión.</li>
+            </ul>
+          </div>
+
+          <!-- Eje 2: Permeabilidad Acústica -->
+          <div class="mm-card c-cian">
+            <div class="mm-header">
+              <div class="mm-icon">🔊</div>
+              <div>
+                <div class="mm-title">Permeabilidad Acústica</div>
+                <div class="mm-subtitle">Atenuación Mínima &lt; 2.5 dB</div>
+              </div>
+            </div>
+            <ul class="mm-list">
+              <li>Membrana microporosa de ePTFE (Gore-Tex acústico) sobre micrófonos.</li>
+              <li>Aleros deflectores en ángulo que desvían gotas y atenúan viento.</li>
+              <li>Cámara de resonancia pasiva calibrada en rango vocal (500–4000 Hz).</li>
+              <li>Conducto periscópico curvo protegido hacia la cara interna auricular.</li>
+              <li>Malla microperforada de acero quirúrgico resistente a polvo y arena.</li>
+            </ul>
+          </div>
+
+          <!-- Eje 3: Sujeción y Retención Anticaída -->
+          <div class="mm-card c-purpura">
+            <div class="mm-header">
+              <div class="mm-icon">🧲</div>
+              <div>
+                <div class="mm-title">Sujeción & Retención</div>
+                <div class="mm-subtitle">Tracción Dinámica &gt; 5 N</div>
+              </div>
+            </div>
+            <ul class="mm-list">
+              <li>Aro ergonómico retroauricular (Ear-hook) envolvente de alta fricción.</li>
+              <li>Clip anatómico acolchado con presión al hélix o fosa triangular.</li>
+              <li>Capuchón con aletas de sujeción al cabello para la bobina imantada.</li>
+              <li>Lanyard elástico con microbroche de seguridad al cuello deportivo.</li>
+              <li>Microtextura interior biomimética de alta adherencia sin adhesivos.</li>
+            </ul>
+          </div>
+
+          <!-- Eje 4: Ergonomía y Operatividad -->
+          <div class="mm-card c-ambar">
+            <div class="mm-header">
+              <div class="mm-icon">⚡</div>
+              <div>
+                <div class="mm-title">Ergonomía & Postura</div>
+                <div class="mm-subtitle">Colocación Ágil &lt; 15 Segundos</div>
+              </div>
+            </div>
+            <ul class="mm-list">
+              <li>Enfundado por deslizamiento elástico sin necesidad de desarmar cables.</li>
+              <li>Bisagra viva (living hinge) con apertura total estilo concha marina.</li>
+              <li>Cierre snap-fit con confirmación táctil y audible de encastre seguro.</li>
+              <li>Auto-alineación magnética asistida por microimanes de neodimio.</li>
+              <li>Pestaña con ojal ergonómico para usuarios pediátricos o adultos mayores.</li>
+            </ul>
+          </div>
+
+          <!-- Eje 5: Materiales y Costo Meta -->
+          <div class="mm-card c-amatista">
+            <div class="mm-header">
+              <div class="mm-icon">⚙️</div>
+              <div>
+                <div class="mm-title">Materiales & Viabilidad</div>
+                <div class="mm-subtitle">Costo Meta CV &le; $26.000 ARS</div>
+              </div>
+            </div>
+            <ul class="mm-list">
+              <li>Silicona grado médico biocompatible USP Clase VI (Shore A 40).</li>
+              <li>Polipropileno (PP) virgen inyectable de bajo peso y alta tenacidad.</li>
+              <li>Termoformado al vacío de lámina de TPU bicapa de bajo costo matricero.</li>
+              <li>Margen comercial del 21% asegurado para centros audiológicos y ortopedias.</li>
+              <li>Cumplimiento estricto de la regla 2:1 del Objetivo I (PVP $80.000 / PSF $52.000).</li>
+            </ul>
+          </div>
+
+          <!-- Eje 6: Experiencia y Estética -->
+          <div class="mm-card c-rosa">
+            <div class="mm-header">
+              <div class="mm-icon">🎨</div>
+              <div>
+                <div class="mm-title">Identidad & Estética</div>
+                <div class="mm-subtitle">Inclusión & Estilo de Vida</div>
+              </div>
+            </div>
+            <ul class="mm-list">
+              <li>Gama cromática dual: tonos neutros piel/cabello o colores flúor deportivos.</li>
+              <li>Carcasas modulares decorables con stickers y texturas para niños.</li>
+              <li>Ventana de elastómero translúcido para visibilidad de LEDs de batería.</li>
+              <li>Acceso táctil directo a pulsadores sin retirar el protector.</li>
+              <li>Material lavable e higienizable con agua tibia y jabón neutro.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Presentación de las 5 Alternativas de Diseño -->
+      <div style="margin-top: 3.5rem;">
+        <h3 style="font-size: 1.4rem; color: #FFFFFF; font-weight: 700; margin-bottom: 0.5rem;">
+          Las 5 Alternativas de Solución (Alineadas al Brief)
+        </h3>
+        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+          Propuestas morfológicas y funcionales viables que responden a los Puntos Duros y al costo meta fijado en $80.000 PVP.
+        </p>
+
+        <div class="alt-grid">
+          <!-- Alt 1 -->
+          <div class="alt-card">
+            <div>
+              <div class="alt-number">Alternativa 1</div>
+              <div class="alt-name">AURA Skin-Flex</div>
+              <p class="alt-desc">
+                Funda continua de silicona líquida médica (LSR Shore A 40) de 1 mm. Deslizable en menos de 10s con ventana superior sellada con membrana microporosa de ePTFE acústico.
+              </p>
+            </div>
+            <div class="alt-tags">
+              <span class="alt-tag">Atenuación: 1.8 dB</span>
+              <span class="alt-tag">IP54</span>
+              <span class="alt-tag">Masa: 4.5 g</span>
+              <span class="alt-tag">Costo: $9.500 ARS</span>
+            </div>
+          </div>
+
+          <!-- Alt 2 -->
+          <div class="alt-card">
+            <div>
+              <div class="alt-number">Alternativa 2</div>
+              <div class="alt-name">AURA Exo-Clip</div>
+              <p class="alt-desc">
+                Carcasa rígida bipartita de Polipropileno con bisagra viva longitudinal y cierre snap-fit. Máxima absorción de impactos mecánicos con junta blanda perimétrica estanqueizante.
+              </p>
+            </div>
+            <div class="alt-tags">
+              <span class="alt-tag">Atenuación: 2.1 dB</span>
+              <span class="alt-tag">Anti-impacto</span>
+              <span class="alt-tag">Masa: 7.2 g</span>
+              <span class="alt-tag">Costo: $14.000 ARS</span>
+            </div>
+          </div>
+
+          <!-- Alt 3 -->
+          <div class="alt-card">
+            <div>
+              <div class="alt-number">Alternativa 3</div>
+              <div class="alt-name">AURA Aero-Shield</div>
+              <p class="alt-desc">
+                Cuerpo en TPU semirrígido con campana acústica deflectora en laberinto invertido. Impide el paso del agua y arena por gravedad sin requerir membranas textiles descartables.
+              </p>
+            </div>
+            <div class="alt-tags">
+              <span class="alt-tag">Atenuación: 2.3 dB</span>
+              <span class="alt-tag">Cero membranas</span>
+              <span class="alt-tag">Masa: 5.8 g</span>
+              <span class="alt-tag">Costo: $8.200 ARS</span>
+            </div>
+          </div>
+
+          <!-- Alt 4 -->
+          <div class="alt-card">
+            <div>
+              <div class="alt-number">Alternativa 4</div>
+              <div class="alt-name">AURA Sport-Strap</div>
+              <p class="alt-desc">
+                Enfoque deportivo de alto rendimiento: funda de silicona vinculada a banda elástica textil transpirable con sujeción anatómica detrás de la oreja. Diseñada para vóley y running.
+              </p>
+            </div>
+            <div class="alt-tags">
+              <span class="alt-tag">Atenuación: 1.9 dB</span>
+              <span class="alt-tag">Retención &gt; 15 N</span>
+              <span class="alt-tag">Masa: 7.8 g</span>
+              <span class="alt-tag">Costo: $18.500 ARS</span>
+            </div>
+          </div>
+
+          <!-- Alt 5 -->
+          <div class="alt-card">
+            <div>
+              <div class="alt-number">Alternativa 5</div>
+              <div class="alt-name">AURA Mag-Armor</div>
+              <p class="alt-desc">
+                Cápsula modular con microimanes de neodimio N52 integrados en el marco perimetral. Cierre magnético instantáneo auto-guiado de menos de 5s ideal para niños y adultos mayores.
+              </p>
+            </div>
+            <div class="alt-tags">
+              <span class="alt-tag">Atenuación: 2.0 dB</span>
+              <span class="alt-tag">Postura &lt; 5s</span>
+              <span class="alt-tag">Masa: 6.8 g</span>
+              <span class="alt-tag">Costo: $21.000 ARS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 6: ROADMAP Y ETAPAS DEL TPP -->
   <section id="roadmap">
     <div class="container">
       <div class="section-header">
@@ -1174,10 +1601,10 @@
           <div class="stage-name">Diagnóstico & Pre-Brief</div>
           <div class="stage-status">✅ En Aprobación</div>
         </div>
-        <div class="stage-pill">
+        <div class="stage-pill active">
           <div class="stage-tag">Obj E</div>
-          <div class="stage-name">Bocetos & 5 Alternativas</div>
-          <div class="stage-status">⏳ Próxima etapa</div>
+          <div class="stage-name">Mapa Mental & Alternativas</div>
+          <div class="stage-status">🚀 En Desarrollo (Activo)</div>
         </div>
         <div class="stage-pill">
           <div class="stage-tag">Obj F</div>
@@ -1272,10 +1699,10 @@
         new Chart(ctxDemanda, {
           type: 'line',
           data: {
-            labels: ['$0', '$20k', '$40k (Óptimo)', '$60k', '$100k+'],
+            labels: ['$0', '$20k', '$40k', '$60k', '$80k (Fijado)', '$100k+'],
             datasets: [{
               label: '% Dispuesto a Pagar',
-              data: [100, 83.3, 59.1, 36.4, 10.6],
+              data: [100, 83.3, 59.1, 36.4, 23.5, 10.6],
               borderColor: '#00B980',
               backgroundColor: 'rgba(0, 185, 128, 0.15)',
               fill: true,
