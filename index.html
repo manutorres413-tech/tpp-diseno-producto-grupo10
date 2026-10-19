@@ -148,6 +148,12 @@ p { margin: 0; text-wrap: pretty; }
 .btn-arena { background: var(--arena); color: var(--petroleo-hondo); }
 .btn-borde { color: var(--arena); border-color: rgba(232, 220, 200, 0.45); }
 .btn-petroleo { background: var(--petroleo); color: var(--blanco); }
+.btn-plegar { margin-top: 1.4rem; color: var(--petroleo); border-color: rgba(31, 94, 91, 0.35); }
+.btn-plegar .ico { transition: rotate 200ms ease; }
+.btn-plegar[aria-expanded="true"] .ico { rotate: 180deg; }
+.plegable { padding-top: 0.5rem; }
+.cap:has(> .marco > .plegable[hidden]) { padding-block: clamp(2.5rem, 5vw, 3.5rem); }
+.cap:has(> .marco > .plegable[hidden]) .cabeza { margin-bottom: 0; }
 @media (hover: hover) {
   .btn-arena:hover { background: #F2E9DA; }
   .btn-borde:hover { background: rgba(232, 220, 200, 0.1); }
@@ -643,11 +649,6 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         <li><a href="#alternativas"><b>E</b><span>Alternativas</span></a></li>
         <li><a href="#seleccion"><b>F</b><span>Selección</span></a></li>
         <li><a href="#funda"><b>●</b><span>La funda</span></a></li>
-        <li><a href="#maqueta"><b>G</b><span>Maqueta</span></a></li>
-        <li><a href="#ingenieria"><b>H</b><span>Ingeniería</span></a></li>
-        <li><a href="#costos"><b>I</b><span>Costos</span></a></li>
-        <li><a href="#marca"><b>J</b><span>Marca</span></a></li>
-        <li><a href="#descargas"><b>↓</b><span>Descargas</span></a></li>
       </ol>
     </nav>
   </div>
@@ -666,7 +667,6 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         <p class="lede entra" style="--i:3">Funda de silicona de grado médico para procesadores de implantes cocleares y audífonos retroauriculares. Se calza como una media y una banda de malla hidrofóbica frena el agua sin tapar el sonido.</p>
         <div class="acciones entra" style="--i:4">
           <a class="btn btn-arena" href="#comercial"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg>Ver el comercial</a>
-          <a class="btn btn-borde" href="#descargas"><svg class="ico" aria-hidden="true"><use href="#i-bajar"/></svg>Entregas y planos</a>
         </div>
         <p class="equipo entra" style="--i:5">Grupo 10 · Diseño del Producto 2026 · UTN FRBA<br>
           <a href="https://www.linkedin.com/in/manueltorres02/" rel="noopener" target="_blank">Manuel Torres</a>,
@@ -730,8 +730,10 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       <div>
         <h2 id="t-problema"><span class="vh">Objetivos A y B. </span>La vulnerabilidad cotidiana del procesador</h2>
         <p class="lede">Un implante coclear o un audífono retroauricular es el puente de una persona con el sonido, la comunicación y su autonomía.</p>
+        <button class="btn btn-plegar" type="button" aria-expanded="false" aria-controls="pl-problema"><span>Ver todo el objetivo</span><svg class="ico" aria-hidden="true"><use href="#i-abajo"/></svg></button>
       </div>
     </div>
+    <div class="plegable" id="pl-problema" hidden>
     <blockquote class="problema-cita">Las personas con audífonos o implantes viven con miedo a que el equipo se rompa o se moje haciendo deporte, con lluvia o con viento. Sin protectores accesibles que dejen pasar el sonido, la salida suele ser sacárselo y aislarse.</blockquote>
 
     <div class="situaciones">
@@ -762,6 +764,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         </tbody>
       </table>
     </div>
+      </div>
   </div>
 </section>
 
@@ -773,8 +776,10 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       <div>
         <h2 id="t-sondeo"><span class="vh">Objetivo C. </span>Sondeo a 132 usuarios y familias</h2>
         <p class="lede">Encuestamos a usuarios de implantes cocleares y audífonos, y a sus familias. Agrupamos las respuestas en categorías para leer hábitos reales y validar la necesidad.</p>
+        <button class="btn btn-plegar" type="button" aria-expanded="false" aria-controls="pl-sondeo"><span>Ver todo el objetivo</span><svg class="ico" aria-hidden="true"><use href="#i-abajo"/></svg></button>
       </div>
     </div>
+    <div class="plegable" id="pl-sondeo" hidden>
     <dl class="cifras">
       <div><dt>90,9&nbsp;%</dt><dd>vive el problema: usuarios (63,6&nbsp;%) o padres y madres (27,3&nbsp;%).</dd></div>
       <div><dt>65,1&nbsp;%</dt><dd>hace actividad física varias veces por semana o todos los días.</dd></div>
@@ -917,6 +922,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         <p class="fuente">Fuente: sondeo del Grupo 10, N = 132.</p>
       </div>
     </div>
+      </div>
   </div>
 </section>
 
@@ -928,8 +934,10 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       <div>
         <h2 id="t-mercado"><span class="vh">Objetivo C. </span>Precio P y volumen Q</h2>
         <p class="lede">Cruzamos la disposición a pagar con un modelo de cebolla del mercado argentino para fijar el precio y las unidades por año.</p>
+        <button class="btn btn-plegar" type="button" aria-expanded="false" aria-controls="pl-mercado"><span>Ver todo el objetivo</span><svg class="ico" aria-hidden="true"><use href="#i-abajo"/></svg></button>
       </div>
     </div>
+    <div class="plegable" id="pl-mercado" hidden>
     <div class="mercado-grilla">
       <div class="panel-claro">
         <h3>Curva de demanda</h3>
@@ -990,6 +998,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         </div>
       </div>
     </div>
+      </div>
   </div>
 </section>
 
@@ -1001,8 +1010,10 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       <div>
         <h2 id="t-brief"><span class="vh">Objetivo D. </span>Pre-brief</h2>
         <p class="lede">Las preguntas que fijaron el alcance del proyecto antes de bocetar.</p>
+        <button class="btn btn-plegar" type="button" aria-expanded="false" aria-controls="pl-brief"><span>Ver todo el objetivo</span><svg class="ico" aria-hidden="true"><use href="#i-abajo"/></svg></button>
       </div>
     </div>
+    <div class="plegable" id="pl-brief" hidden>
     <div class="brief">
       <div><h3>¿Qué?</h3><p>El procesador queda expuesto al sudor salino, la lluvia, la arena y las caídas. La persona se lo saca por miedo a romperlo (reponerlo cuesta USD&nbsp;7.000 a 10.000) y pierde el sonido y su autonomía.</p></div>
       <div><h3>¿Quién?</h3><p><b>Usuarios:</b> chicos de 5 a 17 años con vida escolar y deportiva, y adultos de 18 a 60 que entrenan o se mueven por la calle. Sectores C1, C2 y ABC1.</p><p><b>Compradores:</b> madres y padres de los más chicos, y los propios adultos.</p></div>
@@ -1021,6 +1032,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       <div><dt>Material</dt><dd>Grado médico<small>Hipoalergénico, resiste el sudor y se lava con agua y jabón.</small></dd></div>
       <div><dt>Pared</dt><dd>&lt;&nbsp;1,2&nbsp;mm<small>Entra cómoda entre la oreja y la cabeza, con paso para el cable de la bobina.</small></dd></div>
     </dl>
+      </div>
   </div>
 </section>
 
@@ -1106,8 +1118,10 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       <div>
         <h2 id="t-seleccion"><span class="vh">Objetivo F. </span>Gana la malla hidrofóbica</h2>
         <p class="lede">Ocho factores ponderados de 0 a 10 (máximo 100 puntos) y un filtro de cumplimiento del brief. A gana en tres de los cuatro escenarios.</p>
+        <button class="btn btn-plegar" type="button" aria-expanded="false" aria-controls="pl-seleccion"><span>Ver todo el objetivo</span><svg class="ico" aria-hidden="true"><use href="#i-abajo"/></svg></button>
       </div>
     </div>
+    <div class="plegable" id="pl-seleccion" hidden>
     <div class="seleccion">
       <div>
         <ol class="puntajes" aria-label="Puntaje ponderado">
@@ -1127,6 +1141,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         <figcaption>Lámina F: matriz ponderada y escenarios de sensibilidad.</figcaption>
       </figure>
     </div>
+      </div>
   </div>
 </section>
 
@@ -1269,254 +1284,6 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
   </div>
 </section>
 
-<!-- ============ G MAQUETA ============ -->
-<section id="maqueta" class="cap fondo-blanco" aria-labelledby="t-maqueta">
-  <div class="marco">
-    <div class="cabeza">
-      <span class="etapa" aria-hidden="true">G</span>
-      <div>
-        <h2 id="t-maqueta"><span class="vh">Objetivo G. </span>Lo que hay que probar con las manos</h2>
-        <p class="lede">El modelo 3D no alcanza para cuatro requisitos del brief. La maqueta los pone a prueba antes de cerrar el diseño.</p>
-      </div>
-    </div>
-    <div class="dos">
-      <div>
-        <h3>Para qué sirve la maqueta</h3>
-        <ul class="chequeo">
-          <li><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span><b>Colocar y sacar en menos de 15&nbsp;s</b>, sin herramientas y con el procesador armado.</span></li>
-          <li><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span><b>Pérdida acústica de 2,5&nbsp;dB o menos</b> en el rango de la voz.</span></li>
-          <li><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span><b>Salpicaduras y polvo</b>, como aproximación a IP54.</span></li>
-          <li><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span><b>Anclaje de 5&nbsp;N en el ojal</b>, sin que el equipo se salga al tirar del cordón.</span></li>
-        </ul>
-      </div>
-      <div class="historia">
-        <h3>De libro a media</h3>
-        <p>La primera versión se abría como un libro, con dos costuras y un cierre tipo ziploc de 0,8&nbsp;mm. Alinear ese cierre con lluvia o con las manos mojadas es difícil, las costuras sumaban casi 100&nbsp;mm de posibles entradas de agua y el cierre llevaba la pared a 1,8&nbsp;mm, por encima del límite de 1,2&nbsp;mm.</p>
-        <p>Por eso la funda pasó a ser de una pieza y a calzarse como una media. La versión libro se imprime igual (M2) para comparar tiempos.</p>
-      </div>
-    </div>
-    <div class="sub"><h3>Ensayos</h3></div>
-    <div class="dos">
-      <div class="tabla-env">
-        <table>
-          <thead><tr><th scope="col">Ensayo</th><th scope="col">Se acepta si</th></tr></thead>
-          <tbody>
-            <tr><td>Tiempo de colocación</td><td>Promedio menor a 15&nbsp;s, también con las manos mojadas.</td></tr>
-            <tr><td>Pérdida acústica</td><td>2,5&nbsp;dB o menos en 500, 1.000, 2.000 y 4.000&nbsp;Hz.</td></tr>
-            <tr><td>Salpicaduras, aprox. IPX4</td><td>Papel seco dentro de la réplica tras 10 minutos de rocío.</td></tr>
-            <tr><td>Polvo, aprox. IP5X</td><td>Sin talco sobre los micrófonos tras 5 minutos.</td></tr>
-            <tr><td>Anclaje de 5&nbsp;N</td><td>Sin desgarro en las orejas y sin que el equipo se salga.</td></tr>
-            <tr><td>Peso</td><td>Menos de 8&nbsp;g; el modelo 3D da entre 1,0 y 2,6&nbsp;g.</td></tr>
-            <tr><td>Sujeción en movimiento</td><td>El equipo no se cae y, si se cae, el cordón lo retiene.</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <figure>
-        <button class="zoom" data-full="img/ingenieria/molde.jpg"><img src="img/ingenieria/molde.jpg" alt="Molde de PLA en dos mitades y núcleo para colar la funda en silicona." loading="lazy" width="1085" height="684"></button>
-        <figcaption>Maqueta M1: molde de PLA impreso en 3D, en dos mitades y núcleo, para colar silicona de platino Shore A 20 a 30 con jeringa.</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
-<!-- ============ H INGENIERÍA ============ -->
-<section id="ingenieria" class="cap fondo-papel" aria-labelledby="t-ingenieria">
-  <div class="marco">
-    <div class="cabeza">
-      <span class="etapa" aria-hidden="true">H</span>
-      <div>
-        <h2 id="t-ingenieria"><span class="vh">Objetivo H. </span>Piezas, materiales y proceso</h2>
-        <p class="lede">Una membrana hidrofóbica deja pasar el sonido y frena el agua; la silicona copia el procesador con 0,2&nbsp;mm de holgura.</p>
-      </div>
-    </div>
-    <div class="explotado">
-      <figure class="placa-arena">
-        <button class="zoom sin-borde" data-full="img/producto/explotado.png" data-pie="Explotado del kit, talle S/M."><img src="img/producto/explotado.png" alt="Explotado del kit talle S/M: membrana, funda, procesador y cordón separados sobre el eje de colocación." loading="lazy" width="1300" height="1083"></button>
-      </figure>
-      <div>
-        <div class="modulo">
-          <h3>Módulo 1 · Funda del procesador</h3>
-          <ol>
-            <li><b>Funda de silicona</b> de una pieza, con orejas de ojal y textura interior de puntos de 0,2&nbsp;mm.</li>
-            <li><b>Membrana hidrofóbica</b> en el rebaje de la banda del lomo.</li>
-            <li><b>Cordón anticaída</b> de poliéster con clip.</li>
-          </ol>
-        </div>
-        <div class="modulo">
-          <h3>Módulo 2 · Funda de bobina, opcional</h3>
-          <ol>
-            <li><b>Funda de bobina</b> con 0,4&nbsp;mm sobre el imán.</li>
-            <li><b>Anillo absorbente</b> desmontable.</li>
-            <li><b>Manga del cable</b>, de 0,8&nbsp;mm de pared.</li>
-          </ol>
-        </div>
-        <p class="nota">El procesador entra desde abajo, por la boca.</p>
-      </div>
-    </div>
-
-    <div class="sub"><h3>Por qué silicona LSR</h3></div>
-    <div class="dos">
-      <div class="texto">
-        <p>Para pasar el procesador, la boca se estira hasta un 69&nbsp;%. La LSR de grado médico rompe recién entre el 300 y el 600&nbsp;%: más de cuatro veces de margen. Recupera la forma después de cada colocación, no se pone pegajosa con el sudor ni con el sol, aguanta el lavado y puede estar todo el día contra la piel.</p>
-        <p>Elegimos Shore A 30. Con 20 se calza más fácil pero queda floja; con 40 cuesta estirarla con una mano. El TPE pierde ajuste con el uso, el TPU 95A es demasiado duro y el látex da alergias.</p>
-      </div>
-      <div class="tabla-env">
-        <table>
-          <thead><tr><th scope="col">Pieza</th><th scope="col">Material</th></tr></thead>
-          <tbody>
-            <tr><td>Funda</td><td>LSR de grado médico, Shore A 30 ± 5, biocompatible (ISO 10993)</td></tr>
-            <tr><td>Membrana</td><td>ePTFE acústico con adhesivo, o malla de poliéster hidrofóbica</td></tr>
-            <tr><td>Cordón</td><td>Poliéster trenzado de 1,5&nbsp;mm y clip de POM</td></tr>
-            <tr><td>Funda de bobina y manga</td><td>LSR, Shore A 20 a 30</td></tr>
-            <tr><td>Anillo absorbente</td><td>Espuma de PU hidrófila o malla 3D de poliéster</td></tr>
-            <tr><td>Estuche</td><td>Cartulina reciclada y bandeja de pulpa moldeada</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="sub"><h3>Proceso productivo</h3><p>3.000 kits por año, unas 25 fundas por día hábil. El moldeo se terceriza en un taller de silicona; las etapas que definen la calidad se hacen en casa.</p></div>
-    <ol class="proceso">
-      <li>Recepción de materias primas<em class="propio">Propio</em></li>
-      <li>Moldeo de la funda<em class="fazon">Fazón</em></li>
-      <li>Poscurado en horno<em class="fazon">Fazón</em></li>
-      <li>Desbarbado<em class="fazon">Fazón</em></li>
-      <li>Corte de ranuras con plantilla<em class="propio">Propio</em></li>
-      <li>Colocación de la membrana<em class="propio">Propio</em></li>
-      <li>Control final<em class="propio">Propio</em></li>
-      <li>Armado del kit<em class="propio">Propio</em></li>
-      <li>Depósito y despacho<em class="propio">Propio</em></li>
-    </ol>
-
-    <div class="galeria-3">
-      <figure><button class="zoom" data-full="img/ingenieria/corte_long.jpg"><img src="img/ingenieria/corte_long.jpg" alt="Corte longitudinal por la banda de malla." loading="lazy" width="996" height="678"></button><figcaption>Corte por la banda: pared de 0,8&nbsp;mm y rebaje de la membrana sobre los micrófonos.</figcaption></figure>
-      <figure><button class="zoom" data-full="img/ingenieria/transparente.jpg"><img src="img/ingenieria/transparente.jpg" alt="Funda transparente puesta, con los micrófonos marcados en rojo." loading="lazy" width="1001" height="509"></button><figcaption>Con la silicona transparente: los micrófonos quedan bajo la banda.</figcaption></figure>
-      <figure><button class="zoom" data-full="img/ingenieria/trasera.jpg"><img src="img/ingenieria/trasera.jpg" alt="Vista trasera con la ranura del cable y el ojal." loading="lazy" width="671" height="993"></button><figcaption>Atrás: la ranura del cable de la bobina y las orejas del ojal.</figcaption></figure>
-    </div>
-
-    <div class="sub"><h3>Planos</h3><p>Generados desde el modelo paramétrico en CadQuery, con vistas, cortes y detalles acotados.</p></div>
-    <div class="planos">
-      <figure><button class="zoom" data-full="img/planos/plano_funda_A_XS.jpg"><img src="img/planos/mini/plano_funda_A_XS.jpg" srcset="img/planos/mini/plano_funda_A_XS.jpg 800w, img/planos/plano_funda_A_XS.jpg 1800w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 380px" alt="Plano de la funda talle XS" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle XS</b> · Phonak Audéo I-R e I-Sphere · <a href="descargas/plano_funda_A_XS.pdf" download>PDF</a></figcaption></figure>
-      <figure><button class="zoom" data-full="img/planos/plano_funda_A_SM.jpg"><img src="img/planos/mini/plano_funda_A_SM.jpg" srcset="img/planos/mini/plano_funda_A_SM.jpg 800w, img/planos/plano_funda_A_SM.jpg 1800w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 380px" alt="Plano de la funda talle S/M" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle S/M</b> · Cochlear Nucleus 8 y 7 · <a href="descargas/plano_funda_A_SM.pdf" download>PDF</a></figcaption></figure>
-      <figure><button class="zoom" data-full="img/planos/plano_funda_A_ML.jpg"><img src="img/planos/mini/plano_funda_A_ML.jpg" srcset="img/planos/mini/plano_funda_A_ML.jpg 800w, img/planos/plano_funda_A_ML.jpg 1800w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 380px" alt="Plano de la funda talle M/L Naída" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle M/L Naída</b> · Advanced Bionics Naída CI M90 · <a href="descargas/plano_funda_A_ML.pdf" download>PDF</a></figcaption></figure>
-      <figure><button class="zoom" data-full="img/planos/plano_funda_A_MLS.jpg"><img src="img/planos/mini/plano_funda_A_MLS.jpg" srcset="img/planos/mini/plano_funda_A_MLS.jpg 800w, img/planos/plano_funda_A_MLS.jpg 1800w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 380px" alt="Plano de la funda talle M/L Sonnet" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle M/L Sonnet</b> · MED-EL SONNET 2 · <a href="descargas/plano_funda_A_MLS.pdf" download>PDF</a></figcaption></figure>
-      <figure><button class="zoom" data-full="img/planos/plano_modulo2_bobina.jpg"><img src="img/planos/mini/plano_modulo2_bobina.jpg" srcset="img/planos/mini/plano_modulo2_bobina.jpg 800w, img/planos/plano_modulo2_bobina.jpg 1800w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 380px" alt="Plano del Módulo 2" loading="lazy" width="1800" height="1273"></button><figcaption><b>Módulo 2</b> · funda de bobina, anillo y manga · <a href="descargas/plano_modulo2_bobina.pdf" download>PDF</a></figcaption></figure>
-    </div>
-  </div>
-</section>
-
-<!-- ============ I COSTOS ============ -->
-<section id="costos" class="cap fondo-blanco" aria-labelledby="t-costos">
-  <div class="marco">
-    <div class="cabeza">
-      <span class="etapa" aria-hidden="true">I</span>
-      <div>
-        <h2 id="t-costos"><span class="vh">Objetivo I. </span>Un kit de dos fundas a $80.000</h2>
-        <p class="lede">El punto de mayor ingreso de la curva de demanda es $40.000 por funda, así que el kit de dos sale $80.000. El kit responde al uso real: muchos usuarios son bilaterales y quien usa un solo equipo tiene un repuesto mientras lava el otro.</p>
-      </div>
-    </div>
-    <dl class="cifras cifras-costos">
-      <div><dt>$80.000</dt><dd>PVP del kit con IVA. Neto: $66.116.</dd></div>
-      <div><dt>$52.000</dt><dd>Precio de salida de fábrica, neto menos 21,3&nbsp;% para los canales.</dd></div>
-      <div><dt>$9.550</dt><dd>Costo variable por kit, 18&nbsp;% del PSF. El límite es $26.000.</dd></div>
-      <div><dt>$127&nbsp;M</dt><dd>Contribución anual con 3.000 kits.</dd></div>
-    </dl>
-    <div class="costos-grilla">
-      <div class="tabla-env">
-        <table>
-          <thead><tr><th scope="col">Costo variable por kit</th><th scope="col" class="n">$</th></tr></thead>
-          <tbody>
-            <tr><td>Silicona LSR de grado médico, unos 6&nbsp;g</td><td class="n">250</td></tr>
-            <tr><td>Moldeo a fazón, poscurado y desbarbado</td><td class="n">3.000</td></tr>
-            <tr><td>Corte de ranuras y limpieza</td><td class="n">400</td></tr>
-            <tr><td>Membrana troquelada</td><td class="n">1.800</td></tr>
-            <tr><td>Colocación de membrana y control</td><td class="n">600</td></tr>
-            <tr><td>Cordón anticaída con clip</td><td class="n">1.200</td></tr>
-            <tr><td>Packaging</td><td class="n">2.000</td></tr>
-            <tr><td>Control de calidad</td><td class="n">300</td></tr>
-            <tr class="aura"><td>Total</td><td class="n"><b>9.550</b></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="viabilidad">
-        <h3>Viabilidad</h3>
-        <div class="barra-cv" role="img" aria-label="El costo variable es el 18 por ciento del PSF; el límite de la regla 2:1 es el 50 por ciento."><span></span><i></i></div>
-        <div class="ref" aria-hidden="true"><span>CV 18&nbsp;%</span><span>Límite 2:1 · 50&nbsp;%</span></div>
-        <p>Aunque el fazón costara el triple, el costo variable seguiría debajo del límite. La inversión inicial (moldes de aluminio por USD&nbsp;15.000 a 30.000, equipamiento y marca) se recupera dentro del primer año. Con la mitad de las ventas (1.500 kits), la contribución de $64 millones todavía cubre los moldes.</p>
-        <p class="nota">Valores estimados con USD&nbsp;1 = $1.500, a reemplazar por cotizaciones de proveedores.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ J MARCA ============ -->
-<section id="marca" class="cap oscuro" aria-labelledby="t-marca">
-  <div class="marco">
-    <div class="marca-lockup">
-      <div>
-        <p class="logo" aria-hidden="true"><svg viewBox="0 0 100 40"><path d="M8 34 Q50 -6 92 34"/></svg>aura</p>
-        <h2 id="t-marca" class="eslogan"><span class="vh">Objetivo J. </span>No tenés que elegir.</h2>
-      </div>
-      <div class="texto">
-        <p class="lede">El 78,8&nbsp;% de los encuestados dejó de hacer algo por miedo a mojar, dañar o perder su equipo. La marca parte de esa tensión: cuidar el equipo y hacer lo que querés, las dos cosas.</p>
-        <p class="lede">"aura" va en minúsculas, en una sans redondeada de trazo grueso. El arco sobre la "a" remite a la banda de malla, a una onda de sonido y al contorno de la oreja. El aura es lo que rodea y protege; "aural" significa relativo al oído.</p>
-      </div>
-    </div>
-    <div class="paleta">
-      <div class="p1"><b>Verde petróleo</b>#1F5E5B</div>
-      <div class="p2"><b>Arena</b>#E8DCC8</div>
-      <div class="p3"><b>Grafito</b>#2B2B2B</div>
-      <div class="p4"><b>Coral</b>#F08A3C</div>
-    </div>
-    <div class="marca-grilla">
-      <figure>
-        <div class="placa-clara"><button class="zoom sin-borde" data-full="img/marca/estuche.jpg"><img src="img/marca/estuche.jpg" alt="Estuche AURA, frente verde petróleo con el logo y dorso con tabla de talles, pasos de colocación y legales." loading="lazy" width="1079" height="1442"></button></div>
-        <figcaption>Estuche de cartulina reciclada de 110 × 75 × 30&nbsp;mm con bandeja de pulpa. El dorso lleva la tabla de talles, los tres pasos de colocación y los legales; los datos del fabricante son ficticios.</figcaption>
-      </figure>
-      <div>
-        <h3>Canales y comunicación</h3>
-        <ul>
-          <li><b>Centros audiológicos y fonoaudiólogos</b>, con un kit de demostración de los cuatro talles.</li>
-          <li><b>Distribuidores</b> de las marcas de implantes y audífonos, como accesorio compatible.</li>
-          <li><b>Ortopedias y venta online</b> con guía de talles por procesador.</li>
-        </ul>
-        <p class="medios"><span>Instagram y TikTok</span> <span>Comunidades de usuarios</span> <span>Centros audiológicos</span> <span>25/2, Día del Implante Coclear</span> <span>3/3, Día de la Audición</span> <span>Deporte adaptado</span></p>
-        <p class="lede">Dos líneas de color: una discreta, en tonos piel y pelo, y otra expresiva, para quienes quieren que el equipo "sea parte de nosotros". La pieza de lanzamiento es el <a href="#comercial">comercial de 40 segundos</a>.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ DESCARGAS ============ -->
-<section id="descargas" class="cap fondo-papel" aria-labelledby="t-descargas">
-  <div class="marco">
-    <div class="cabeza sola">
-      <div>
-        <h2 id="t-descargas">Descargas</h2>
-        <p class="lede">Las entregas en PDF, el modelo 3D y los comerciales.</p>
-      </div>
-    </div>
-    <ul class="descargas">
-      <li><a href="descargas/Objetivo_E-F_Alternativas_y_seleccion_Grupo10.pdf" download><svg class="ico" aria-hidden="true"><use href="#i-pdf"/></svg><span><b>Láminas E y F</b><small>Cinco alternativas, Módulo 2 y matriz de selección</small></span><em>PDF · 12,2 MB</em></a></li>
-      <li><a href="descargas/Objetivos_G_a_J_Grupo10.pdf" download><svg class="ico" aria-hidden="true"><use href="#i-pdf"/></svg><span><b>Láminas G a J</b><small>Maqueta, ingeniería, costos, marca y envase</small></span><em>PDF · 6,3 MB</em></a></li>
-      <li><a href="descargas/Informe_desarrollo_Alternativa_A.pdf" download><svg class="ico" aria-hidden="true"><use href="#i-pdf"/></svg><span><b>Informe de desarrollo</b><small>El porqué de cada decisión del modelo 3D</small></span><em>PDF · 7,0 MB</em></a></li>
-      <li><a href="descargas/AURA_planos_y_modelado.zip" download><svg class="ico" aria-hidden="true"><use href="#i-caja"/></svg><span><b>Modelo 3D y planos</b><small>STEP para CAD, GLB para ver en 3D y planos en PDF</small></span><em>ZIP · 11,4 MB</em></a></li>
-      <li><a href="media/comercial_16x9.mp4" download><svg class="ico" aria-hidden="true"><use href="#i-video"/></svg><span><b>Comercial 16:9</b><small>40&nbsp;s, 1920 × 1080</small></span><em>MP4 · 13,3 MB</em></a></li>
-      <li><a href="media/comercial_9x16.mp4" download><svg class="ico" aria-hidden="true"><use href="#i-video"/></svg><span><b>Comercial 9:16</b><small>40&nbsp;s, 1080 × 1920</small></span><em>MP4 · 13,6 MB</em></a></li>
-    </ul>
-
-    <div class="sub"><h3>Estado del trabajo</h3><p>Ciclo lectivo 2026, actualizado en octubre.</p></div>
-    <ol class="estado">
-      <li><b>A a D</b><strong>Diagnóstico y pre-brief</strong>Completo</li>
-      <li><b>E y F</b><strong>Alternativas y selección</strong>Completo</li>
-      <li><b>G</b><strong>Maqueta de estudio</strong>Plan de ensayos listo; maqueta en impresión 3D</li>
-      <li><b>H</b><strong>Ingeniería</strong>Planos, explotado y proceso</li>
-      <li><b>I</b><strong>Costos y precio</strong>Relación 2:1 cumplida</li>
-      <li><b>J</b><strong>Marca y envase</strong>Marca, comercial y estuche</li>
-    </ol>
-  </div>
-</section>
-
 </main>
 
 <footer class="pie-pagina grafito">
@@ -1540,6 +1307,27 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
   <p></p>
 </dialog>
 
+<script>
+  /* Objetivos plegables: el botón abre o cierra el cuerpo; un enlace al objetivo lo abre. */
+  (() => {
+    const abrir = (btn, abierto) => {
+      const cuerpo = document.getElementById(btn.getAttribute("aria-controls"));
+      btn.setAttribute("aria-expanded", String(abierto));
+      btn.querySelector("span").textContent = abierto ? "Ocultar" : "Ver todo el objetivo";
+      cuerpo.hidden = !abierto;
+      dispatchEvent(new Event("resize"));
+    };
+    const botones = [...document.querySelectorAll(".btn-plegar")];
+    botones.forEach(btn => btn.addEventListener("click", () => abrir(btn, btn.getAttribute("aria-expanded") !== "true")));
+    const desdeAncla = () => {
+      const destino = location.hash && document.querySelector(location.hash);
+      const cuerpo = destino && destino.closest(".plegable");
+      if (cuerpo) abrir(document.querySelector(`[aria-controls="${cuerpo.id}"]`), true);
+    };
+    addEventListener("hashchange", desdeAncla);
+    desdeAncla();
+  })();
+</script>
 <script>
 (() => {
   const reducir = matchMedia("(prefers-reduced-motion: reduce)");

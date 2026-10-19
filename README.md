@@ -20,15 +20,11 @@ Desarrollo estratégico y diseño industrial de una solución integral de protec
 - [x] **Objetivo D:** Pre-Brief y Documento Rector (6 dimensiones clave)
 - [x] **Objetivo E:** Generación de Ideas y 5 Alternativas de Diseño
 - [x] **Objetivo F:** Selección de Alternativa Ganadora (Alternativa A, funda tipo media con malla hidrofóbica)
-- [x] **Objetivo G:** Primera Maqueta de Estudio (maqueta digital y simulación de colocación; la maqueta física se imprime en 3D)
-- [x] **Objetivo H:** Ingeniería de Producto, Materiales y Procesos (LSR de grado médico, explotado, planos)
-- [x] **Objetivo I:** Análisis de Costos y Precios (kit de dos fundas: PVP $80.000, PSF $52.000, Q = 3.000 kits/año)
-- [x] **Objetivo J:** Estrategia de Marca, Comunicación y Packaging
 
 ---
 
 ## 🚀 Visualización Web
-Este repositorio contiene la presentación interactiva del proyecto, de punta a punta: problema, sondeo (N = 132), curva de demanda y cebolla de mercado, pre-brief, las cinco alternativas y la selección, el producto final con renders y animaciones, el visor 3D, la ingeniería, los costos, la marca y el comercial.
+Este repositorio contiene la presentación interactiva del proyecto, de punta a punta: problema, sondeo (N = 132), curva de demanda y cebolla de mercado, pre-brief, las cinco alternativas y la selección, el producto final con renders y animaciones y el visor 3D. Las etapas G a J se publican más adelante.
 
 Es un sitio estático: se abre `index.html` en el navegador o se publica con GitHub Pages (rama principal, carpeta raíz). El visor 3D (`visor/`) necesita servirse por HTTP, así que localmente conviene usar un servidor simple:
 
