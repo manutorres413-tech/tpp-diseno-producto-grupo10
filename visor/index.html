@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Funda A · Visor 3D</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231F5E5B'/%3E%3Cpath d='M14 30 Q32 10 50 30' fill='none' stroke='%23F08A3C' stroke-width='5' stroke-linecap='round'/%3E%3Ctext x='32' y='54' text-anchor='middle' font-family='Nunito,Arial Rounded MT Bold,sans-serif' font-weight='900' font-size='30' fill='%23E8DCC8'%3Ea%3C/text%3E%3C/svg%3E">
 <script>if (self !== top) document.documentElement.classList.add("embebido");</script>
 <style>
-  :root { --verde: #1f5e5b; --fondo: #f4f2ee; --texto: #22302f; --borde: #d6dcda; --suave: #6b7877; }
+  :root { --verde: #1f5e5b; --coral: #f08a3c; --fondo: #f4f2ee; --texto: #22302f; --borde: #d6dcda; --suave: #6b7877; }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; }
   body { font-family: system-ui, "Segoe UI", sans-serif; background: var(--fondo); color: var(--texto); display: flex; flex-direction: column; }
@@ -33,12 +34,34 @@
   label.toggle { display: flex; align-items: center; gap: 8px; font-size: 14px; margin-top: 9px; cursor: pointer; }
   label.toggle.apagado { color: #b7c0bf; cursor: default; }
   .leyenda { font-size: 12.5px; color: var(--suave); line-height: 1.5; margin-top: 14px; }
-  .leyenda span { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+  .leyenda .punto { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
   #escena { position: relative; background: #fff; border: 1px solid var(--borde); border-radius: 10px; overflow: hidden; min-height: 320px; }
   #escena canvas { display: block; width: 100%; height: 100%; }
   #rotulo { position: absolute; left: 14px; top: 10px; font-size: 13px; color: var(--suave); pointer-events: none; }
   #cargando { position: absolute; inset: 0; display: grid; place-items: center; color: var(--suave); font-size: 14px; pointer-events: none; }
-  @media (max-width: 760px) { main { grid-template-columns: 1fr; } #escena { height: 65vh; } }
+  #colocar { position: absolute; right: 12px; bottom: 12px; display: flex; align-items: center; gap: 7px; padding: 9px 16px; border: 0; border-radius: 999px;
+    background: var(--verde); color: #fff; font: 600 14px system-ui, "Segoe UI", sans-serif; cursor: pointer; box-shadow: 0 2px 10px rgba(31, 94, 91, .25); }
+  #colocar svg { width: 15px; height: 15px; }
+  #colocar:hover { background: #184c49; }
+  #colocar:disabled { background: #b7c0bf; box-shadow: none; cursor: default; }
+  button:focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; }
+  #pasos { position: absolute; left: 14px; bottom: 12px; max-width: calc(100% - 190px); margin: 0; padding: 0; list-style: none; font-size: 13px;
+    line-height: 1.45; color: var(--suave); pointer-events: none; opacity: 0; transition: opacity .3s; }
+  #pasos.visible { opacity: 1; }
+  #pasos li { display: flex; gap: 7px; align-items: baseline; }
+  #pasos li::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--borde); }
+  #pasos li.activo { color: var(--texto); font-weight: 600; }
+  #pasos li.activo::before { background: var(--coral); }
+  @media (max-width: 760px) {
+    html, body { height: auto; }             /* la página scrollea entera: el modelo arriba y los controles abajo, sin achicarse */
+    main { grid-template-columns: 1fr; padding: 10px; gap: 10px; }
+    aside { overflow: visible; }
+    #escena { height: 62vh; order: -1; }   /* en el celular, primero el modelo y abajo los controles */
+    .lista { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .lista button { margin: 0; }
+    #pasos { bottom: 62px; max-width: calc(100% - 28px); }   /* encima del botón: al lado no entra */
+    #pasos li:not(.activo) { display: none; }
+  }
 </style>
 <script type="importmap">
 { "imports": {
@@ -65,16 +88,32 @@
       <button data-v="ambos">Funda + equipo</button>
     </div>
     <label class="toggle" id="lbl-transp"><input type="checkbox" id="transp"> Funda transparente (ver micrófonos)</label>
+    <label class="toggle" id="lbl-corte"><input type="checkbox" id="corte"> Vista en corte (plano medio)</label>
+    <label class="toggle" id="lbl-cordon"><input type="checkbox" id="cordon"> Cordón anticaída</label>
     <label class="toggle"><input type="checkbox" id="giro"> Girar solo</label>
+    <h2>Malla de la banda</h2>
+    <div class="segmentos" id="mallas">
+      <button data-m="eptfe">ePTFE</button>
+      <button data-m="rejilla">Rejilla</button>
+      <button data-m="textil">Textil</button>
+    </div>
     <h2>Color de la silicona</h2>
     <div class="colores" id="colores"></div>
     <div class="leyenda">
-      <div><span style="background:#e0201b"></span>Micrófonos del equipo</div>
-      <div><span style="background:#2b2b2b"></span>Banda de malla hidrofóbica</div>
+      <div><span class="punto" style="background:#e0201b"></span>Micrófonos del equipo</div>
+      <div><span class="punto" id="ley-malla" style="background:#45484a"></span><span id="ley-malla-txt">Banda de malla hidrofóbica (rejilla)</span></div>
       <div style="margin-top:8px">Modelos estimados a partir de las medidas oficiales de cada equipo (ver informe).</div>
     </div>
   </aside>
-  <div id="escena"><div id="rotulo"></div><div id="cargando">Cargando…</div></div>
+  <div id="escena">
+    <div id="rotulo"></div><div id="cargando">Cargando…</div>
+    <ol id="pasos" aria-live="polite">
+      <li>El equipo entra por la boca de abajo</li>
+      <li>La boca sube por el procesador</li>
+      <li>El gancho pasa por su agujero y la funda abraza la batería</li>
+    </ol>
+    <button id="colocar" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Colocar funda</span></button>
+  </div>
 </main>
 <script type="module">
 import * as THREE from "three";
@@ -97,15 +136,28 @@ const TALLES = [
 ];
 const PARTES_FUNDA = ["funda", "membrana", "anillo", "manga"];
 const COLORES = ["#2f6b67", "#2b2b2e", "#d8cfc2", "#8a9aa8", "#b7413e", "#5b7f3a", "#e3a33b", "#7b5ea7"];
+const MALLAS = {
+  eptfe:   { nombre: "ePTFE",   color: "#d9d8d2", roughness: 0.85, metalness: 0 },
+  rejilla: { nombre: "rejilla", color: "#45484a", roughness: 0.45, metalness: 0.55 },
+  textil:  { nombre: "textil",  color: "#17343d", roughness: 1,    metalness: 0 },
+};
+const PETROLEO = "#1f5e5b", GRAFITO = "#2b2b2b";
+const DURACION = 2600;   // ms de la animación de colocación
 
-const estado = { talle: TALLES[1], equipo: "N8", vista: "ambos", transp: false, color: COLORES[0] };
+const estado = { talle: TALLES[1], equipo: "N8", vista: "ambos", transp: false, color: COLORES[0],
+  malla: "rejilla", cordon: false, corte: false };
 
 // ---------- escena ----------
 const cont = document.getElementById("escena");
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.localClippingEnabled = true;
 cont.appendChild(renderer.domElement);
+// Corte en Y = 0 del modelo: saca la mitad que mira a la cámara. Se orienta en cargar().
+const plano = new THREE.Plane(new THREE.Vector3(0, 0, -1), 0);
+const PLANOS_CORTE = [plano];
+const reducirMov = matchMedia("(prefers-reduced-motion: reduce)");
 const scene = new THREE.Scene();
 scene.background = new THREE.Color("#ffffff");
 scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
@@ -134,8 +186,67 @@ function cargarGLB(nombre) {
   return cache[nombre].then(s => s.clone(true));
 }
 
+// ---------- geometría derivada (coordenadas del GLB: X adelante, Y espesor, Z arriba) ----------
+// Las mallas cuelgan sin transformación del nodo raíz de cada GLB, así que sus vértices ya están en ese sistema.
+function cadaVertice(obj, filtro, fn) {
+  const v = new THREE.Vector3();
+  obj.traverse(o => {
+    if (!o.isMesh || o.userData.tapa || !filtro(nombreDe(o))) return;
+    const pos = o.geometry.attributes.position;
+    for (let i = 0; i < pos.count; i++) fn(v.fromBufferAttribute(pos, i));
+  });
+}
+function medirFunda(f, e) {
+  const caja = new THREE.Box3(), equipo = new THREE.Box3(), orejas = new THREE.Box3();
+  cadaVertice(f, n => n.startsWith("funda"), v => caja.expandByPoint(v));
+  cadaVertice(e, n => !/cable/.test(n), v => equipo.expandByPoint(v));
+  // Las orejas del ojal sobresalen atrás (X mínima) cerca de la boca (Z mínima).
+  cadaVertice(f, n => n.startsWith("funda"), v => { if (v.x < caja.min.x + 3.5 && v.z < caja.min.z + 8) orejas.expandByPoint(v); });
+  // El agujero de Ø3 mm cruza las dos orejas en Y, a media altura y a 2,1 mm de su borde trasero.
+  const ojal = new THREE.Vector3(orejas.min.x + 2.1, 0, (orejas.min.z + orejas.max.z) / 2);
+  return { caja, equipo, ojal };
+}
+
+// Cordón anticaída: lazo que pasa por el ojal, pasador donde se juntan las hebras y cola que cuelga hasta el clip.
+function armarCordon({ x, z }) {
+  const g = new THREE.Group();
+  const mat = new THREE.MeshStandardMaterial({ color: PETROLEO, roughness: 0.7 });
+  const r = 0.75;                                            // Ø1,5 mm
+  const P = (dx, y, dz) => new THREE.Vector3(x + dx, y, z + dz);
+  const pasador = P(-4, 0, -13);
+  const lazo = new THREE.CatmullRomCurve3([pasador, P(-2.6, -4.4, -5), P(0, -4.4, 0), P(0, 0, 0),
+    P(0, 4.4, 0), P(-2.6, 4.4, -5), pasador.clone()]);
+  const cola = new THREE.CatmullRomCurve3([pasador, P(-6.5, 0, -18), P(-13, 0, -22), P(-21, 0, -20.5), P(-28, 0, -15)]);
+  g.add(new THREE.Mesh(new THREE.TubeGeometry(lazo, 120, r, 10), mat),
+        new THREE.Mesh(new THREE.TubeGeometry(cola, 80, r, 10), mat));
+  const bolita = new THREE.Mesh(new THREE.SphereGeometry(1.7, 24, 16), mat);
+  bolita.position.copy(pasador);
+  // clip a la ropa en la punta, alineado con el cordón (la cápsula de three va a lo largo de Y)
+  const clip = new THREE.Mesh(new THREE.CapsuleGeometry(1.6, 6, 6, 16), new THREE.MeshStandardMaterial({ color: GRAFITO, roughness: 0.5 }));
+  const punta = cola.getTangent(1);
+  clip.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), punta);
+  clip.position.copy(cola.getPoint(1)).addScaledVector(punta, 4);
+  g.add(bolita, clip);
+  g.traverse(o => { if (o.isMesh) o.userData.cordon = true; });
+  return g;
+}
+
+// Tapas del corte: la cara interior de cada malla, pintada plana, se ve como la sección maciza.
+function agregarTapas(obj) {
+  const mallas = [];
+  obj.traverse(o => { if (o.isMesh && !o.userData.tapa) mallas.push(o); });
+  for (const o of mallas) {
+    const tapa = new THREE.Mesh(o.geometry, new THREE.MeshBasicMaterial({ side: THREE.BackSide, clippingPlanes: PLANOS_CORTE,
+      polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 }));   // detrás de las caras que coinciden (bobina contra funda)
+    tapa.userData.tapa = true;
+    tapa.visible = false;
+    o.add(tapa);
+  }
+}
+
 // ---------- contenido ----------
 let fundaObj = null, equipoObj = null, encuadrado = null, carga = 0;
+let nodoFunda = null, medidas = null, cordonObj = null, anim = null, ocultarPasos = 0;
 async function cargar() {
   const id = ++carga;                      // si el usuario cambia rápido, sólo vale la última carga
   document.getElementById("cargando").style.display = "grid";
@@ -153,12 +264,25 @@ async function cargar() {
     if (id !== carga) return;
   }
   raiz.clear();
+  pararAnim();
+  document.querySelector("#colocar span").textContent = "Colocar funda";
   fundaObj = f; equipoObj = e;
   // materiales propios (para poder cambiar color y transparencia sin afectar la caché)
-  fundaObj.traverse(o => { if (o.isMesh) { o.material = o.material.clone(); o.userData.silicona = !/membrana|anillo/.test(nombreDe(o)); } });
+  fundaObj.traverse(o => { if (o.isMesh) { o.material = o.material.clone(); o.userData.silicona = !/membrana|anillo/.test(nombreDe(o)); o.userData.membrana = /membrana/.test(nombreDe(o)); } });
   equipoObj.traverse(o => { if (o.isMesh) o.material = o.material.clone(); });
   raiz.add(equipoObj, fundaObj);
   if (encuadrado !== t.id) { encuadrar(); encuadrado = t.id; }
+  nodoFunda = t.unico ? null : fundaObj.children[0];        // nodo raíz del GLB de la funda (lleva la rotación Z arriba)
+  medidas = cordonObj = null;
+  if (nodoFunda) {
+    medidas = medirFunda(fundaObj, equipoObj);
+    cordonObj = armarCordon(medidas.ojal);                   // después de encuadrar: el cordón no cambia el encuadre
+    nodoFunda.add(cordonObj);
+  }
+  agregarTapas(fundaObj); agregarTapas(equipoObj);
+  // El nodo raíz del GLB lleva Z hacia arriba, así que la Y del modelo queda sobre la Z de la escena.
+  // Módulo 2 se arma con las piezas sueltas, sin ese nodo: ahí la Y del modelo es la Y de la escena.
+  plano.normal.set(0, t.unico ? -1 : 0, t.unico ? 0 : -1);
   aplicar();
   document.getElementById("cargando").style.display = "none";
 }
@@ -168,7 +292,8 @@ function encuadrar() {
   const caja = new THREE.Box3().setFromObject(raiz);
   const centro = caja.getCenter(new THREE.Vector3()), tam = caja.getSize(new THREE.Vector3()).length();
   controls.target.copy(centro);
-  camera.position.copy(centro).add(new THREE.Vector3(0.55, 0.35, 0.95).normalize().multiplyScalar(tam * 1.5));
+  const lejos = tam * 1.5 / Math.min(1, camera.aspect * 1.2);   // en pantallas angostas (celular) alejar para que entre el gancho
+  camera.position.copy(centro).add(new THREE.Vector3(0.55, 0.35, 0.95).normalize().multiplyScalar(lejos));
   camera.near = tam / 100; camera.far = tam * 20;
   camera.updateProjectionMatrix();
 }
@@ -179,21 +304,97 @@ function aplicar() {
   fundaObj.visible = v !== "equipo";
   equipoObj.visible = v !== "funda";
   const transp = estado.transp && v === "ambos";
+  const malla = MALLAS[estado.malla];
+  const unico = !!estado.talle.unico;
   fundaObj.traverse(o => {
-    if (!o.isMesh) return;
+    if (!o.isMesh || o.userData.tapa || o.userData.cordon) return;
     if (o.userData.silicona) o.material.color.set(estado.color);
+    if (o.userData.membrana) {
+      o.material.color.set(malla.color);
+      o.material.roughness = malla.roughness;
+      o.material.metalness = malla.metalness;
+    }
     o.material.transparent = transp;
     o.material.opacity = transp ? (o.userData.silicona ? 0.28 : 0.15) : 1;
     o.material.depthWrite = !transp;
     o.renderOrder = transp ? 2 : 0;
   });
+  if (cordonObj) cordonObj.visible = estado.cordon && v !== "equipo";
+  // corte: plano en todos los materiales y tapas planas, un poco más oscuras que la pieza
+  const planos = estado.corte ? PLANOS_CORTE : null;
+  raiz.traverse(o => {
+    if (!o.isMesh) return;
+    if (o.userData.tapa) {
+      o.visible = estado.corte && !(transp && o.parent.material.transparent);
+      o.material.color.copy(o.parent.material.color).multiplyScalar(0.72);
+      return;
+    }
+    if (o.material.clippingPlanes !== planos) {
+      o.material.clippingPlanes = planos;
+      o.material.side = estado.corte ? THREE.FrontSide : THREE.DoubleSide;
+      o.material.needsUpdate = true;
+    }
+  });
   document.querySelectorAll("#vistas button").forEach(b => b.classList.toggle("activo", b.dataset.v === v));
+  document.querySelectorAll("#mallas button").forEach(b => { b.classList.toggle("activo", b.dataset.m === estado.malla); b.disabled = unico; });
   const lbl = document.getElementById("lbl-transp");
   lbl.classList.toggle("apagado", v !== "ambos");
   document.getElementById("transp").disabled = v !== "ambos";
+  document.getElementById("lbl-cordon").classList.toggle("apagado", unico);
+  document.getElementById("cordon").disabled = unico;
+  document.getElementById("colocar").disabled = unico;
+  document.getElementById("ley-malla").style.background = malla.color;
+  document.getElementById("ley-malla-txt").textContent = `Banda de malla hidrofóbica (${malla.nombre})`;
   const eq = estado.talle.equipos.find(e => e[0] === estado.equipo);
   const vistaTxt = { equipo: "equipo solo", funda: "funda sola", ambos: "funda colocada" }[v];
-  document.getElementById("rotulo").textContent = `Talle ${estado.talle.nombre} · ${eq ? eq[1] : ""} · ${vistaTxt}`;
+  document.getElementById("rotulo").textContent = `Talle ${estado.talle.nombre} · ${eq ? eq[1] : ""} · ${vistaTxt}${estado.corte ? " · en corte" : ""}`;
+}
+
+// ---------- colocación tipo media ----------
+// Esquema: la funda arranca más abajo con la boca estirada un 10 % y sube hasta su lugar mientras vuelve a su medida.
+const suave = p => p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const tramo = (p, a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));
+function marcarPaso(n) {
+  document.querySelectorAll("#pasos li").forEach((li, i) => li.classList.toggle("activo", i === n - 1));
+}
+function poseFunda(p) {
+  const s = 1 + 0.1 * (1 - suave(tramo(p, 0.4, 1)));        // la boca estirada vuelve a su medida en el último tramo
+  const cx = (medidas.caja.min.x + medidas.caja.max.x) / 2;  // estirar desde el centro de la funda, no desde el origen
+  nodoFunda.scale.set(s, s, 1);                              // X e Y del GLB (la escala va antes de la rotación)
+  nodoFunda.position.set(-cx * (s - 1), -anim.bajada * (1 - suave(p)), 0);
+}
+function colocar() {
+  if (!nodoFunda) return;
+  if (estado.vista !== "ambos") { estado.vista = "ambos"; aplicar(); }
+  clearTimeout(ocultarPasos);
+  document.getElementById("pasos").classList.add("visible");
+  if (reducirMov.matches) {                                  // sin movimiento: la funda queda puesta y se leen los pasos
+    pararAnim();
+    document.querySelectorAll("#pasos li").forEach(li => li.classList.add("activo"));
+    ocultarPasos = setTimeout(() => document.getElementById("pasos").classList.remove("visible"), 6000);
+    return;
+  }
+  // arranca con la mayor parte de la funda debajo del equipo: sólo la base de la batería ya entró por la boca
+  anim = { inicio: performance.now(), bajada: 0.7 * (medidas.caja.max.z - medidas.equipo.min.z) };
+  poseFunda(0);
+  marcarPaso(1);
+  document.querySelector("#colocar span").textContent = "Repetir colocación";
+}
+function animar(ahora) {
+  if (!anim) return;
+  const p = tramo(ahora, anim.inicio, anim.inicio + DURACION);
+  poseFunda(p);
+  marcarPaso(p < 0.4 ? 1 : p < 0.85 ? 2 : 3);
+  if (p === 1) {
+    anim = null;
+    ocultarPasos = setTimeout(() => document.getElementById("pasos").classList.remove("visible"), 2500);
+  }
+}
+function pararAnim() {
+  anim = null;
+  clearTimeout(ocultarPasos);
+  document.getElementById("pasos").classList.remove("visible");
+  if (nodoFunda) { nodoFunda.scale.set(1, 1, 1); nodoFunda.position.set(0, 0, 0); }
 }
 
 // ---------- interfaz ----------
@@ -221,6 +422,10 @@ function armarTalles() {
 document.querySelectorAll("#vistas button").forEach(b => b.onclick = () => { estado.vista = b.dataset.v; aplicar(); });
 document.getElementById("transp").onchange = ev => { estado.transp = ev.target.checked; aplicar(); };
 document.getElementById("giro").onchange = ev => { controls.autoRotate = ev.target.checked; };
+document.getElementById("corte").onchange = ev => { estado.corte = ev.target.checked; aplicar(); };
+document.getElementById("cordon").onchange = ev => { estado.cordon = ev.target.checked; aplicar(); };
+document.querySelectorAll("#mallas button").forEach(b => b.onclick = () => { estado.malla = b.dataset.m; aplicar(); });
+document.getElementById("colocar").onclick = colocar;
 const cc = document.getElementById("colores");
 for (const c of COLORES) {
   const b = document.createElement("button");
@@ -233,7 +438,7 @@ cc.firstChild.classList.add("activo");
 armarTalles();
 redimensionar();
 cargar();
-renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
+renderer.setAnimationLoop(t => { animar(t); controls.update(); renderer.render(scene, camera); });
 </script>
 </body>
 </html>
