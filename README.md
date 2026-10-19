@@ -33,8 +33,8 @@ python3 -m http.server 8000
 ```
 
 ### Carpetas
-- `img/`: renders, láminas, planos y marca.
+- `img/`: renders y láminas.
 - `media/`: comerciales (16:9 y 9:16) y tomas animadas del producto.
 - `visor/`: visor 3D de la funda (three.js) con los modelos GLB.
-- `descargas/`: PDF de entregas, planos y modelos 3D.
+- `descargas/`: PDF de las láminas E y F.
 - `graficos/`: gráficos del sondeo.
