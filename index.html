@@ -195,10 +195,6 @@ p { margin: 0; text-wrap: pretty; }
 figcaption { margin-top: 0.75rem; font-size: 0.875rem; color: var(--grafito-2); }
 .oscuro figcaption, .oscuro .pie { color: var(--arena-suave); }
 .grafito figcaption { color: var(--grafito-suave); }
-.guion { margin-top: 1.4rem; max-width: 46rem; font-size: 0.95rem; color: var(--grafito-suave); }
-.guion summary { padding-block: 0.65rem; cursor: pointer; font-weight: 600; color: var(--arena-clara); }
-.guion ol { margin: 0.4rem 0 0; padding-left: 1.2rem; display: grid; gap: 0.5rem; }
-.guion b { color: var(--arena-clara); font-weight: 600; }
 
 /* ---------- imágenes ampliables ---------- */
 .zoom { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: var(--radio); overflow: hidden; -webkit-tap-highlight-color: transparent; transition: opacity 150ms ease; }
@@ -693,32 +689,16 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
     <div class="cabeza sola">
       <div>
         <h2 id="t-comercial">AURA en 40 segundos</h2>
-        <p class="lede">Sin locución, con música original para la marca. Cada toma sale del modelo 3D de la funda renderizado en Blender; los textos se animaron con HyperFrames.</p>
       </div>
     </div>
     <div class="videos">
       <figure class="video">
-        <video controls preload="none" playsinline poster="media/comercial_16x9.jpg" width="1920" height="1080"><source src="media/comercial_16x9.mp4" type="video/mp4"></video>
-        <figcaption>16:9, para YouTube y la presentación final.</figcaption>
+        <video controls preload="none" playsinline poster="media/comercial_16x9.jpg" width="1920" height="1080" aria-label="Comercial de AURA, versión horizontal"><source src="media/comercial_16x9.mp4" type="video/mp4"></video>
       </figure>
       <figure class="video vertical">
-        <video controls preload="none" playsinline poster="media/comercial_9x16.jpg" width="1080" height="1920"><source src="media/comercial_9x16.mp4" type="video/mp4"></video>
-        <figcaption>9:16, para Reels, TikTok e historias.</figcaption>
+        <video controls preload="none" playsinline poster="media/comercial_9x16.jpg" width="1080" height="1920" aria-label="Comercial de AURA, versión vertical"><source src="media/comercial_9x16.mp4" type="video/mp4"></video>
       </figure>
     </div>
-    <details class="guion">
-      <summary>Qué muestra el comercial, escena por escena</summary>
-      <ol>
-        <li><b>0 a 5&nbsp;s.</b> Primer plano de la malla con gotas. Aparecen, una por vez: "Sudor.", "Lluvia.", "Arena.", "Caídas."</li>
-        <li><b>5 a 10&nbsp;s.</b> Placa verde petróleo: "79&nbsp;% dejó de hacer algo por miedo a mojar, dañar o perder su equipo. Hasta ahora." Fuente: encuesta a usuarios de implantes y audífonos, Grupo 10, 2026.</li>
-        <li><b>10 a 15&nbsp;s.</b> La funda baja y se calza sobre el procesador: "Se calza como una media. Con el gancho y el cable puestos. Sin desarmar nada."</li>
-        <li><b>15 a 20&nbsp;s.</b> La cámara gira sobre la malla mojada: "El sonido pasa. Las gotas, no."</li>
-        <li><b>20 a 25&nbsp;s.</b> El ojal con el cordón anticaída: "Si se suelta, no se pierde."</li>
-        <li><b>25 a 30&nbsp;s.</b> Los cuatro talles en fila: "Implantes y audífonos. XS, S/M, M/L y M/L Sonnet."</li>
-        <li><b>30 a 35&nbsp;s.</b> El procesador con la funda de bobina y el anillo coral: "La bobina también. Con anillo absorbente para el sudor."</li>
-        <li><b>35 a 40&nbsp;s.</b> Placa verde petróleo: el arco se dibuja sobre la "a" de aura y aparece "No tenés que elegir."</li>
-      </ol>
-    </details>
   </div>
 </section>
 
@@ -729,7 +709,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       <span class="etapa" aria-hidden="true">A·B</span>
       <div>
         <h2 id="t-problema"><span class="vh">Objetivos A y B. </span>La vulnerabilidad cotidiana del procesador</h2>
-        <p class="lede">Un implante coclear o un audífono retroauricular es el puente de una persona con el sonido, la comunicación y su autonomía.</p>
+        <p class="lede">Sin el procesador, quien usa un implante coclear o un audífono deja de escuchar. Por eso cualquier riesgo sobre el equipo pesa tanto.</p>
         <button class="btn btn-plegar" type="button" aria-expanded="false" aria-controls="pl-problema"><span>Ver todo el objetivo</span><svg class="ico" aria-hidden="true"><use href="#i-abajo"/></svg></button>
       </div>
     </div>
@@ -745,12 +725,12 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
 
     <div class="costo">
       <strong class="num">USD&nbsp;7.000 a 10.000</strong>
-      <p>cuesta reponer un procesador fuera de garantía, entre $10.500.000 y $15.000.000. Ninguna familia puede afrontar ese recambio con tranquilidad.</p>
+      <p>cuesta reponer un procesador fuera de garantía, entre $10.500.000 y $15.000.000. Para casi cualquier familia es un gasto imposible de cubrir de golpe.</p>
     </div>
 
     <div class="sub">
       <h3>Lo que hay hoy en el mercado</h3>
-      <p>Las opciones existentes resuelven un problema por vez. Por eso los usuarios siguen insatisfechos.</p>
+      <p>Cada opción que hay hoy resuelve una sola cosa, y el usuario termina combinando varias o resignándose.</p>
     </div>
     <div class="tabla-env">
       <table class="tabla-ancha">
@@ -775,7 +755,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       <span class="etapa" aria-hidden="true">C</span>
       <div>
         <h2 id="t-sondeo"><span class="vh">Objetivo C. </span>Sondeo a 132 usuarios y familias</h2>
-        <p class="lede">Encuestamos a usuarios de implantes cocleares y audífonos, y a sus familias. Agrupamos las respuestas en categorías para leer hábitos reales y validar la necesidad.</p>
+        <p class="lede">Encuestamos a usuarios de implantes cocleares y audífonos, y a sus familias. Agrupamos las respuestas por tema para ver cómo usan el equipo en el día a día y si de verdad necesitan una protección.</p>
         <button class="btn btn-plegar" type="button" aria-expanded="false" aria-controls="pl-sondeo"><span>Ver todo el objetivo</span><svg class="ico" aria-hidden="true"><use href="#i-abajo"/></svg></button>
       </div>
     </div>
@@ -860,7 +840,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
             <li class="clave" style="--v:26.5"><span>Sí, frecuentemente</span><b>26,5&nbsp;%</b><i></i></li>
             <li style="--v:21.2"><span>No, nunca</span><b>21,2&nbsp;%</b><i></i></li>
           </ul>
-          <p class="conclusion"><b>Conclusión.</b> El 78,8&nbsp;% se limitó. El problema no es solo cuidar el aparato: es evitar que la persona se aísle.</p>
+          <p class="conclusion"><b>Conclusión.</b> El 78,8&nbsp;% se limitó. Además de cuidar el aparato, se trata de que la persona no deje de hacer sus cosas.</p>
         </div>
         <div class="panel" role="tabpanel" id="pp6" aria-labelledby="tp6" tabindex="0" hidden>
           <h3>¿Qué situación le preocupa más?</h3>
@@ -881,7 +861,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
             <li style="--v:18.2"><span>Varios combinados</span><b>18,2&nbsp;%</b><i></i></li>
             <li style="--v:13.6"><span>Solo sujeción o funda parcial</span><b>13,6&nbsp;%</b><i></i></li>
           </ul>
-          <p class="conclusion"><b>Conclusión.</b> La mitad no usa nada, y la mitad de ellos no sabía que existían accesorios. Hay lugar para una solución práctica y accesible.</p>
+          <p class="conclusion"><b>Conclusión.</b> La mitad no usa nada, y la mitad de ellos no sabía que existían accesorios. Hay lugar para algo simple y a un precio razonable.</p>
         </div>
         <div class="panel" role="tabpanel" id="pp8" aria-labelledby="tp8" tabindex="0" hidden>
           <h3>¿Qué tan útil sería un único accesorio que proteja de todo? (1 a 5)</h3>
@@ -891,7 +871,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
             <li style="--v:6.1"><span>3, moderadamente útil</span><b>6,1&nbsp;%</b><i></i></li>
             <li style="--v:3.8"><span>1 y 2, poco útil</span><b>3,8&nbsp;%</b><i></i></li>
           </ul>
-          <p class="conclusion"><b>Conclusión.</b> El 90,1&nbsp;% le puso 4 o 5. La necesidad está validada.</p>
+          <p class="conclusion"><b>Conclusión.</b> El 90,1&nbsp;% le puso 4 o 5. Casi todos la usarían.</p>
         </div>
         <div class="panel" role="tabpanel" id="pp9" aria-labelledby="tp9" tabindex="0" hidden>
           <h3>¿Qué características valoraría más? (respuesta múltiple)</h3>
@@ -905,7 +885,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
             <li style="--v:38.6"><span>Discreto o personalizable</span><b>38,6&nbsp;%</b><i></i></li>
             <li style="--v:22.7"><span>Lavable con agua y jabón</span><b>22,7&nbsp;%</b><i></i></li>
           </ul>
-          <p class="conclusion"><b>Conclusión.</b> Que no tape el sonido es el requisito número uno: la malla acústica es el centro técnico del proyecto. La queja más repetida sobre las fundas acuáticas es tener que desarmar el procesador.</p>
+          <p class="conclusion"><b>Conclusión.</b> Lo primero que piden es que no tape el sonido, por eso la malla es la pieza clave del diseño. La queja que más se repite sobre las fundas para el agua es que hay que desarmar el procesador.</p>
         </div>
         <div class="panel" role="tabpanel" id="pp10" aria-labelledby="tp10" tabindex="0" hidden>
           <h3>¿Cuánto pagaría por un accesorio de protección integral?</h3>
@@ -1016,7 +996,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
     <div class="plegable" id="pl-brief" hidden>
     <div class="brief">
       <div><h3>¿Qué?</h3><p>El procesador queda expuesto al sudor salino, la lluvia, la arena y las caídas. La persona se lo saca por miedo a romperlo (reponerlo cuesta USD&nbsp;7.000 a 10.000) y pierde el sonido y su autonomía.</p></div>
-      <div><h3>¿Quién?</h3><p><b>Usuarios:</b> chicos de 5 a 17 años con vida escolar y deportiva, y adultos de 18 a 60 que entrenan o se mueven por la calle. Sectores C1, C2 y ABC1.</p><p><b>Compradores:</b> madres y padres de los más chicos, y los propios adultos.</p></div>
+      <div><h3>¿Quién?</h3><p><b>Usuarios:</b> chicos de 5 a 17 años con vida escolar y deportiva, y adultos de 18 a 60 que entrenan o se mueven por la calle.</p><p><b>Compradores:</b> madres y padres de los más chicos, y los propios adultos.</p></div>
       <div><h3>¿Dónde y cuándo?</h3><p>Clubes, canchas y gimnasios, trayectos a pie o en bici con lluvia o viento, plazas, playa y el colegio. De 3 a 7 días por semana, cada vez que empieza la actividad o la lluvia.</p></div>
       <div><h3>¿Cuántas?</h3><p><b>Q = 3.000 kits por año</b>, unos 250 por mes, con una cuota inicial del 3,3&nbsp;% sobre un SOM de 91.000 personas.</p></div>
       <div><h3>¿A qué precio?</h3><p>Rango aceptado: $20.000 a $60.000 por funda. <b>PVP $80.000</b> el kit de dos ($40.000 por funda), PSF $52.000 y costo variable máximo de $26.000.</p></div>
@@ -1043,7 +1023,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       <span class="etapa" aria-hidden="true">E</span>
       <div>
         <h2 id="t-alternativas"><span class="vh">Objetivo E. </span>Mapa mental y cinco alternativas</h2>
-        <p class="lede">Del lenguaje de la palabra al de las formas: exploramos el espacio de soluciones antes de elegir.</p>
+        <p class="lede">Antes de elegir, abrimos todas las ideas que se nos ocurrieron y las bajamos a cinco formas posibles.</p>
       </div>
     </div>
     <div class="concepto">
@@ -1177,7 +1157,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       </div>
       <div class="paso-scroll" data-desde="0.3">
         <h3>Se calza como una media.</h3>
-        <p>El equipo entra por la boca de abajo y el gancho pasa por su agujero. La boca se estira entre 10&nbsp;% y 69&nbsp;% según el talle; la silicona rompe por encima del 300&nbsp;%.</p>
+        <p>Con la funda enrollada, el gancho pasa por su agujero y la boca se desenrolla hacia abajo por el equipo. Según el talle, la boca se estira entre 10&nbsp;% y 69&nbsp;%, y la silicona recién se rompe por encima del 300&nbsp;%.</p>
       </div>
       <div class="paso-scroll" data-desde="0.72">
         <h3>Lista en menos de 15 segundos.</h3>
@@ -1278,7 +1258,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
 <!-- ============ A VISOR 3D ============ -->
 <section id="visor" class="cap oscuro" aria-labelledby="t-visor">
   <div class="marco">
-    <div class="sub sub-primero"><h2 id="t-visor" class="como-h3">Visor 3D</h2><p>Elegí el talle y el equipo, mirá la funda sola o puesta, hacela transparente para ver los micrófonos y cambiale el color. Arrastrá para girar.</p></div>
+    <div class="sub sub-primero"><h2 id="t-visor" class="como-h3">Visor 3D</h2><p>Elegí el talle y el equipo, y tocá «Colocar funda» para ver cómo se pone. También podés cambiar la malla y el color, sumar el cordón, hacerla transparente o verla en corte. Arrastrá para girar.</p></div>
     <div class="visor"><iframe src="visor/index.html" title="Visor 3D de la funda AURA" loading="lazy"></iframe></div>
     <a class="link-flecha" href="visor/index.html" target="_blank" rel="noopener">Abrir el visor en pantalla completa<svg class="ico" aria-hidden="true"><use href="#i-flecha"/></svg></a>
   </div>

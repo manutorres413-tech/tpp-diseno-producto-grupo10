@@ -21,6 +21,7 @@ It is the public page of the AURA project: a medical-grade silicone sleeve that 
   - The full version is in the `completa` branch, which exists only on Manuel's computer.
   - Do not recreate G to J or upload files from those stages unless the team asks for it.
 - **Filler objectives are collapsible.** A·B, both C sections, D and F show only the header with a "Ver todo el objetivo" button (`.btn-plegar`). The content goes in `<div class="plegable" id="pl-<section>" hidden>`. E (mind map and alternatives) and the sleeve stay open.
+- Files (PDF, sheets, images) open in a new tab with `target="_blank" rel="noopener"`, never with `download`: the visitor sees them without downloading.
 - The legal data on the packaging is fictitious and appears as placeholders (`CUIT XX-XXXXXXXX-X`). Do not invent a company name, address, CUIT or email.
 
 ## Official figures (Objetivo C, aligned with sheets G to J)

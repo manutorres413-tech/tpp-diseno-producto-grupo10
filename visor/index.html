@@ -108,9 +108,9 @@
   <div id="escena">
     <div id="rotulo"></div><div id="cargando">Cargando…</div>
     <ol id="pasos" aria-live="polite">
-      <li>El equipo entra por la boca de abajo</li>
-      <li>La boca sube por el procesador</li>
-      <li>El gancho pasa por su agujero y la funda abraza la batería</li>
+      <li>Con la funda enrollada, el gancho entra por la boca y sale por su agujero</li>
+      <li>La funda se desenrolla hacia abajo por el procesador</li>
+      <li>La boca abraza la batería</li>
     </ol>
     <button id="colocar" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Colocar funda</span></button>
   </div>
@@ -142,7 +142,7 @@ const MALLAS = {
   textil:  { nombre: "textil",  color: "#17343d", roughness: 1,    metalness: 0 },
 };
 const PETROLEO = "#1f5e5b", GRAFITO = "#2b2b2b";
-const DURACION = 2600;   // ms de la animación de colocación
+const DURACION = 4600;   // ms de la animación de colocación
 
 const estado = { talle: TALLES[1], equipo: "N8", vista: "ambos", transp: false, color: COLORES[0],
   malla: "rejilla", cordon: false, corte: false };
@@ -204,7 +204,143 @@ function medirFunda(f, e) {
   cadaVertice(f, n => n.startsWith("funda"), v => { if (v.x < caja.min.x + 3.5 && v.z < caja.min.z + 8) orejas.expandByPoint(v); });
   // El agujero de Ø3 mm cruza las dos orejas en Y, a media altura y a 2,1 mm de su borde trasero.
   const ojal = new THREE.Vector3(orejas.min.x + 2.1, 0, (orejas.min.z + orejas.max.z) / 2);
-  return { caja, equipo, ojal };
+  const esOreja = v => v.x < caja.min.x + 3.5 && v.z < caja.min.z + 8;
+  return { caja, equipo, ojal, perfil: medirPerfil(f, caja, esOreja), gancho: medirGancho(e, caja), cuerpo: medirCuerpo(e) };
+}
+
+// Volumen del cuerpo del equipo (unidad y batería) en dos grillas de 0,5 mm: para cada punto en planta, de qué
+// altura a qué altura hay equipo, y para cada punto de frente (Y, Z), de dónde a dónde en X. Sirve para que la
+// funda, mientras gira enrollada, se apoye sobre la cara más cercana del equipo en vez de atravesarlo.
+function medirCuerpo(e) {
+  const caja = new THREE.Box3();
+  cadaVertice(e, n => /unidad|bateria/.test(n), v => caja.expandByPoint(v));
+  const paso = 0.5, ejes = { x: 0, y: 1, z: 2 };
+  // grilla sobre los ejes a y b que guarda el rango sobre el tercero
+  const grilla = (a, b, c) => {
+    const n0 = Math.ceil((caja.max[a] - caja.min[a]) / paso) + 1, n1 = Math.ceil((caja.max[b] - caja.min[b]) / paso) + 1;
+    return { a, b, c, n0, n1, lo: new Float32Array(n0 * n1).fill(Infinity), hi: new Float32Array(n0 * n1).fill(-Infinity), dentro: new Uint8Array(n0 * n1) };
+  };
+  const G = [grilla("x", "y", "z"), grilla("y", "z", "x")];
+  const pa = new THREE.Vector3(), pb = new THREE.Vector3(), pc = new THREE.Vector3(), p = new THREE.Vector3();
+  e.traverse(o => {
+    if (!o.isMesh || o.userData.tapa || !/unidad|bateria/.test(nombreDe(o))) return;
+    const pos = o.geometry.attributes.position, idx = o.geometry.index, tri = idx ? idx.count / 3 : pos.count / 3;
+    for (let i = 0; i < tri; i++) {
+      pa.fromBufferAttribute(pos, idx ? idx.getX(3 * i) : 3 * i);
+      pb.fromBufferAttribute(pos, idx ? idx.getX(3 * i + 1) : 3 * i + 1);
+      pc.fromBufferAttribute(pos, idx ? idx.getX(3 * i + 2) : 3 * i + 2);
+      const n = Math.max(1, Math.ceil(Math.max(pa.distanceTo(pb), pb.distanceTo(pc), pc.distanceTo(pa)) / 0.35));
+      for (let u = 0; u <= n; u++) for (let w = 0; w <= n - u; w++) {     // puntos repartidos sobre el triángulo
+        p.copy(pa).multiplyScalar(1 - (u + w) / n).addScaledVector(pb, u / n).addScaledVector(pc, w / n);
+        for (const g of G) {
+          const k = Math.round((p[g.a] - caja.min[g.a]) / paso) + g.n0 * Math.round((p[g.b] - caja.min[g.b]) / paso);
+          if (p[g.c] < g.lo[k]) g.lo[k] = p[g.c];
+          if (p[g.c] > g.hi[k]) g.hi[k] = p[g.c];
+        }
+      }
+    }
+  });
+  // Sólo cuenta lo que está a más de 1 mm del borde: las paredes de la funda puesta, pegadas al equipo,
+  // no tienen que confundirse con algo que quedó adentro.
+  for (const g of G) for (let j = 2; j < g.n1 - 2; j++) for (let i = 2; i < g.n0 - 2; i++) {
+    let ok = true;
+    for (let dj = -2; dj <= 2 && ok; dj++) for (let di = -2; di <= 2 && ok; di++) if (g.hi[i + di + g.n0 * (j + dj)] === -Infinity) ok = false;
+    g.dentro[i + g.n0 * j] = ok;
+  }
+  const rango = (g, va, vb) => {
+    const i = Math.round((va - caja.min[g.a]) / paso), j = Math.round((vb - caja.min[g.b]) / paso);
+    if (i < 0 || j < 0 || i >= g.n0 || j >= g.n1 || !g.dentro[i + g.n0 * j]) return null;
+    return [g.lo[i + g.n0 * j], g.hi[i + g.n0 * j]];
+  };
+  return {
+    // ¿p está dentro del equipo? Si está, lo lleva a la cara más cercana (arriba, adelante o atrás) con 0,3 mm de aire.
+    sacar(p) {
+      const h = rango(G[0], p.x, p.y), f = rango(G[1], p.y, p.z);
+      if (!h || !f || p.z <= h[0] || p.z >= h[1] || p.x <= f[0] || p.x >= f[1]) return false;
+      const arriba = h[1] - p.z, adelante = f[1] - p.x, atras = p.x - f[0];
+      if (arriba <= adelante && arriba <= atras) p.z = h[1] + 0.3;
+      else if (adelante <= atras) p.x = f[1] + 0.3;
+      else p.x = f[0] - 0.3;
+      return true;
+    },
+    // cuánto adentro está p (0 si está afuera)
+    hondura(p) {
+      const h = rango(G[0], p.x, p.y), f = rango(G[1], p.y, p.z);
+      if (!h || !f || p.z <= h[0] || p.z >= h[1] || p.x <= f[0] || p.x >= f[1]) return 0;
+      return Math.min(h[1] - p.z, f[1] - p.x, p.x - f[0]);
+    },
+  };
+}
+
+// Sección de la funda puesta a cada altura (caja en X e Y cada 0,5 mm, sin las orejas). Como la funda
+// calza justo, esa sección también envuelve al equipo a esa altura: es lo que la boca tiene que abrir.
+function medirPerfil(f, caja, esOreja) {
+  const paso = 0.5, z0 = caja.min.z, n = Math.ceil((caja.max.z - z0) / paso) + 1;
+  const x0 = new Float32Array(n).fill(Infinity), x1 = new Float32Array(n).fill(-Infinity);
+  const y0 = new Float32Array(n).fill(Infinity), y1 = new Float32Array(n).fill(-Infinity);
+  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
+  const corte = (p, q, z, k) => {                            // punto donde la arista p-q cruza la altura z
+    if ((p.z - z) * (q.z - z) > 0 || p.z === q.z) return;
+    const t = (z - p.z) / (q.z - p.z), x = p.x + (q.x - p.x) * t, y = p.y + (q.y - p.y) * t;
+    x0[k] = Math.min(x0[k], x); x1[k] = Math.max(x1[k], x); y0[k] = Math.min(y0[k], y); y1[k] = Math.max(y1[k], y);
+  };
+  f.traverse(o => {
+    if (!o.isMesh || o.userData.tapa || !nombreDe(o).startsWith("funda")) return;
+    const pos = o.geometry.attributes.position, idx = o.geometry.index;
+    const tri = idx ? idx.count / 3 : pos.count / 3;
+    for (let i = 0; i < tri; i++) {
+      const ia = idx ? idx.getX(3 * i) : 3 * i, ib = idx ? idx.getX(3 * i + 1) : 3 * i + 1, ic = idx ? idx.getX(3 * i + 2) : 3 * i + 2;
+      a.fromBufferAttribute(pos, ia); b.fromBufferAttribute(pos, ib); c.fromBufferAttribute(pos, ic);
+      if (esOreja(a) && esOreja(b) && esOreja(c)) continue;
+      const kMin = Math.max(0, Math.ceil((Math.min(a.z, b.z, c.z) - z0) / paso)), kMax = Math.min(n - 1, Math.floor((Math.max(a.z, b.z, c.z) - z0) / paso));
+      for (let k = kMin; k <= kMax; k++) { const z = z0 + k * paso; corte(a, b, z, k); corte(b, c, z, k); corte(c, a, z, k); }
+    }
+  });
+  for (let k = 1; k < n; k++) if (x0[k] === Infinity) { x0[k] = x0[k - 1]; x1[k] = x1[k - 1]; y0[k] = y0[k - 1]; y1[k] = y1[k - 1]; }
+  for (let k = n - 2; k >= 0; k--) if (x0[k] === Infinity) { x0[k] = x0[k + 1]; x1[k] = x1[k + 1]; y0[k] = y0[k + 1]; y1[k] = y1[k + 1]; }
+  return z => {                                              // sección interpolada a la altura z
+    const u = Math.min(n - 1, Math.max(0, (z - z0) / paso)), k = Math.min(n - 2, Math.floor(u)), t = u - k;
+    const m = (arr) => arr[k] + (arr[k + 1] - arr[k]) * t;
+    return { x0: m(x0), x1: m(x1), y0: m(y0), y1: m(y1) };
+  };
+}
+
+// Recorrido del gancho desde donde atraviesa la funda (su agujero) hacia la punta: centros de los vértices
+// por distancia a ese punto, mientras el gancho siga siendo un tubo limpio (la raíz, si es ancha, se saltea).
+// También guarda, por altura, dónde empieza el gancho por delante de la funda: el rollo no puede pasar de ahí.
+function medirGancho(e, caja) {
+  const zona = [], todos = [];
+  cadaVertice(e, n => /gancho/.test(n), v => {
+    todos.push(v.clone());
+    if (v.x <= caja.max.x + 0.5 && v.z <= caja.max.z && v.z >= caja.min.z) zona.push(v.clone());
+  });
+  if (zona.length < 6) return null;
+  const raiz = zona.reduce((s, v) => s.add(v), new THREE.Vector3()).divideScalar(zona.length);
+  raiz.y = 0;
+  const puntos = [raiz];
+  for (let k = 3; k < 40; k++) {
+    const anillo = todos.filter(v => { const d = v.distanceTo(raiz); return d >= k && d < k + 1; });
+    if (anillo.length < 6) break;
+    const caja2 = new THREE.Box3().setFromPoints(anillo), tam = caja2.getSize(new THREE.Vector3());
+    if (Math.max(tam.x, tam.z) > 5.5) {
+      if (puntos.length > 1 || k > 7) break;                 // el gancho se vuelve sobre sí mismo: hasta acá
+      continue;                                              // todavía en la raíz ancha
+    }
+    const c = caja2.getCenter(new THREE.Vector3()); c.y = 0;
+    if (c.distanceTo(puntos[puntos.length - 1]) > 0.6) puntos.push(c);
+  }
+  if (puntos.length <= 3) return null;
+  const curva = new THREE.CatmullRomCurve3(puntos);
+  const tamZona = new THREE.Box3().setFromPoints(zona).getSize(new THREE.Vector3());
+  curva.radio = tamZona.z / 2;                               // alto del gancho donde entra a la funda
+  curva.ancho = tamZona.y / 2;
+  const paso = 0.5, z0 = caja.min.z - 20, frente = new Float32Array(Math.ceil((caja.max.z - z0) / paso) + 1).fill(Infinity);
+  for (const v of todos) if (v.x > caja.max.x + 0.3) {
+    const k = Math.round((v.z - z0) / paso);
+    if (k >= 0 && k < frente.length) frente[k] = Math.min(frente[k], v.x);
+  }
+  curva.frente = z => { const k = Math.round((z - z0) / paso); return k >= 0 && k < frente.length ? frente[k] : Infinity; };
+  return curva;
 }
 
 // Cordón anticaída: lazo que pasa por el ojal, pasador donde se juntan las hebras y cola que cuelga hasta el clip.
@@ -228,6 +364,50 @@ function armarCordon({ x, z }) {
   clip.position.copy(cola.getPoint(1)).addScaledVector(punta, 4);
   g.add(bolita, clip);
   g.traverse(o => { if (o.isMesh) o.userData.cordon = true; });
+  return g;
+}
+
+// Parte las aristas de más de L mm (compartiendo los puntos medios, sin dejar grietas) para que la funda
+// se pueda doblar como tela: las caras planas del modelo vienen en triángulos grandes.
+function subdividir(geo, L) {
+  const pos = Array.from(geo.attributes.position.array);
+  const nor = geo.attributes.normal ? Array.from(geo.attributes.normal.array) : null;
+  let tri = geo.index ? Array.from(geo.index.array) : [...Array(pos.length / 3).keys()];
+  const largo2 = (a, b) => (pos[3 * a] - pos[3 * b]) ** 2 + (pos[3 * a + 1] - pos[3 * b + 1]) ** 2 + (pos[3 * a + 2] - pos[3 * b + 2]) ** 2;
+  for (let pasada = 0; pasada < 8; pasada++) {
+    const medios = new Map(), nuevo = [];
+    let partio = false;
+    const medio = (a, b) => {
+      if (largo2(a, b) <= L * L) return -1;
+      const clave = a < b ? a * 1e7 + b : b * 1e7 + a;
+      let m = medios.get(clave);
+      if (m === undefined) {
+        m = pos.length / 3;
+        for (let c = 0; c < 3; c++) pos.push((pos[3 * a + c] + pos[3 * b + c]) / 2);
+        if (nor) {
+          const n = [0, 1, 2].map(c => nor[3 * a + c] + nor[3 * b + c]), l = Math.hypot(...n) || 1;
+          nor.push(n[0] / l, n[1] / l, n[2] / l);
+        }
+        medios.set(clave, m);
+      }
+      return m;
+    };
+    for (let i = 0; i < tri.length; i += 3) {
+      const a = tri[i], b = tri[i + 1], c = tri[i + 2];
+      const poli = [[a, 0], [medio(a, b), 1], [b, 0], [medio(b, c), 1], [c, 0], [medio(c, a), 1]].filter(([v]) => v >= 0);
+      if (poli.length === 3) { nuevo.push(a, b, c); continue; }
+      partio = true;
+      // abanico desde un punto medio: nunca deja triángulos con tres puntos sobre la misma arista
+      const k = poli.findIndex(([, esMedio]) => esMedio), orden = poli.slice(k).concat(poli.slice(0, k)).map(([v]) => v);
+      for (let j = 1; j < orden.length - 1; j++) nuevo.push(orden[0], orden[j], orden[j + 1]);
+    }
+    tri = nuevo;
+    if (!partio) break;
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  if (nor) g.setAttribute("normal", new THREE.Float32BufferAttribute(nor, 3));
+  g.setIndex(tri);
   return g;
 }
 
@@ -275,7 +455,10 @@ async function cargar() {
   nodoFunda = t.unico ? null : fundaObj.children[0];        // nodo raíz del GLB de la funda (lleva la rotación Z arriba)
   medidas = cordonObj = null;
   if (nodoFunda) {
+    // geometría propia de la funda, más fina: la colocación la deforma vértice por vértice sin tocar la caché
+    fundaObj.traverse(o => { if (o.isMesh) { o.geometry = subdividir(o.geometry, 1.5); o.userData.reposo = o.geometry.attributes.position.array.slice(); o.userData.normales = o.geometry.attributes.normal?.array.slice(); o.frustumCulled = false; } });
     medidas = medirFunda(fundaObj, equipoObj);
+    if (medidas.gancho) medidas.tramo = medirTramo();
     cordonObj = armarCordon(medidas.ojal);                   // después de encuadrar: el cordón no cambia el encuadre
     nodoFunda.add(cordonObj);
   }
@@ -314,6 +497,7 @@ function aplicar() {
       o.material.roughness = malla.roughness;
       o.material.metalness = malla.metalness;
     }
+    if (o.material.transparent !== transp) o.material.needsUpdate = true;   // ver aparecer()
     o.material.transparent = transp;
     o.material.opacity = transp ? (o.userData.silicona ? 0.28 : 0.15) : 1;
     o.material.depthWrite = !transp;
@@ -351,17 +535,132 @@ function aplicar() {
 }
 
 // ---------- colocación tipo media ----------
-// Esquema: la funda arranca más abajo con la boca estirada un 10 % y sube hasta su lugar mientras vuelve a su medida.
+// Como una media enrollada: (1) con la funda enrollada hasta arriba, el gancho entra por la boca y sale por su
+// agujero, (2) la funda se desenrolla hacia abajo y la boca se abre lo justo para pasar cada parte del equipo,
+// (3) la boca termina abrazando la batería. La funda se deforma; nunca atraviesa el equipo.
 const suave = p => p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
 const tramo = (p, a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));
 function marcarPaso(n) {
   document.querySelectorAll("#pasos li").forEach((li, i) => li.classList.toggle("activo", i === n - 1));
 }
+// Radio máximo del rollo: proporcional al ancho de la funda (en XS un rollo de 3 mm parecería un ala).
+const radioRollo = () => Math.min(3.1, Math.max(1.6, 0.1 * (medidas.caja.max.x - medidas.caja.min.x)));
+// Altura hasta donde se enrolla la funda: la parte de arriba, la del agujero, queda armada. El rollo tiene que
+// quedar por debajo del gancho, que sale por ese agujero.
+function alturaTope() {
+  const { caja, gancho } = medidas;
+  const z = gancho ? gancho.points[0].z - gancho.radio - radioRollo() - 1.1 : caja.max.z - 10;
+  return Math.max(caja.min.z + 4, Math.min(z, caja.max.z - 4));
+}
+// Lleva [a0, a1] a [b0, b1]; lo que queda afuera (las orejas del ojal) se corre sin estirarse.
+const estirar = (v, a0, a1, b0, b1) => v < a0 ? b0 + v - a0 : v > a1 ? b1 + v - a1 : b0 + (v - a0) * (b1 - b0) / Math.max(a1 - a0, 1e-3);
+// Dónde queda un punto de la funda (x, y, z puesta) con la boca a la altura boca. Lo que está debajo de la boca
+// va enrollado hacia afuera, como el borde de una media: cada milímetro de material da una vuelta más alrededor
+// de un rollo que se apoya sobre la boca y engorda de a poco. abrir: mm extra que se estira la boca.
+function enrollar(x, y, z, boca, abrir, sale, conGancho) {
+  if (z >= boca) return sale.set(x, y, z);
+  const { perfil, gancho } = medidas, rMax = radioRollo(), r0 = 0.45 * rMax;
+  const hondo = boca - z, rr = r0 + Math.min(rMax - r0, 0.07 * hondo), ang = hondo / rr;
+  const g = rr * (1 - Math.cos(ang)) + abrir * (1 - Math.exp(-hondo / 1.5)), zr = boca - rr * Math.sin(ang);
+  const S = perfil(z), T1 = perfil(zr), T2 = perfil(boca - rr), T3 = perfil(boca);   // sección propia y la que tiene que envolver
+  const tx0 = Math.min(S.x0, T1.x0, T2.x0, T3.x0) - g, tx1 = Math.max(S.x1, T1.x1, T2.x1, T3.x1) + g;
+  const ty0 = Math.min(S.y0, T1.y0, T2.y0, T3.y0) - g, ty1 = Math.max(S.y1, T1.y1, T2.y1, T3.y1) + g;
+  sale.set(estirar(x, S.x0, S.x1, tx0, tx1), estirar(y, S.y0, S.y1, ty0, ty1), zr);
+  // donde el gancho baja por delante, el rollo se aplasta para pasar entre el gancho y el equipo
+  if (conGancho && gancho && Math.abs(sale.y) < gancho.ancho + 2) {
+    const tope = gancho.frente(zr) - 0.6;
+    if (sale.x > tope) sale.x = Math.max(tope, Math.max(T1.x1, T3.x1) - 0.3);
+  }
+  return sale;
+}
+const _p = new THREE.Vector3(), _inv = new THREE.Matrix4();
+// enrollado: 0 = puesta, 1 = enrollada hasta el tope. mover: transformación rígida (en coordenadas del GLB) que
+// lleva la funda durante el paso 1, o null.
+function deformarFunda(enrollado, abrir, mover) {
+  const { caja, cuerpo } = medidas;
+  if (mover) _inv.copy(mover).invert();
+  const boca = caja.min.z + (alturaTope() - caja.min.z) * enrollado;
+  fundaObj.traverse(o => {
+    if (!o.isMesh || !o.userData.reposo) return;
+    const r = o.userData.reposo, pos = o.geometry.attributes.position, v = pos.array;
+    for (let i = 0; i < r.length; i += 3) {
+      enrollar(r[i], r[i + 1], r[i + 2], boca, abrir, _p, !mover);
+      if (mover) {
+        // donde la funda quedaría dentro del equipo, se apoya sobre él (la silicona se acomoda, no lo atraviesa)
+        _p.applyMatrix4(mover);
+        if (cuerpo.sacar(_p)) _p.applyMatrix4(_inv);
+        else _p.applyMatrix4(_inv);
+      }
+      v[i] = _p.x; v[i + 1] = _p.y; v[i + 2] = _p.z;
+    }
+    pos.needsUpdate = true;
+    // puesta vuelve a sus normales originales; deformada, se recalculan para que la luz siga la forma
+    if (enrollado === 0 && !mover && o.userData.normales) { o.geometry.attributes.normal.array.set(o.userData.normales); o.geometry.attributes.normal.needsUpdate = true; }
+    else o.geometry.computeVertexNormals();
+  });
+}
+// Hasta dónde del gancho puede arrancar la funda enrollada: más lejos, al girar con él, se metería en el equipo.
+// Se prueba con una muestra de puntos de la funda y se corta cuando más del 3 % quedaría más de 2,5 mm adentro
+// (lo que roza menos se acomoda sobre el equipo en deformarFunda).
+function medirTramo() {
+  const g = medidas.gancho, { cuerpo } = medidas;
+  const muestra = [];
+  fundaObj.traverse(o => { if (o.isMesh && o.userData.reposo) for (let i = 0; i < o.userData.reposo.length; i += 3 * 37) muestra.push(o.userData.reposo.slice(i, i + 3)); });
+  const boca = alturaTope(), q = new THREE.Vector3();
+  // sólo la parte armada de arriba: el rollo de abajo ya se acomoda solo alrededor del equipo
+  const enrollada = muestra.filter(([, , z]) => z >= boca).map(([x, y, z]) => new THREE.Vector3(x, y, z));
+  const raiz = g.getPoint(0), t0 = g.getTangent(0), m = new THREE.Matrix4(), rot = new THREE.Matrix4(), quat = new THREE.Quaternion();
+  let tramo = 0;
+  for (let u = 0.02; u <= 1.0001; u += 0.02) {
+    quat.setFromUnitVectors(t0, g.getTangent(u));
+    const c = g.getPoint(u);
+    m.makeTranslation(c.x, c.y, c.z).multiply(rot.makeRotationFromQuaternion(quat)).multiply(new THREE.Matrix4().makeTranslation(-raiz.x, -raiz.y, -raiz.z));
+    let adentro = 0;
+    for (const p of enrollada) if (cuerpo.hondura(q.copy(p).applyMatrix4(m)) > 2.5) adentro++;
+    if (adentro > 0.03 * enrollada.length) break;
+    tramo = u;
+  }
+  return tramo;
+}
+// Paso 1: la funda enrollada viaja por el gancho, desde la punta hasta su agujero, girando con él.
+const _m = new THREE.Matrix4(), _q = new THREE.Quaternion(), _t = new THREE.Vector3();
+function moverPorGancho(s) {                                 // s: fracción del gancho desde el agujero (0); devuelve la transformación
+  nodoFunda.updateMatrix();
+  const base = nodoFunda.matrix.clone();
+  const g = medidas.gancho;
+  if (!g || s <= 0) { nodoFunda.matrixAutoUpdate = true; return null; }
+  const raiz = g.getPoint(0), t0 = g.getTangent(0);
+  _q.setFromUnitVectors(t0, g.getTangent(s));
+  _t.copy(g.getPoint(s));
+  _m.makeTranslation(_t.x, _t.y, _t.z).multiply(new THREE.Matrix4().makeRotationFromQuaternion(_q))
+    .multiply(new THREE.Matrix4().makeTranslation(-raiz.x, -raiz.y, -raiz.z));
+  nodoFunda.matrixAutoUpdate = false;
+  nodoFunda.matrix.copy(base).multiply(_m);
+  nodoFunda.matrixWorldNeedsUpdate = true;
+  return _m;
+}
+// Si el gancho deja recorrerlo (como el cable de los RIC, que sube libre), la funda enrollada baja por él; si baja
+// pegado al frente del equipo, no hay lugar para hacerlo sin chocar, y la funda aparece ya enrollada arriba con
+// el gancho pasado por su agujero.
 function poseFunda(p) {
-  const s = 1 + 0.1 * (1 - suave(tramo(p, 0.4, 1)));        // la boca estirada vuelve a su medida en el último tramo
-  const cx = (medidas.caja.min.x + medidas.caja.max.x) / 2;  // estirar desde el centro de la funda, no desde el origen
-  nodoFunda.scale.set(s, s, 1);                              // X e Y del GLB (la escala va antes de la rotación)
-  nodoFunda.position.set(-cx * (s - 1), -anim.bajada * (1 - suave(p)), 0);
+  const p1 = tramo(p, 0, 0.36), p2 = tramo(p, 0.36, 0.94);
+  const recorre = medidas.gancho && medidas.tramo >= 0.4;
+  const mover = recorre ? moverPorGancho((1 - suave(p1)) * medidas.tramo) : null;
+  deformarFunda(1 - suave(p2), 1.2 * (1 - suave(tramo(p, 0.3, 0.6))), mover);
+  if (!recorre) aparecer(suave(tramo(p, 0, 0.25)));
+}
+function aparecer(f) {                                       // f de 0 a 1; al terminar, aplicar() deja los materiales como estaban
+  const transp = estado.transp && estado.vista === "ambos";
+  fundaObj.traverse(o => {
+    if (!o.isMesh || o.userData.tapa || o.userData.cordon) return;
+    const base = transp ? (o.userData.silicona ? 0.28 : 0.15) : 1;
+    // three dibuja lo transparente de dos caras en dos pasadas que cambian el lado del material: al pasar
+    // a opaco hay que recompilarlo o queda con las normales invertidas
+    if (o.material.transparent !== (f < 1 || transp)) o.material.needsUpdate = true;
+    o.material.transparent = f < 1 || transp;
+    o.material.opacity = base * f;
+    o.material.depthWrite = !o.material.transparent;
+  });
 }
 function colocar() {
   if (!nodoFunda) return;
@@ -374,8 +673,8 @@ function colocar() {
     ocultarPasos = setTimeout(() => document.getElementById("pasos").classList.remove("visible"), 6000);
     return;
   }
-  // arranca con la mayor parte de la funda debajo del equipo: sólo la base de la batería ya entró por la boca
-  anim = { inicio: performance.now(), bajada: 0.7 * (medidas.caja.max.z - medidas.equipo.min.z) };
+  anim = { inicio: performance.now() };
+  if (cordonObj) cordonObj.visible = false;                  // el cordón se pasa con la funda ya puesta
   poseFunda(0);
   marcarPaso(1);
   document.querySelector("#colocar span").textContent = "Repetir colocación";
@@ -384,17 +683,16 @@ function animar(ahora) {
   if (!anim) return;
   const p = tramo(ahora, anim.inicio, anim.inicio + DURACION);
   poseFunda(p);
-  marcarPaso(p < 0.4 ? 1 : p < 0.85 ? 2 : 3);
+  marcarPaso(p < 0.36 ? 1 : p < 0.86 ? 2 : 3);
   if (p === 1) {
-    anim = null;
+    pararAnim(true);
     ocultarPasos = setTimeout(() => document.getElementById("pasos").classList.remove("visible"), 2500);
   }
 }
-function pararAnim() {
+function pararAnim(dejarPasos) {
   anim = null;
-  clearTimeout(ocultarPasos);
-  document.getElementById("pasos").classList.remove("visible");
-  if (nodoFunda) { nodoFunda.scale.set(1, 1, 1); nodoFunda.position.set(0, 0, 0); }
+  if (!dejarPasos) { clearTimeout(ocultarPasos); document.getElementById("pasos").classList.remove("visible"); }
+  if (nodoFunda) { nodoFunda.matrixAutoUpdate = true; nodoFunda.updateMatrix(); deformarFunda(0, 0); aplicar(); }
 }
 
 // ---------- interfaz ----------
