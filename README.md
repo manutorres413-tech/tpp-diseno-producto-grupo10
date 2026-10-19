@@ -22,7 +22,7 @@ Desarrollo estratégico y diseño industrial de una solución integral de protec
 - [x] **Objetivo F:** Selección de Alternativa Ganadora (Alternativa A, funda tipo media con malla hidrofóbica)
 - [x] **Objetivo G:** Primera Maqueta de Estudio (maqueta digital y simulación de colocación; la maqueta física se imprime en 3D)
 - [x] **Objetivo H:** Ingeniería de Producto, Materiales y Procesos (LSR de grado médico, explotado, planos)
-- [x] **Objetivo I:** Análisis de Costos y Precios (PVP $100.000, PSF $65.290, Q = 2.031 kits/año)
+- [x] **Objetivo I:** Análisis de Costos y Precios (kit de dos fundas: PVP $80.000, PSF $52.000, Q = 3.000 kits/año)
 - [x] **Objetivo J:** Estrategia de Marca, Comunicación y Packaging
 
 ---
