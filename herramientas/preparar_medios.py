@@ -4,9 +4,12 @@ Fuentes (carpeta "Diseño del Producto"): renders de Blender, tomas animadas, co
 PDFs de entrega y el visor 3D. Destino: img/, media/, descargas/ y visor/ dentro de web_proyecto.
 Se vuelve a correr cada vez que cambia algo de origen; no editar a mano lo que genera.
 
+Mientras la web se publique sólo hasta la funda, PUBLICAR_G_A_J queda en False y no se generan los medios
+de G a J (ingeniería, planos, estuche, PDF de entrega). El HTML del visor ya no se copia: vive en este repo
+(visor/index.html) y se mantiene acá; de 3D_Alternativa_A sólo se copian los GLB.
+
     ~/.venvs/funda_cq/bin/python web_proyecto/herramientas/preparar_medios.py
 """
-import re
 import shutil
 import subprocess
 from pathlib import Path
@@ -21,6 +24,7 @@ SAL = A3D / "salidas"
 LAM = RAIZ / "Objetivos_G_a_J_2026-10-16" / "laminas" / "assets"
 EF = RAIZ / "Objetivo_F_Seleccion_2026-10-15"
 COM = RAIZ / "video_comercial"
+PUBLICAR_G_A_J = False
 
 
 def jpg(src, dst, ancho=1600, calidad=84, fondo="white"):
@@ -50,16 +54,18 @@ def imagenes():
     img = WEB / "img"
     for n in ("A_SM_heroe", "A_SM_detalle_malla", "A_SM_conjunto_modulo2", "A_talles_familia"):
         jpg(SAL / "renders_foto" / f"{n}.png", img / "producto" / f"{n}.jpg", 2000)
-    png(SAL / "renders_foto" / "A_SM_explotado.png", img / "producto" / "explotado.png", 1300)
-    for n in ("molde", "corte_long", "transparente", "m2_despiece", "trasera"):
-        jpg(LAM / f"{n}.png", img / "ingenieria" / f"{n}.jpg", 1400)
-    for i in (1, 2, 3):
-        shutil.copy2(LAM / f"colocacion_{i}.jpg", img / "producto" / f"colocacion_{i}.jpg")
     # cada lámina y plano va también en 800 px de ancho (mini/): la grilla los muestra a un tercio de pantalla
     # y el visor de imágenes abre el grande
     for f in sorted((EF / "Laminas").glob("*.png")):
         jpg(f, img / "alternativas" / f"{f.stem}.jpg", 1800, 86)
         jpg(f, img / "alternativas" / "mini" / f"{f.stem}.jpg", 800, 82)
+    if not PUBLICAR_G_A_J:
+        return
+    png(SAL / "renders_foto" / "A_SM_explotado.png", img / "producto" / "explotado.png", 1300)
+    for n in ("molde", "corte_long", "transparente", "m2_despiece", "trasera"):
+        jpg(LAM / f"{n}.png", img / "ingenieria" / f"{n}.jpg", 1400)
+    for i in (1, 2, 3):
+        shutil.copy2(LAM / f"colocacion_{i}.jpg", img / "producto" / f"colocacion_{i}.jpg")
     for f in sorted((SAL / "planos").glob("*.png")):
         jpg(f, img / "planos" / f"{f.stem}.jpg", 1800, 88)
         jpg(f, img / "planos" / "mini" / f"{f.stem}.jpg", 800, 84)
@@ -155,23 +161,21 @@ def descargas():
     d.mkdir(exist_ok=True)
     copias = {
         EF / "Objetivo E-F - 5 alternativas y seleccion - Grupo 10.pdf": "Objetivo_E-F_Alternativas_y_seleccion_Grupo10.pdf",
-        RAIZ / "Objetivos_G_a_J_2026-10-16" / "Objetivos G a J - Grupo 10.pdf": "Objetivos_G_a_J_Grupo10.pdf",
-        A3D / "Informe_Alternativa_A.pdf": "Informe_desarrollo_Alternativa_A.pdf",
-        SAL / "AURA_planos_y_modelado.zip": "AURA_planos_y_modelado.zip",
     }
-    for f in sorted((SAL / "planos").glob("*.pdf")):
-        copias[f] = f.name
+    if PUBLICAR_G_A_J:
+        copias[RAIZ / "Objetivos_G_a_J_2026-10-16" / "Objetivos G a J - Grupo 10.pdf"] = "Objetivos_G_a_J_Grupo10.pdf"
+        copias[A3D / "Informe_Alternativa_A.pdf"] = "Informe_desarrollo_Alternativa_A.pdf"
+        copias[SAL / "AURA_planos_y_modelado.zip"] = "AURA_planos_y_modelado.zip"
+        for f in sorted((SAL / "planos").glob("*.pdf")):
+            copias[f] = f.name
     for src, nombre in copias.items():
         pdf_liviano(src, d / nombre) if src.suffix == ".pdf" else shutil.copy2(src, d / nombre)
 
 
 def visor():
+    """Sólo los GLB. visor/index.html se mantiene en el repo (colocación, mallas, cordón y corte); no se pisa."""
     v = WEB / "visor"
     (v / "GLB").mkdir(parents=True, exist_ok=True)
-    html = (A3D / "web" / "index.html").read_text(encoding="utf-8")
-    html, n = re.subn(r'const GLB = "\.\./salidas/GLB/";', 'const GLB = "GLB/";', html)
-    assert n == 1, "cambió la ruta de los GLB en el visor"
-    (v / "index.html").write_text(html, encoding="utf-8")
     for f in (SAL / "GLB").glob("*.glb"):
         if f.stem.startswith(("funda_A_", "equipo_", "modulo2")) and not f.stem.endswith("_puesta"):
             shutil.copy2(f, v / "GLB" / f.name)

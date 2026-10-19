@@ -11,6 +11,8 @@ It is the public page of the AURA project: a medical-grade silicone sleeve that 
 - `media/` holds the commercial, the frames of the scroll-driven placement animation (`scroll/`, `scroll-m/`) and the tour scenes (`recorrido/`).
 - `img/` and `graficos/` hold renders, sheets and survey charts.
 - The media were generated with `herramientas/preparar_medios.py` from the full project, which lives on Manuel's computer and is not in this repo. Do not regenerate them in the cloud. Each file must stay under 25 MB.
+  - With `PUBLICAR_G_A_J = False` the script skips the G to J media (engineering, plans, packaging, delivery PDFs).
+  - It copies only the GLB models into `visor/`. `visor/index.html` is maintained in this repo and must not be overwritten from the full project.
 - `DESIGN.md` describes the visual system and `PRODUCT.md` the purpose and audience. Read them before changing the design.
 
 ## Rules for the content
@@ -38,13 +40,27 @@ It is the public page of the AURA project: a medical-grade silicone sleeve that 
 
 The curve takes the lower bound of each price range in question 10 of the survey (N = 132).
 
+## 3D viewer (`visor/index.html`)
+
+- Sizes and devices, three views, transparency, silicone color, mesh type (ePTFE, grille, textile), drop cord through the eyelet, section view at Y = 0 and the "Colocar funda" animation. Módulo 2 disables placement, cord and mesh.
+- The placement works like putting on a sock, from the top down. The sleeve appears rolled up at the top with the hook already through its hole. Then it unrolls downward, and the mouth opens only as much as each part of the device needs, following the sleeve's own section profile. It must never pass through the device.
+  - On the RIC sizes (XS) the rolled sleeve slides down the hook first.
+  - On the others the hook runs too close to the front of the device to do that without colliding, so the sleeve fades in already rolled.
+- GLB axes: X forward, Y thickness, Z up. The sleeve meshes are subdivided on load so they can bend. Check each change frame by frame on several sizes, also with transparency and the section view.
+
 ## Previewing and publishing
 
 - Local preview: `python -m http.server 8000` and open `http://localhost:8000/`. The viewer only works over HTTP.
-- Before publishing, test on desktop and on mobile (375 px wide) and check that the console shows no errors.
+- Before publishing, run `node herramientas/probar_web.js` with the local server running. It checks desktop and mobile (375 px): sections, collapsibles, official figures, file links, console errors, the viewer and the 404s of the removed files. Pass the published URL as an argument to check the live site.
 - Publishing means committing and pushing to `main`. GitHub Pages can take several minutes, sometimes 10 or more, to update.
+
+## Work that needs Manuel's computer
+
+Some things can only be done locally: the `completa` branch, the full project and its media, and the skills in `D:\Proyectos\SKILLS`. Do not try to work around this from the cloud. Write a ready-to-paste prompt for Manuel's local Claude Code session and give it to him in the chat.
 
 ## Pending ideas
 
-- 3D viewer: a "tipo media" placement animation (the sleeve slides up from below, through the mouth), a mesh-type selector (ePTFE, grille, textile), the drop cord and a section view.
+- 3D viewer: show the hook going through the hole on S/M, M/L and Sonnet too (today the rolled sleeve fades in there); a link that keeps the chosen size, color and mesh; the four sizes side by side.
+- Link previews: `og:` and `twitter:` tags with the hero render, so the link shows a card when shared.
+- The hero tagline ("…no apaguen tu día") is pending Manuel's decision.
 - When G to J are published again, the text "M2" in Objetivo G has to read "maqueta 2", because "M2" is confused with Módulo 2.
