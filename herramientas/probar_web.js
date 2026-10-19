@@ -12,7 +12,10 @@ const fs = require('fs');
 const path = require('path');
 
 function cargarPlaywright() {
-  for (const ruta of ['playwright', '/opt/node-tools/node_modules/playwright']) {
+  // local del repo, global de npm (Node no mira ahí solo, ni en Windows) o el de las sesiones en la nube
+  let global = null;
+  try { global = path.join(require('child_process').execSync('npm root -g', { encoding: 'utf8' }).trim(), 'playwright'); } catch {}
+  for (const ruta of ['playwright', global, '/opt/node-tools/node_modules/playwright'].filter(Boolean)) {
     try { return require(ruta); } catch {}
   }
   throw new Error('No encuentro Playwright: npm i -g playwright && npx playwright install chromium');
