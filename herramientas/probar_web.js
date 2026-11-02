@@ -152,8 +152,7 @@ async function probarVisor(ctx, nombre) {
 
   console.log('\n== archivos de I y J retirados ==');
   const ctx = await browser.newContext();
-  // el plano del Módulo 2 tampoco: todavía dibuja la manga del cable
-  for (const p of ['descargas/Objetivos_G_a_J_Grupo10.pdf', 'img/marca/estuche.jpg', 'descargas/plano_modulo2_bobina.pdf']) {
+  for (const p of ['descargas/Objetivos_G_a_J_Grupo10.pdf', 'img/marca/estuche.jpg', 'img/ingenieria/m2_despiece.jpg']) {
     const r = await ctx.request.get(BASE + p + nc);
     ok(r.status() === 404, `${p} da ${r.status()}`);
   }

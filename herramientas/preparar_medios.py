@@ -4,8 +4,7 @@ Fuentes (carpeta "Diseño del Producto"): renders de Blender, tomas animadas, co
 PDFs de entrega y el visor 3D. Destino: img/, media/, descargas/ y visor/ dentro de web_proyecto.
 Se vuelve a correr cada vez que cambia algo de origen; no editar a mano lo que genera.
 
-La web se publica hasta H: PUBLICAR_G_H genera la maqueta y la ingeniería (explotado, láminas y planos, salvo el
-del Módulo 2, que todavía dibuja la manga del cable). Mientras I y J no se publiquen, PUBLICAR_I_J queda en False
+La web se publica hasta H: PUBLICAR_G_H genera la maqueta y la ingeniería (explotado, láminas y planos). Mientras I y J no se publiquen, PUBLICAR_I_J queda en False
 y no se generan sus medios (estuche, PDF de entrega, informe, zip de planos). El HTML del visor ya no se copia: vive en este repo
 (visor/index.html) y se mantiene acá; de 3D_Alternativa_A sólo se copian los GLB.
 
@@ -77,8 +76,8 @@ def imagenes():
 
 
 def planos(ext):
-    """Planos de las fundas; el del Módulo 2 sólo con I y J, hasta que deje de dibujar la manga."""
-    return [f for f in sorted((SAL / "planos").glob(f"*.{ext}")) if PUBLICAR_I_J or not f.stem.startswith("plano_modulo2")]
+    """Planos de los cuatro talles y del Módulo 2."""
+    return sorted((SAL / "planos").glob(f"*.{ext}"))
 
 
 def estuche(dst):
