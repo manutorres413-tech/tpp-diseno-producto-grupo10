@@ -115,8 +115,7 @@ async function probarVisor(ctx, nombre) {
   await v.waitForTimeout(5500);
   ok((await v.textContent('#colocar span')).trim() === 'Repetir colocación', 'la colocación termina y se puede repetir');
 
-  for (const m of ['eptfe', 'rejilla', 'textil']) { await v.click(`#mallas button[data-m="${m}"]`); }
-  ok(await v.$eval('#mallas button[data-m="textil"]', b => b.classList.contains('activo')), 'selector de malla');
+  ok(await v.locator('#mallas').count() === 0 && (await v.textContent('#ley-malla-txt')).includes('ePTFE'), 'banda sólo de ePTFE, sin selector de malla');
   await v.check('#cordon'); await v.check('#corte');
   await v.waitForTimeout(500);
   ok((await v.textContent('#rotulo')).includes('en corte'), 'vista en corte');

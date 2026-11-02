@@ -45,7 +45,7 @@
   #colocar:hover { background: #184c49; }
   #colocar:disabled { background: #b7c0bf; box-shadow: none; cursor: default; }
   button:focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; }
-  /* banda de malla señalada: un punto sobre la banda y una nota que cambia con el tipo de malla */
+  /* banda señalada: un punto sobre la banda y una nota que explica la membrana */
   #punto-banda { position: absolute; left: 0; top: 0; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--coral);
     box-shadow: 0 0 0 2px #fff; pointer-events: none; display: none; }
   #punto-banda::after { content: ""; position: absolute; inset: -7px; border-radius: 50%; border: 2px solid var(--coral); animation: latido 1.8s ease-out infinite; }
@@ -99,19 +99,13 @@
     <label class="toggle" id="lbl-transp"><input type="checkbox" id="transp"> Funda transparente (ver micrófonos)</label>
     <label class="toggle" id="lbl-corte"><input type="checkbox" id="corte"> Vista en corte (plano medio)</label>
     <label class="toggle" id="lbl-cordon"><input type="checkbox" id="cordon"> Cordón anticaída</label>
-    <label class="toggle" id="lbl-banda"><input type="checkbox" id="banda" checked> Señalar la banda de malla</label>
+    <label class="toggle" id="lbl-banda"><input type="checkbox" id="banda" checked> Señalar la banda de ePTFE</label>
     <label class="toggle"><input type="checkbox" id="giro"> Girar solo</label>
-    <h2>Malla de la banda</h2>
-    <div class="segmentos" id="mallas">
-      <button data-m="eptfe">ePTFE</button>
-      <button data-m="rejilla">Rejilla</button>
-      <button data-m="textil">Textil</button>
-    </div>
     <h2>Color de la silicona</h2>
     <div class="colores" id="colores"></div>
     <div class="leyenda">
       <div><span class="punto" style="background:#e0201b"></span>Micrófonos del equipo</div>
-      <div><span class="punto" id="ley-malla" style="background:#45484a"></span><span id="ley-malla-txt">Banda de malla hidrofóbica (rejilla)</span></div>
+      <div><span class="punto" id="ley-malla" style="background:#2f3133"></span><span id="ley-malla-txt">Banda de membrana ePTFE</span></div>
       <div style="margin-top:8px">Modelos estimados a partir de las medidas oficiales de cada equipo.</div>
     </div>
   </aside>
@@ -151,22 +145,17 @@ const PARTES_FUNDA = ["funda", "membrana", "anillo"];
 // por 40 mm de tubo. Se reemplaza por una muesca con labios en la tapa (falta rehacer el modelo, en la compu de Manuel).
 const OCULTAS = ["manga"];
 const COLORES = ["#2f6b67", "#2b2b2e", "#d8cfc2", "#8a9aa8", "#b7413e", "#5b7f3a", "#e3a33b", "#7b5ea7"];
-const MALLAS = {
-  eptfe:   { nombre: "ePTFE",   color: "#d9d8d2", roughness: 0.85, metalness: 0 },
-  rejilla: { nombre: "rejilla", color: "#45484a", roughness: 0.45, metalness: 0.55 },
-  textil:  { nombre: "textil",  color: "#17343d", roughness: 1,    metalness: 0 },
-};
+// La banda es sólo de ePTFE acústico (hidrofóbico y oleofóbico, con soporte de poliéster y adhesivo de silicona),
+// pegado en el rebaje de 0,3 mm. Es la única opción que cumple a la vez con agua, polvo y arena y ≤ 2,5 dB: la malla
+// de poliéster se empapa con el sudor y la rejilla deja pasar las gotas. Decisión del equipo: no se vuelve a abrir.
+const MEMBRANA = { color: "#2f3133", roughness: 0.9, metalness: 0 };   // grafito oscuro, mate
 const PETROLEO = "#1f5e5b", GRAFITO = "#2b2b2b";
 const DURACION = 5200;   // ms de la animación de colocación
 
 const estado = { talle: TALLES[0], equipo: "AUDEO_IR", vista: "ambos", transp: false, color: COLORES[0],
-  malla: "rejilla", cordon: false, corte: false, banda: true };
-// Qué hace la banda según la malla. La meta acústica (≤ 2,5 dB entre 500 y 4.000 Hz) es la del brief.
-const NOTAS_MALLA = {
-  eptfe: "Membrana microporosa de ePTFE, como la de los celulares y relojes resistentes al agua: deja pasar el aire y el sonido, y frena el agua, el sudor y la arena. Meta: perder ≤\u00a02,5\u00a0dB.",
-  rejilla: "Rejilla metálica fina con tratamiento hidrofóbico: el sonido pasa por los agujeros y las gotas, el sudor y la arena quedan afuera. Meta: perder ≤\u00a02,5\u00a0dB.",
-  textil: "Tela técnica hidrofóbica: deja pasar el sonido y frena el agua, el sudor y la arena. Meta: perder ≤\u00a02,5\u00a0dB.",
-};
+  cordon: false, corte: false, banda: true };
+// Qué hace la banda. La meta acústica (≤ 2,5 dB entre 500 y 4.000 Hz) es la del brief.
+const NOTA_BANDA = "Membrana de ePTFE acústico, hidrofóbica y oleofóbica, como la de los celulares y relojes resistentes al agua: deja pasar el aire y el sonido, y frena el agua, el sudor, el polvo y la arena. Meta: perder ≤\u00a02,5\u00a0dB.";
 
 // ---------- escena ----------
 const cont = document.getElementById("escena");
@@ -528,15 +517,14 @@ function aplicar() {
   fundaObj.visible = v !== "equipo";
   equipoObj.visible = v !== "funda";
   const transp = estado.transp && v === "ambos";
-  const malla = MALLAS[estado.malla];
   const unico = !!estado.talle.unico;
   fundaObj.traverse(o => {
     if (!o.isMesh || o.userData.tapa || o.userData.cordon) return;
     if (o.userData.silicona) o.material.color.set(estado.color);
     if (o.userData.membrana) {
-      o.material.color.set(malla.color);
-      o.material.roughness = malla.roughness;
-      o.material.metalness = malla.metalness;
+      o.material.color.set(MEMBRANA.color);
+      o.material.roughness = MEMBRANA.roughness;
+      o.material.metalness = MEMBRANA.metalness;
     }
     if (o.material.transparent !== transp) o.material.needsUpdate = true;   // ver aparecer()
     o.material.transparent = transp;
@@ -561,7 +549,6 @@ function aplicar() {
     }
   });
   document.querySelectorAll("#vistas button").forEach(b => b.classList.toggle("activo", b.dataset.v === v));
-  document.querySelectorAll("#mallas button").forEach(b => { b.classList.toggle("activo", b.dataset.m === estado.malla); b.disabled = unico; });
   const lbl = document.getElementById("lbl-transp");
   lbl.classList.toggle("apagado", v !== "ambos");
   document.getElementById("transp").disabled = v !== "ambos";
@@ -570,9 +557,7 @@ function aplicar() {
   document.getElementById("colocar").disabled = unico || !coloc;
   // los equipos sin colocación terminada no muestran el botón (Módulo 2 lo muestra apagado: es otra pieza)
   document.getElementById("colocar").style.display = !unico && !coloc ? "none" : "";
-  document.getElementById("ley-malla").style.background = malla.color;
-  document.getElementById("ley-malla-txt").textContent = `Banda de malla hidrofóbica (${malla.nombre})`;
-  document.getElementById("nota-banda-txt").textContent = NOTAS_MALLA[estado.malla];
+  document.getElementById("nota-banda-txt").textContent = NOTA_BANDA;
   document.getElementById("lbl-banda").classList.toggle("apagado", unico);
   document.getElementById("banda").disabled = unico;
   const eq = estado.talle.equipos.find(e => e[0] === estado.equipo);
@@ -1187,7 +1172,6 @@ document.getElementById("giro").onchange = ev => { controls.autoRotate = ev.targ
 document.getElementById("corte").onchange = ev => { estado.corte = ev.target.checked; aplicar(); };
 document.getElementById("cordon").onchange = ev => { estado.cordon = ev.target.checked; pararCordon(); aplicar(); if (estado.cordon) pasarCordon(); };
 document.getElementById("banda").onchange = ev => { estado.banda = ev.target.checked; };
-document.querySelectorAll("#mallas button").forEach(b => b.onclick = () => { estado.malla = b.dataset.m; aplicar(); });
 document.getElementById("colocar").onclick = colocar;
 const cc = document.getElementById("colores");
 for (const c of COLORES) {
