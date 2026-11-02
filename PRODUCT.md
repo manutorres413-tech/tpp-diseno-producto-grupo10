@@ -14,7 +14,7 @@ Presentar el proyecto AURA completo: el problema, el sondeo (N = 132), P y Q, el
 Por ahora se publica hasta la funda y el visor 3D; la maqueta, la ingeniería, los costos, la marca y las descargas (objetivos G a J) se suman más adelante.
 
 ## Positioning
-AURA es una funda de silicona LSR de una pieza que se calza como una media sobre procesadores de implantes cocleares y audífonos retroauriculares, con una banda de malla hidrofóbica sobre los micrófonos: frena agua, sudor y arena sin tapar el sonido.
+AURA es una funda de silicona LSR de una pieza que se calza como una bota sobre procesadores de implantes cocleares y audífonos retroauriculares, con una banda de malla hidrofóbica sobre los micrófonos: frena agua, sudor y arena sin tapar el sonido.
 
 ## Capabilities and Constraints
 - Sitio estático (HTML, CSS y JS sin build), publicado en GitHub Pages desde el repo de un integrante.

@@ -43,15 +43,16 @@ The curve takes the lower bound of each price range in question 10 of the survey
 ## 3D viewer (`visor/index.html`)
 
 - Sizes and devices, three views, transparency, silicone color, mesh type (ePTFE, grille, textile), drop cord through the eyelet, section view at Y = 0 and the "Colocar funda" animation. Módulo 2 disables placement, cord and mesh.
-- The placement works like putting on a sock, from the top down. The sleeve appears rolled up at the top with the hook already through its hole. Then it unrolls downward, and the mouth opens only as much as each part of the device needs, following the sleeve's own section profile. It must never pass through the device.
-  - On the RIC sizes (XS) the rolled sleeve slides down the hook first.
-  - On the others the hook runs too close to the front of the device to do that without colliding, so the sleeve fades in already rolled.
-- GLB axes: X forward, Y thickness, Z up. The sleeve meshes are subdivided on load so they can bend. Check each change frame by frame on several sizes, also with transparency and the section view.
+- The placement is a "bota" (boot): the sleeve stays still and the device enters through the mouth, top first. It is never rolled up (with 0.8 mm LSR and the glued mesh band it would crease and peel), and the device must never pass through the sleeve.
+  - XS (Audéo I-R): the device starts below the mouth, rotated about 14°, and rises while straightening. The receiver wire is flexible and is bent in the animation: it goes in first, up inside the sleeve and out through the hook hole, then takes its curl. The wall stretches only where the device passes further out than the sleeve allows (`pedirLugar`, in polar sections per height).
+  - Implants (S/M, M/L Naída, M/L Sonnet) and the Audéo I-Sphere are **pending** (`COLOCACION_LISTA` in `visor/index.html`): the button reads "Colocación en revisión". The rigid earhook cannot thread a closed cap, so the draft ("abrigo") removes the hook, opens the rear lips, brings the device in very rotated and straightens it while it rises (`planear`), and puts the hook back at the end. The team will send a drawing of the motion. The I-Sphere overlaps the XS sleeve even at rest (the sleeve is modelled on the I-R).
+  - Texts that say the implant hook is removed are written but hidden: `class="gancho-sacado" hidden` in `index.html` and `GANCHO_SACADO = false` in the viewer.
+- GLB axes: X forward, Y thickness, Z up. The sleeve meshes are subdivided on load so they can bend. Check each change frame by frame on several sizes, also with transparency and the section view. A triangle-intersection check between the sleeve and the device (ignoring the overlaps the CAD models already have at rest) is the reliable test.
 
 ## Previewing and publishing
 
 - Local preview: `python -m http.server 8000` and open `http://localhost:8000/`. The viewer only works over HTTP.
-- Before publishing, run `node herramientas/probar_web.js` with the local server running. It checks desktop and mobile (375 px): sections, collapsibles, official figures, file links, console errors, the viewer and the 404s of the removed files. Pass the published URL as an argument to check the live site.
+- Before publishing, run `node herramientas/probar_web.js` with the local server running. If jsdelivr is blocked (some cloud sessions), run `npm i three@0.160.0` in a scratch folder and pass `THREE_LOCAL=<that folder>/node_modules/three`. It checks desktop and mobile (375 px): sections, collapsibles, official figures, file links, console errors, the viewer and the 404s of the removed files. Pass the published URL as an argument to check the live site.
 - Publishing means committing and pushing to `main`. GitHub Pages can take several minutes, sometimes 10 or more, to update.
 
 ## Work that needs Manuel's computer
@@ -60,7 +61,8 @@ Some things can only be done locally: the `completa` branch, the full project an
 
 ## Pending ideas
 
-- 3D viewer: show the hook going through the hole on S/M, M/L and Sonnet too (today the rolled sleeve fades in there); a link that keeps the chosen size, color and mesh; the four sizes side by side.
+- 3D viewer: finish the implant placement from the team's drawing, and the Audéo I-Sphere; a link that keeps the chosen size, color and mesh; the four sizes side by side.
+- The scroll-driven placement frames (`media/scroll/`, `media/scroll-m/`) still show the sleeve coming down from above over the hook. They have to be re-rendered on Manuel's computer with the "bota" motion; the text next to them already describes it.
 - Link previews: `og:` and `twitter:` tags with the hero render, so the link shows a card when shared.
 - The hero tagline ("…no apaguen tu día") is pending Manuel's decision.
 - When G to J are published again, the text "M2" in Objetivo G has to read "maqueta 2", because "M2" is confused with Módulo 2.

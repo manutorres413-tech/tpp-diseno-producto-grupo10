@@ -660,7 +660,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         <p class="logo entra" style="--i:0" aria-hidden="true"><svg viewBox="0 0 100 40"><path d="M8 34 Q50 -6 92 34" pathLength="1"/></svg>aura</p>
         <p class="eslogan entra" style="--i:1">No tenés que elegir.</p>
         <h1 id="titulo-tapa" class="entra" style="--i:2"><span class="vh">AURA. </span>Que el agua, el sudor o una caída no apaguen tu día.</h1>
-        <p class="lede entra" style="--i:3">Funda de silicona de grado médico para procesadores de implantes cocleares y audífonos retroauriculares. Se calza como una media y una banda de malla hidrofóbica frena el agua sin tapar el sonido.</p>
+        <p class="lede entra" style="--i:3">Funda de silicona de grado médico para procesadores de implantes cocleares y audífonos retroauriculares. Se calza como una bota y una banda de malla hidrofóbica frena el agua sin tapar el sonido.</p>
         <div class="acciones entra" style="--i:4">
           <a class="btn btn-arena" href="#comercial"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg>Ver el comercial</a>
         </div>
@@ -677,7 +677,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
     <dl class="datos-tapa">
       <div><dt>4 talles</dt><dd>para 6 procesadores de 4 marcas</dd></div>
       <div><dt>0,8&nbsp;mm</dt><dd>de pared de silicona LSR</dd></div>
-      <div><dt>&lt;&nbsp;15&nbsp;s</dt><dd>para colocarla, con el equipo armado</dd></div>
+      <div><dt>&lt;&nbsp;15&nbsp;s</dt><dd>para colocarla, con el equipo armado<span class="gancho-sacado" hidden> (en los implantes, sin el gancho)</span></dd></div>
       <div><dt>$80.000</dt><dd>el kit de dos fundas</dd></div>
     </dl>
   </div>
@@ -1008,7 +1008,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       <div><dt>Protección</dt><dd>IP54<small>Polvo y arena en suspensión, salpicaduras y sudor.</small></dd></div>
       <div><dt>Peso</dt><dd>&lt;&nbsp;8&nbsp;g<small>Para no cargar la oreja ni vencer la sujeción.</small></dd></div>
       <div><dt>Anclaje</dt><dd>≥&nbsp;5&nbsp;N<small>Sin soltarse con saltos o movimientos bruscos.</small></dd></div>
-      <div><dt>Colocación</dt><dd>&lt;&nbsp;15&nbsp;s<small>Sobre el equipo armado, sin herramientas ni sacar pilas.</small></dd></div>
+      <div><dt>Colocación</dt><dd>&lt;&nbsp;15&nbsp;s<small>Sobre el equipo armado, sin herramientas ni sacar pilas.<span class="gancho-sacado" hidden> En los implantes, el gancho se saca y se vuelve a poner a presión.</span></small></dd></div>
       <div><dt>Material</dt><dd>Grado médico<small>Hipoalergénico, resiste el sudor y se lava con agua y jabón.</small></dd></div>
       <div><dt>Pared</dt><dd>&lt;&nbsp;1,2&nbsp;mm<small>Entra cómoda entre la oreja y la cabeza, con paso para el cable de la bobina.</small></dd></div>
     </dl>
@@ -1148,6 +1148,8 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
 </section>
 
 <!-- ============ A COLOCACIÓN CON EL SCROLL ============ -->
+<!-- Los textos con class="gancho-sacado" están ocultos (hidden) a pedido del equipo: para mostrarlos, sacales el
+     atributo hidden y poné GANCHO_SACADO = true en visor/index.html. -->
 <section id="colocacion" class="secuencia" aria-labelledby="t-secuencia" data-cuadros="120" data-ruta="media/scroll/" data-ruta-movil="media/scroll-m/">
   <div class="secuencia-fija">
     <div class="pasos-scroll">
@@ -1156,8 +1158,8 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         <p>Un Cochlear Nucleus 8 armado, con el gancho y la batería puestos. Así, armado y sin herramientas, lo tiene que poder enfundar cualquier usuario.</p>
       </div>
       <div class="paso-scroll" data-desde="0.3">
-        <h3>Se calza como una media.</h3>
-        <p>Con la funda enrollada, el gancho pasa por su agujero y la boca se desenrolla hacia abajo por el equipo. Según el talle, la boca se estira entre 10&nbsp;% y 69&nbsp;%, y la silicona recién se rompe por encima del 300&nbsp;%.</p>
+        <h3>Se calza como una bota.</h3>
+        <p>El equipo entra por abajo y gira hasta encastrar; en los implantes, la funda se abre por atrás y se cierra sobre el cable. En XS la boca se estira apenas un 10&nbsp;%, y la silicona recién se rompe por encima del 300&nbsp;%.</p>
       </div>
       <div class="paso-scroll" data-desde="0.72">
         <h3>Lista en menos de 15 segundos.</h3>

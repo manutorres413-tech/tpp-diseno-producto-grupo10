@@ -97,6 +97,8 @@ async function probarVisor(ctx, nombre) {
   await listo();
   ok(r.status() === 200 && await v.locator('canvas').count() > 0, 'visor carga y dibuja');
 
+  ok(await v.$eval('#colocar', b => b.disabled), 'implantes: colocación en revisión (botón deshabilitado)');
+  await v.click('#talles button >> nth=0'); await listo();   // XS: la colocación tipo bota
   await v.click('#colocar');
   await v.waitForTimeout(400);
   ok(await v.$eval('#pasos', e => e.classList.contains('visible')), 'colocar funda muestra los pasos');
@@ -120,10 +122,16 @@ async function probarVisor(ctx, nombre) {
   const executablePath = fs.existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined;
   // swiftshader: WebGL por software, para que el visor ande sin placa de video (servidores, nube)
   const browser = await chromium.launch({ executablePath, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
+  // Si la red no deja llegar a jsdelivr (algunas sesiones en la nube), THREE_LOCAL apunta a una copia de three@0.160.0
+  // (la carpeta node_modules/three de un npm i three@0.160.0) y el visor la usa en su lugar.
+  const threeLocal = process.env.THREE_LOCAL;
+  const rutearThree = ctx => threeLocal && ctx.route('https://cdn.jsdelivr.net/npm/three@0.160.0/**', r =>
+    r.fulfill({ path: path.join(threeLocal, r.request().url().split('three@0.160.0/')[1]), contentType: 'text/javascript' }));
   console.log(`Probando ${BASE}`);
   for (const [nombre, vp, movil] of [['compu', { width: 1440, height: 900 }, false], ['celular', { width: 375, height: 812 }, true]]) {
     console.log(`\n== ${nombre} (${vp.width} px) ==`);
     const ctx = await browser.newContext({ viewport: vp, isMobile: movil, hasTouch: movil, deviceScaleFactor: movil ? 2 : 1 });
+    await rutearThree(ctx);
     await probarPagina(ctx, nombre);
     await probarVisor(ctx, nombre);
     await ctx.close();
