@@ -9,6 +9,7 @@ It is the public page of the AURA project: a medical-grade silicone sleeve that 
 - It is a static site with no build step. Almost everything is in `index.html`, with CSS and JS inline.
 - `visor/` holds the 3D viewer (three.js 0.160 loaded from jsdelivr) and its GLB models.
 - `media/` holds the commercial, the frames of the scroll-driven placement animation (`scroll/`, `scroll-m/`) and the tour scenes (`recorrido/`).
+  - The scroll frames are the exception to the next rule: they are rendered in this repo from the 3D viewer (XS placement, Audéo I-R) with `node herramientas/renderizar_colocacion.js` (local server running; `THREE_LOCAL` as in `probar_web.js`). Re-render them whenever the XS placement changes.
 - `img/` and `graficos/` hold renders, sheets and survey charts.
 - The media were generated with `herramientas/preparar_medios.py` from the full project, which lives on Manuel's computer and is not in this repo. Do not regenerate them in the cloud. Each file must stay under 25 MB.
   - With `PUBLICAR_G_A_J = False` the script skips the G to J media (engineering, plans, packaging, delivery PDFs).
@@ -63,7 +64,6 @@ Some things can only be done locally: the `completa` branch, the full project an
 ## Pending ideas
 
 - 3D viewer: placement for the Naída M90, the Nucleus 7 and the Audéo I-Sphere; a link that keeps the chosen size, color and mesh; the four sizes side by side.
-- The scroll-driven placement frames (`media/scroll/`, `media/scroll-m/`) still show the sleeve coming down from above over the hook. They have to be re-rendered on Manuel's computer with the "bota" motion; the text next to them already describes it.
 - Link previews: `og:` and `twitter:` tags with the hero render, so the link shows a card when shared.
 - The hero tagline ("…no apaguen tu día") is pending Manuel's decision.
 - When G to J are published again, the text "M2" in Objetivo G has to read "maqueta 2", because "M2" is confused with Módulo 2.

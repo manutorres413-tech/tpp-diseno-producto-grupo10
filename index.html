@@ -1154,12 +1154,12 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
   <div class="secuencia-fija">
     <div class="pasos-scroll">
       <div class="paso-scroll activo" data-desde="0">
-        <h2 id="t-secuencia">El procesador, como sale de la caja.</h2>
-        <p>Un Cochlear Nucleus 8 armado, con el gancho y la batería puestos. Así, armado y sin herramientas, lo tiene que poder enfundar cualquier usuario.</p>
+        <h2 id="t-secuencia">El audífono, como sale de la caja.</h2>
+        <p>Un Phonak Audéo I-R armado, con el cable del auricular y la batería puestos. Así, armado y sin herramientas, lo tiene que poder enfundar cualquier usuario.</p>
       </div>
       <div class="paso-scroll" data-desde="0.3">
         <h3>Se calza como una bota.</h3>
-        <p>El equipo entra por abajo y gira hasta encastrar; en los implantes, la funda se abre por atrás y se cierra sobre el cable. En XS la boca se estira apenas un 10&nbsp;%, y la silicona recién se rompe por encima del 300&nbsp;%.</p>
+        <p>El equipo entra por abajo y gira hasta encastrar: primero pasa el cable del auricular, que sale por su agujero. La boca se estira apenas un 10&nbsp;%, y la silicona recién se rompe por encima del 300&nbsp;%. En los implantes, la funda se abre por atrás y se cierra sobre el cable de la bobina.</p>
       </div>
       <div class="paso-scroll" data-desde="0.72">
         <h3>Lista en menos de 15 segundos.</h3>
@@ -1167,7 +1167,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       </div>
       <div class="progreso-scroll" aria-hidden="true"><span class="activo"></span><span></span><span></span></div>
     </div>
-    <canvas width="1200" height="900" role="img" aria-label="Animación: el procesador aparece solo y la funda de silicona baja y se calza sobre él."></canvas>
+    <canvas width="1200" height="900" role="img" aria-label="Animación: el audífono aparece solo y después entra por la boca de la funda de silicona, con el cable del auricular adelante, hasta encastrar."></canvas>
   </div>
 </section>
 
@@ -1444,7 +1444,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
     const pedir = () => { if (!pendiente) { pendiente = true; requestAnimationFrame(actualizar); } };
 
     if (quieto) {
-      lienzo.setAttribute("aria-label", "La funda de silicona ya calzada sobre el procesador.");
+      lienzo.setAttribute("aria-label", "La funda de silicona ya calzada sobre el audífono.");
       const ultimo = cargar(total - 1);
       ultimo.onload = () => { actual = -1; dibujar(total - 1); };
     } else {
