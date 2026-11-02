@@ -4,8 +4,9 @@ Fuentes (carpeta "Diseño del Producto"): renders de Blender, tomas animadas, co
 PDFs de entrega y el visor 3D. Destino: img/, media/, descargas/ y visor/ dentro de web_proyecto.
 Se vuelve a correr cada vez que cambia algo de origen; no editar a mano lo que genera.
 
-Mientras la web se publique sólo hasta la funda, PUBLICAR_G_A_J queda en False y no se generan los medios
-de G a J (ingeniería, planos, estuche, PDF de entrega). El HTML del visor ya no se copia: vive en este repo
+La web se publica hasta H: PUBLICAR_G_H genera la maqueta y la ingeniería (explotado, láminas y planos, salvo el
+del Módulo 2, que todavía dibuja la manga del cable). Mientras I y J no se publiquen, PUBLICAR_I_J queda en False
+y no se generan sus medios (estuche, PDF de entrega, informe, zip de planos). El HTML del visor ya no se copia: vive en este repo
 (visor/index.html) y se mantiene acá; de 3D_Alternativa_A sólo se copian los GLB.
 
     ~/.venvs/funda_cq/bin/python web_proyecto/herramientas/preparar_medios.py
@@ -24,7 +25,8 @@ SAL = A3D / "salidas"
 LAM = RAIZ / "Objetivos_G_a_J_2026-10-16" / "laminas" / "assets"
 EF = RAIZ / "Objetivo_F_Seleccion_2026-10-15"
 COM = RAIZ / "video_comercial"
-PUBLICAR_G_A_J = False
+PUBLICAR_G_H = True
+PUBLICAR_I_J = False
 
 
 def jpg(src, dst, ancho=1600, calidad=84, fondo="white"):
@@ -59,17 +61,24 @@ def imagenes():
     for f in sorted((EF / "Laminas").glob("*.png")):
         jpg(f, img / "alternativas" / f"{f.stem}.jpg", 1800, 86)
         jpg(f, img / "alternativas" / "mini" / f"{f.stem}.jpg", 800, 82)
-    if not PUBLICAR_G_A_J:
+    if PUBLICAR_G_H:
+        png(SAL / "renders_foto" / "A_SM_explotado.png", img / "producto" / "explotado.png", 1300)
+        for n in ("molde", "corte_long", "transparente", "trasera"):
+            jpg(LAM / f"{n}.png", img / "ingenieria" / f"{n}.jpg", 1400)
+        for f in planos("png"):
+            jpg(f, img / "planos" / f"{f.stem}.jpg", 1800, 88)
+            jpg(f, img / "planos" / "mini" / f"{f.stem}.jpg", 800, 84)
+    if not PUBLICAR_I_J:
         return
-    png(SAL / "renders_foto" / "A_SM_explotado.png", img / "producto" / "explotado.png", 1300)
-    for n in ("molde", "corte_long", "transparente", "m2_despiece", "trasera"):
-        jpg(LAM / f"{n}.png", img / "ingenieria" / f"{n}.jpg", 1400)
+    jpg(LAM / "m2_despiece.png", img / "ingenieria" / "m2_despiece.jpg", 1400)
     for i in (1, 2, 3):
         shutil.copy2(LAM / f"colocacion_{i}.jpg", img / "producto" / f"colocacion_{i}.jpg")
-    for f in sorted((SAL / "planos").glob("*.png")):
-        jpg(f, img / "planos" / f"{f.stem}.jpg", 1800, 88)
-        jpg(f, img / "planos" / "mini" / f"{f.stem}.jpg", 800, 84)
     estuche(img / "marca" / "estuche.jpg")
+
+
+def planos(ext):
+    """Planos de las fundas; el del Módulo 2 sólo con I y J, hasta que deje de dibujar la manga."""
+    return [f for f in sorted((SAL / "planos").glob(f"*.{ext}")) if PUBLICAR_I_J or not f.stem.startswith("plano_modulo2")]
 
 
 def estuche(dst):
@@ -162,12 +171,13 @@ def descargas():
     copias = {
         EF / "Objetivo E-F - 5 alternativas y seleccion - Grupo 10.pdf": "Objetivo_E-F_Alternativas_y_seleccion_Grupo10.pdf",
     }
-    if PUBLICAR_G_A_J:
+    if PUBLICAR_G_H:
+        for f in planos("pdf"):
+            copias[f] = f.name
+    if PUBLICAR_I_J:
         copias[RAIZ / "Objetivos_G_a_J_2026-10-16" / "Objetivos G a J - Grupo 10.pdf"] = "Objetivos_G_a_J_Grupo10.pdf"
         copias[A3D / "Informe_Alternativa_A.pdf"] = "Informe_desarrollo_Alternativa_A.pdf"
         copias[SAL / "AURA_planos_y_modelado.zip"] = "AURA_planos_y_modelado.zip"
-        for f in sorted((SAL / "planos").glob("*.pdf")):
-            copias[f] = f.name
     for src, nombre in copias.items():
         pdf_liviano(src, d / nombre) if src.suffix == ".pdf" else shutil.copy2(src, d / nombre)
 

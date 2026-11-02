@@ -657,6 +657,8 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         <li><a href="#alternativas"><b>E</b><span>Alternativas</span></a></li>
         <li><a href="#seleccion"><b>F</b><span>Selección</span></a></li>
         <li><a href="#funda"><b>●</b><span>La funda</span></a></li>
+        <li><a href="#maqueta"><b>G</b><span>Maqueta</span></a></li>
+        <li><a href="#ingenieria"><b>H</b><span>Ingeniería</span></a></li>
       </ol>
     </nav>
   </div>
@@ -1317,6 +1319,142 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
     <div class="sub sub-primero"><h2 id="t-visor" class="como-h3">Visor 3D</h2><p>Elegí el talle y tocá «Colocar funda» para ver cómo se pone (en el Audéo I-R de XS y en el Sonnet 2 de M/L). También podés cambiar la malla y el color, sumar el cordón, hacerla transparente o verla en corte. Arrastrá para girar.</p></div>
     <div class="visor"><iframe src="visor/index.html" title="Visor 3D de la funda AURA" loading="lazy"></iframe></div>
     <a class="link-flecha" href="visor/index.html" target="_blank" rel="noopener">Abrir el visor en pantalla completa<svg class="ico" aria-hidden="true"><use href="#i-flecha"/></svg></a>
+  </div>
+</section>
+
+
+<!-- ============ G MAQUETA ============ -->
+<section id="maqueta" class="cap fondo-blanco" aria-labelledby="t-maqueta">
+  <div class="marco">
+    <div class="cabeza">
+      <span class="etapa" aria-hidden="true">G</span>
+      <div>
+        <h2 id="t-maqueta"><span class="vh">Objetivo G. </span>Lo que hay que probar con las manos</h2>
+        <p class="lede">El modelo 3D no alcanza para cuatro requisitos del brief. La maqueta los pone a prueba antes de cerrar el diseño.</p>
+      </div>
+    </div>
+    <div class="dos">
+      <div>
+        <h3>Para qué sirve la maqueta</h3>
+        <ul class="chequeo">
+          <li><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span><b>Colocar y sacar en menos de 15&nbsp;s</b>, sin herramientas y con el procesador armado.</span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span><b>Pérdida acústica de 2,5&nbsp;dB o menos</b> en el rango de la voz.</span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span><b>Salpicaduras y polvo</b>, como aproximación a IP54.</span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span><b>Anclaje de 5&nbsp;N en el ojal</b>, sin que el equipo se salga al tirar del cordón.</span></li>
+        </ul>
+      </div>
+      <div class="historia">
+        <h3>De libro a media</h3>
+        <p>La primera versión se abría como un libro, con dos costuras y un cierre tipo ziploc de 0,8&nbsp;mm. Alinear ese cierre con lluvia o con las manos mojadas es difícil, las costuras sumaban casi 100&nbsp;mm de posibles entradas de agua y el cierre llevaba la pared a 1,8&nbsp;mm, por encima del límite de 1,2&nbsp;mm.</p>
+        <p>Por eso la funda pasó a ser de una pieza y sin cierres: el equipo entra por la boca, como un pie en una bota, y la silicona se estira para recibirlo. La versión libro se imprime igual (maqueta 2) para comparar tiempos.</p>
+      </div>
+    </div>
+    <div class="sub"><h3>Ensayos</h3></div>
+    <div class="dos">
+      <div class="tabla-env">
+        <table>
+          <thead><tr><th scope="col">Ensayo</th><th scope="col">Se acepta si</th></tr></thead>
+          <tbody>
+            <tr><td>Tiempo de colocación</td><td>Promedio menor a 15&nbsp;s, también con las manos mojadas.</td></tr>
+            <tr><td>Pérdida acústica</td><td>2,5&nbsp;dB o menos en 500, 1.000, 2.000 y 4.000&nbsp;Hz.</td></tr>
+            <tr><td>Salpicaduras, aprox. IPX4</td><td>Papel seco dentro de la réplica tras 10 minutos de rocío.</td></tr>
+            <tr><td>Polvo, aprox. IP5X</td><td>Sin talco sobre los micrófonos tras 5 minutos.</td></tr>
+            <tr><td>Anclaje de 5&nbsp;N</td><td>Sin desgarro en las orejas y sin que el equipo se salga.</td></tr>
+            <tr><td>Peso</td><td>Menos de 8&nbsp;g; el modelo 3D da entre 1,0 y 2,6&nbsp;g.</td></tr>
+            <tr><td>Sujeción en movimiento</td><td>El equipo no se cae y, si se cae, el cordón lo retiene.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure>
+        <button class="zoom" data-full="img/ingenieria/molde.jpg"><img src="img/ingenieria/molde.jpg" alt="Molde de PLA en dos mitades y núcleo para colar la funda en silicona." loading="lazy" width="1085" height="684"></button>
+        <figcaption>Maqueta 1: molde de PLA impreso en 3D, en dos mitades y núcleo, para colar silicona de platino Shore A 20 a 30 con jeringa.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ H INGENIERÍA ============ -->
+<section id="ingenieria" class="cap fondo-papel" aria-labelledby="t-ingenieria">
+  <div class="marco">
+    <div class="cabeza">
+      <span class="etapa" aria-hidden="true">H</span>
+      <div>
+        <h2 id="t-ingenieria"><span class="vh">Objetivo H. </span>Piezas, materiales y proceso</h2>
+        <p class="lede">Una membrana hidrofóbica deja pasar el sonido y frena el agua; la silicona copia el procesador con 0,2&nbsp;mm de holgura.</p>
+      </div>
+    </div>
+    <div class="explotado">
+      <figure class="placa-arena">
+        <button class="zoom sin-borde" data-full="img/producto/explotado.png" data-pie="Explotado del kit, talle S/M."><img src="img/producto/explotado.png" alt="Explotado del kit talle S/M: membrana, funda, procesador y cordón separados sobre el eje de colocación." loading="lazy" width="1300" height="1083"></button>
+      </figure>
+      <div>
+        <div class="modulo">
+          <h3>Módulo 1 · Funda del procesador</h3>
+          <ol>
+            <li><b>Funda de silicona</b> de una pieza, con orejas de ojal y textura interior de puntos de 0,2&nbsp;mm.</li>
+            <li><b>Membrana hidrofóbica</b> en el rebaje de la banda del lomo.</li>
+            <li><b>Cordón anticaída</b> de poliéster con clip.</li>
+          </ol>
+        </div>
+        <div class="modulo">
+          <h3>Módulo 2 · Funda de bobina, opcional</h3>
+          <ol>
+            <li><b>Funda de bobina</b> con 0,4&nbsp;mm sobre el imán.</li>
+            <li><b>Anillo absorbente</b> desmontable.</li>
+            <li><b>Muesca con labios</b> para el cable: entra de costado, sin desenchufar nada.</li>
+          </ol>
+        </div>
+        <p class="nota">En XS el audífono entra por la boca, como un pie en una bota. En los implantes se abren los labios de atrás y el procesador se calza de costado.</p>
+      </div>
+    </div>
+
+    <div class="sub"><h3>Por qué silicona LSR</h3></div>
+    <div class="dos">
+      <div class="texto">
+        <p>Para pasar el procesador, la boca se estira hasta un 69&nbsp;%. La LSR de grado médico rompe recién entre el 300 y el 600&nbsp;%: más de cuatro veces de margen. Recupera la forma después de cada colocación, no se pone pegajosa con el sudor ni con el sol, aguanta el lavado y puede estar todo el día contra la piel.</p>
+        <p>Elegimos Shore A 30. Con 20 se calza más fácil pero queda floja; con 40 cuesta estirarla con una mano. El TPE pierde ajuste con el uso, el TPU 95A es demasiado duro y el látex da alergias.</p>
+      </div>
+      <div class="tabla-env">
+        <table>
+          <thead><tr><th scope="col">Pieza</th><th scope="col">Material</th></tr></thead>
+          <tbody>
+            <tr><td>Funda</td><td>LSR de grado médico, Shore A 30 ± 5, biocompatible (ISO 10993)</td></tr>
+            <tr><td>Membrana</td><td>ePTFE acústico con adhesivo, o malla de poliéster hidrofóbica</td></tr>
+            <tr><td>Cordón</td><td>Poliéster trenzado de 1,5&nbsp;mm y clip de POM</td></tr>
+            <tr><td>Funda de bobina</td><td>LSR, Shore A 20 a 30</td></tr>
+            <tr><td>Anillo absorbente</td><td>Espuma de PU hidrófila o malla 3D de poliéster</td></tr>
+            <tr><td>Estuche</td><td>Cartulina reciclada y bandeja de pulpa moldeada</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sub"><h3>Proceso productivo</h3><p>3.000 kits por año, unas 25 fundas por día hábil. El moldeo se terceriza en un taller de silicona; las etapas que definen la calidad se hacen en casa.</p></div>
+    <ol class="proceso">
+      <li>Recepción de materias primas<em class="propio">Propio</em></li>
+      <li>Moldeo de la funda<em class="fazon">Fazón</em></li>
+      <li>Poscurado en horno<em class="fazon">Fazón</em></li>
+      <li>Desbarbado<em class="fazon">Fazón</em></li>
+      <li>Corte de ranuras con plantilla<em class="propio">Propio</em></li>
+      <li>Colocación de la membrana<em class="propio">Propio</em></li>
+      <li>Control final<em class="propio">Propio</em></li>
+      <li>Armado del kit<em class="propio">Propio</em></li>
+      <li>Depósito y despacho<em class="propio">Propio</em></li>
+    </ol>
+
+    <div class="galeria-3">
+      <figure><button class="zoom" data-full="img/ingenieria/corte_long.jpg"><img src="img/ingenieria/corte_long.jpg" alt="Corte longitudinal por la banda de malla." loading="lazy" width="996" height="678"></button><figcaption>Corte por la banda: pared de 0,8&nbsp;mm y rebaje de la membrana sobre los micrófonos.</figcaption></figure>
+      <figure><button class="zoom" data-full="img/ingenieria/transparente.jpg"><img src="img/ingenieria/transparente.jpg" alt="Funda transparente puesta, con los micrófonos marcados en rojo." loading="lazy" width="1001" height="509"></button><figcaption>Con la silicona transparente: los micrófonos quedan bajo la banda.</figcaption></figure>
+      <figure><button class="zoom" data-full="img/ingenieria/trasera.jpg"><img src="img/ingenieria/trasera.jpg" alt="Vista trasera con la ranura del cable y el ojal." loading="lazy" width="671" height="993"></button><figcaption>Atrás: la ranura del cable de la bobina y las orejas del ojal.</figcaption></figure>
+    </div>
+
+    <div class="sub"><h3>Planos</h3><p>Generados desde el modelo paramétrico en CadQuery, con vistas, cortes y detalles acotados.</p></div>
+    <div class="planos">
+      <figure><button class="zoom" data-full="img/planos/plano_funda_A_XS.jpg"><img src="img/planos/mini/plano_funda_A_XS.jpg" srcset="img/planos/mini/plano_funda_A_XS.jpg 800w, img/planos/plano_funda_A_XS.jpg 1800w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 380px" alt="Plano de la funda talle XS" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle XS</b> · Phonak Audéo I-R e I-Sphere · <a href="descargas/plano_funda_A_XS.pdf" target="_blank" rel="noopener">PDF</a></figcaption></figure>
+      <figure><button class="zoom" data-full="img/planos/plano_funda_A_SM.jpg"><img src="img/planos/mini/plano_funda_A_SM.jpg" srcset="img/planos/mini/plano_funda_A_SM.jpg 800w, img/planos/plano_funda_A_SM.jpg 1800w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 380px" alt="Plano de la funda talle S/M" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle S/M</b> · Cochlear Nucleus 8 y 7 · <a href="descargas/plano_funda_A_SM.pdf" target="_blank" rel="noopener">PDF</a></figcaption></figure>
+      <figure><button class="zoom" data-full="img/planos/plano_funda_A_ML.jpg"><img src="img/planos/mini/plano_funda_A_ML.jpg" srcset="img/planos/mini/plano_funda_A_ML.jpg 800w, img/planos/plano_funda_A_ML.jpg 1800w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 380px" alt="Plano de la funda talle M/L Naída" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle M/L Naída</b> · Advanced Bionics Naída CI M90 · <a href="descargas/plano_funda_A_ML.pdf" target="_blank" rel="noopener">PDF</a></figcaption></figure>
+      <figure><button class="zoom" data-full="img/planos/plano_funda_A_MLS.jpg"><img src="img/planos/mini/plano_funda_A_MLS.jpg" srcset="img/planos/mini/plano_funda_A_MLS.jpg 800w, img/planos/plano_funda_A_MLS.jpg 1800w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 380px" alt="Plano de la funda talle M/L Sonnet" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle M/L Sonnet</b> · MED-EL SONNET 2 · <a href="descargas/plano_funda_A_MLS.pdf" target="_blank" rel="noopener">PDF</a></figcaption></figure>
+    </div>
   </div>
 </section>
 

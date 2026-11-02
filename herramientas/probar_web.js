@@ -44,11 +44,12 @@ async function probarPagina(ctx, nombre) {
   await page.goto(BASE + nc, { waitUntil: 'load' });
   await page.waitForTimeout(1500);
 
-  // Sólo hasta la funda: sin G a J ni Descargas
+  // Publicado hasta H: sin I, J ni Descargas
   ok(!(await page.content()).includes('Entregas y planos'), 'sin botón "Entregas y planos"');
-  for (const id of ['maqueta', 'ingenieria', 'costos', 'marca', 'descargas']) ok(await page.locator(`#${id}`).count() === 0, `sin sección #${id}`);
+  for (const id of ['costos', 'marca', 'descargas']) ok(await page.locator(`#${id}`).count() === 0, `sin sección #${id}`);
   const ids = await page.$$eval('section[id]', s => s.map(x => x.id));
-  ok(ids[ids.length - 1] === 'visor', `la última sección es el visor (${ids.join(', ')})`);
+  ok(ids.slice(-3).join() === 'visor,maqueta,ingenieria', `después del visor vienen G y H (${ids.join(', ')})`);
+  for (const id of ['maqueta', 'ingenieria']) ok(await page.locator(`.indice a[href="#${id}"]`).count() === 1, `#${id} en el índice`);
 
   // Objetivos de relleno plegados
   for (const id of ['problema', 'sondeo', 'mercado', 'brief', 'seleccion']) {
@@ -58,7 +59,7 @@ async function probarPagina(ctx, nombre) {
     await btn.click();
     ok(oculto && txt === 'Ver todo el objetivo' && await pl.evaluate(e => !e.hidden), `#${id} plegado y se abre`);
   }
-  for (const id of ['alternativas', 'funda']) ok(await page.locator(`#${id} .btn-plegar`).count() === 0, `#${id} abierto`);
+  for (const id of ['alternativas', 'funda', 'maqueta', 'ingenieria']) ok(await page.locator(`#${id} .btn-plegar`).count() === 0, `#${id} abierto`);
 
   // Cifras oficiales (ver la tabla de CLAUDE.md)
   const curva = await page.$eval('svg.curva', s => ({
@@ -146,9 +147,10 @@ async function probarVisor(ctx, nombre) {
     await ctx.close();
   }
 
-  console.log('\n== archivos de G a J retirados ==');
+  console.log('\n== archivos de I y J retirados ==');
   const ctx = await browser.newContext();
-  for (const p of ['descargas/Objetivos_G_a_J_Grupo10.pdf', 'img/marca/estuche.jpg', 'img/planos/plano_funda_A_SM.jpg']) {
+  // el plano del Módulo 2 tampoco: todavía dibuja la manga del cable
+  for (const p of ['descargas/Objetivos_G_a_J_Grupo10.pdf', 'img/marca/estuche.jpg', 'descargas/plano_modulo2_bobina.pdf']) {
     const r = await ctx.request.get(BASE + p + nc);
     ok(r.status() === 404, `${p} da ${r.status()}`);
   }

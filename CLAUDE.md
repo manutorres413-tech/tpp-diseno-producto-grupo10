@@ -12,7 +12,7 @@ It is the public page of the AURA project: a medical-grade silicone sleeve that 
   - The scroll frames are the exception to the next rule: they are rendered in this repo from the 3D viewer (XS placement, Audéo I-R) with `node herramientas/renderizar_colocacion.js` (local server running; `THREE_LOCAL` as in `probar_web.js`). Re-render them whenever the XS placement changes, and then change `data-version` on `#colocacion` in `index.html` so browsers drop the cached frames.
 - `img/` and `graficos/` hold renders, sheets and survey charts.
 - The media were generated with `herramientas/preparar_medios.py` from the full project, which lives on Manuel's computer and is not in this repo. Do not regenerate them in the cloud. Each file must stay under 25 MB.
-  - With `PUBLICAR_G_A_J = False` the script skips the G to J media (engineering, plans, packaging, delivery PDFs).
+  - `PUBLICAR_G_H = True` generates the G and H media (exploded view, engineering sheets, plans except Módulo 2's, which still draws the cable sleeve). With `PUBLICAR_I_J = False` it skips the I and J media (packaging, delivery PDF, report, plans zip).
   - It copies only the GLB models into `visor/`. `visor/index.html` is maintained in this repo and must not be overwritten from the full project.
 - `DESIGN.md` describes the visual system and `PRODUCT.md` the purpose and audience. Read them before changing the design.
 
@@ -20,9 +20,10 @@ It is the public page of the AURA project: a medical-grade silicone sleeve that 
 
 - The page is in Rioplatense Spanish with voseo ("elegí", "mirá"), plain and direct. Each figure carries its source and must have the same value everywhere it appears.
 - Brand colors: petrol green `#1F5E5B`, sand `#E8DCC8`, graphite `#2B2B2B` and coral `#F08A3C` (accent only, never for body text). Titles use Nunito.
-- **Only the stages up to "La funda" are published.** The page goes up to the 3D viewer, and stages G (mock-up), H (engineering), I (costs), J (brand) and Downloads were removed on purpose.
+- **The stages up to H are published.** After the 3D viewer come G (mock-up) and H (engineering), both open (not collapsible). I (costs), J (brand) and Downloads were removed on purpose.
   - The full version is in the `completa` branch, which exists only on Manuel's computer.
-  - Do not recreate G to J or upload files from those stages unless the team asks for it.
+  - Do not recreate I or J or upload files from those stages unless the team asks for it.
+  - Módulo 2 has no cable sleeve any more; its plan (`plano_modulo2_bobina`) still draws one, so it stays off the site until it is regenerated.
 - **Filler objectives are collapsible.** A·B, both C sections, D and F show only the header with a "Ver todo el objetivo" button (`.btn-plegar`). The content goes in `<div class="plegable" id="pl-<section>" hidden>`. E (mind map and alternatives) and the sleeve stay open.
 - Files (PDF, sheets, images) open in a new tab with `target="_blank" rel="noopener"`, never with `download`: the visitor sees them without downloading.
 - The legal data on the packaging is fictitious and appears as placeholders (`CUIT XX-XXXXXXXX-X`). Do not invent a company name, address, CUIT or email.
@@ -66,4 +67,4 @@ Some things can only be done locally: the `completa` branch, the full project an
 - 3D viewer: a link that keeps the chosen size, color and mesh; the four sizes side by side.
 - Link previews: `og:` and `twitter:` tags with the hero render, so the link shows a card when shared.
 - The hero tagline ("…no apaguen tu día") is pending Manuel's decision.
-- When G to J are published again, the text "M2" in Objetivo G has to read "maqueta 2", because "M2" is confused with Módulo 2.
+- G still needs the mock-up results (photos, times, the acoustic and splash tests) once the team has them.
