@@ -9,7 +9,7 @@ It is the public page of the AURA project: a medical-grade silicone sleeve that 
 - It is a static site with no build step. Almost everything is in `index.html`, with CSS and JS inline.
 - `visor/` holds the 3D viewer (three.js 0.160 loaded from jsdelivr) and its GLB models.
 - `media/` holds the commercial, the frames of the scroll-driven placement animation (`scroll/`, `scroll-m/`) and the tour scenes (`recorrido/`).
-  - The scroll frames are the exception to the next rule: they are rendered in this repo from the 3D viewer (XS placement, Audéo I-R) with `node herramientas/renderizar_colocacion.js` (local server running; `THREE_LOCAL` as in `probar_web.js`). Re-render them whenever the XS placement changes.
+  - The scroll frames are the exception to the next rule: they are rendered in this repo from the 3D viewer (XS placement, Audéo I-R) with `node herramientas/renderizar_colocacion.js` (local server running; `THREE_LOCAL` as in `probar_web.js`). Re-render them whenever the XS placement changes, and then change `data-version` on `#colocacion` in `index.html` so browsers drop the cached frames.
 - `img/` and `graficos/` hold renders, sheets and survey charts.
 - The media were generated with `herramientas/preparar_medios.py` from the full project, which lives on Manuel's computer and is not in this repo. Do not regenerate them in the cloud. Each file must stay under 25 MB.
   - With `PUBLICAR_G_A_J = False` the script skips the G to J media (engineering, plans, packaging, delivery PDFs).

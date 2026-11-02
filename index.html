@@ -1150,7 +1150,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
 <!-- ============ A COLOCACIÓN CON EL SCROLL ============ -->
 <!-- Los textos con class="gancho-sacado" están ocultos (hidden) a pedido del equipo: para mostrarlos, sacales el
      atributo hidden y poné GANCHO_SACADO = true en visor/index.html. -->
-<section id="colocacion" class="secuencia" aria-labelledby="t-secuencia" data-cuadros="120" data-ruta="media/scroll/" data-ruta-movil="media/scroll-m/">
+<section id="colocacion" class="secuencia" aria-labelledby="t-secuencia" data-cuadros="120" data-ruta="media/scroll/" data-ruta-movil="media/scroll-m/" data-version="xs-bota-1">
   <div class="secuencia-fija">
     <div class="pasos-scroll">
       <div class="paso-scroll activo" data-desde="0">
@@ -1407,7 +1407,8 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
     const pasos = [...sec.querySelectorAll(".paso-scroll")];
     const marcas = [...sec.querySelectorAll(".progreso-scroll span")];
     const cuadros = new Array(total);
-    const url = i => `${ruta}${String(i + 1).padStart(4, "0")}.webp`;
+    /* data-version cambia cada vez que se vuelven a renderizar los cuadros: así nadie ve los viejos guardados en caché */
+    const url = i => `${ruta}${String(i + 1).padStart(4, "0")}.webp?v=${sec.dataset.version || ""}`;
     let actual = -1, pendiente = false;
 
     const dibujar = i => {
