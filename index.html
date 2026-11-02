@@ -437,6 +437,18 @@ tr.aura td:first-child { font-weight: 700; color: var(--petroleo-hondo); }
 
 /* ---------- la funda ---------- */
 .galeria-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; margin-top: 1.2rem; }
+/* banda de malla: qué hace, tres casos y un corte en esquema */
+.banda { align-items: center; }
+.banda > div > p { color: var(--arena-suave); max-width: 34rem; }
+.banda-casos { list-style: none; margin: 1.4rem 0 1.2rem; padding: 0; display: grid; gap: 0.6rem; max-width: 34rem; }
+.banda-casos li { padding: 0.75rem 1rem; border-radius: var(--radio); background: rgba(232, 220, 200, 0.08); }
+.banda-casos b { display: block; font-family: var(--titulo); font-weight: 800; color: var(--arena); }
+.banda-casos span { color: var(--arena-suave); font-size: 0.95rem; }
+.banda-casos .aura { background: var(--arena); }
+.banda-casos .aura b, .banda-casos .aura span { color: var(--petroleo-hondo); }
+.banda figure { margin: 0; }
+.banda svg { display: block; width: 100%; height: auto; }
+.banda svg text { font-family: var(--texto); font-size: 16px; fill: var(--grafito); }
 .visor { border-radius: var(--radio-xl); overflow: hidden; background: var(--papel); height: min(78vh, 680px); }
 .visor iframe { width: 100%; height: 100%; border: 0; display: block; }
 .sub-primero { margin-top: 0; }
@@ -1142,6 +1154,48 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
     <div class="galeria-2">
       <figure class="foto"><button class="zoom" data-full="img/producto/A_SM_detalle_malla.jpg"><img src="img/producto/A_SM_detalle_malla.jpg" alt="Detalle de la banda de malla con gotas de agua." loading="lazy" width="2000" height="1333"></button><figcaption>La gota queda sobre la malla y no llega a los micrófonos.</figcaption></figure>
       <figure class="foto"><button class="zoom" data-full="img/producto/A_SM_conjunto_modulo2.jpg"><img src="img/producto/A_SM_conjunto_modulo2.jpg" alt="Procesador enfundado junto a la funda de bobina del Módulo 2 con su anillo absorbente coral." loading="lazy" width="2000" height="1333"></button><figcaption>Con el Módulo 2: funda de bobina y anillo absorbente.</figcaption></figure>
+    </div>
+    <div class="sub"><h3>Pasa el sonido. No pasa el agua.</h3></div>
+    <div class="dos banda">
+      <div>
+        <p>La banda de malla hidrofóbica cubre los micrófonos sin taparles el oído. Funciona como la membrana de ePTFE de los celulares y relojes resistentes al agua: sus poros dejan pasar el aire y el sonido, pero son demasiado chicos para una gota, que queda arriba y se escurre. La meta es perder 2,5&nbsp;dB o menos entre 500 y 4.000&nbsp;Hz.</p>
+        <ul class="banda-casos">
+          <li><b>Micrófono destapado</b><span>Pasa el sonido, pero también el agua, el sudor y la arena.</span></li>
+          <li><b>Funda de silicona maciza</b><span>Frena el agua, pero tapa el sonido.</span></li>
+          <li class="aura"><b>AURA</b><span>Pasa el sonido y frena el agua, el sudor y la arena.</span></li>
+        </ul>
+        <p class="nota">No es sumergible: está pensada para lluvia, salpicaduras, sudor, arena y viento (meta IP54). Para nadar, cada marca tiene su propio accesorio sumergible.</p>
+      </div>
+      <figure class="placa-clara">
+        <svg viewBox="0 0 480 320" role="img" aria-labelledby="t-corte-banda">
+          <title id="t-corte-banda">Corte esquemático: la banda de malla sobre el agujero del micrófono. Las ondas de sonido la atraviesan y las gotas quedan arriba.</title>
+          <!-- sonido: ondas que bajan y siguen debajo de la malla -->
+          <g fill="none" stroke="#F08A3C" stroke-width="3" stroke-linecap="round">
+            <path d="M206 48 Q240 30 274 48"/><path d="M196 72 Q240 50 284 72"/><path d="M186 96 Q240 70 294 96"/>
+            <path d="M222 168 Q240 160 258 168"/><path d="M226 186 Q240 180 254 186"/>
+          </g>
+          <!-- equipo y agujero del micrófono -->
+          <path d="M20 160 H222 V214 H258 V160 H460 V300 H20 Z" fill="#B9B3A8"/>
+          <rect x="226" y="214" width="28" height="14" rx="3" fill="#2B2B2B"/>
+          <!-- pared de silicona con la ventana de la banda -->
+          <path d="M20 118 H176 V146 H20 Z M304 118 H460 V146 H304 Z" fill="#1F5E5B"/>
+          <rect x="172" y="126" width="136" height="12" rx="2" fill="#2B2B2B"/>
+          <!-- gotas: quedan arriba, redondas, y una se escurre -->
+          <g fill="#DCE7E4" stroke="#1F5E5B" stroke-width="2">
+            <path d="M200 124 a11 9 0 1 1 22 0 Z"/><path d="M262 124 a8 7 0 1 1 16 0 Z"/><path d="M332 116 a9 8 0 1 1 18 0 Z"/>
+            <path d="M120 60 q8 12 0 20 q-8 -8 0 -20 Z"/><path d="M368 50 q8 12 0 20 q-8 -8 0 -20 Z"/>
+          </g>
+          <path d="M354 112 q14 0 24 10" fill="none" stroke="#1F5E5B" stroke-width="2" stroke-dasharray="3 4"/>
+          <text x="300" y="40">Sonido: pasa</text>
+          <text x="24" y="106">Agua: queda arriba</text>
+          <text x="382" y="138" style="fill:#fff">Silicona</text>
+          <text x="30" y="198">Malla hidrofóbica</text>
+          <path d="M168 184 L196 140" stroke="#2B2B2B" stroke-width="1.2"/>
+          <text x="272" y="252">Micrófono</text>
+          <path d="M268 246 L256 224" stroke="#2B2B2B" stroke-width="1.2"/>
+        </svg>
+        <figcaption class="nota" style="color: var(--grafito-2); margin-top: 0.4rem;">Esquema, sin escala.</figcaption>
+      </figure>
     </div>
 
   </div>
