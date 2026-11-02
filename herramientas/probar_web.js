@@ -98,8 +98,13 @@ async function probarVisor(ctx, nombre) {
   ok(r.status() === 200 && await v.locator('canvas').count() > 0, 'visor carga y dibuja');
 
   ok(await v.$eval('#talles button.activo', b => b.textContent.startsWith('XS')), 'el visor abre en XS');
-  await v.click('#talles button >> nth=1'); await listo();   // S/M: implantes, colocación en revisión
-  ok(await v.$eval('#colocar', b => b.disabled), 'implantes: colocación en revisión (botón deshabilitado)');
+  await v.click('#talles button >> nth=2'); await listo();   // M/L Naída: sin colocación todavía
+  ok(await v.$eval('#colocar', b => getComputedStyle(b).display === 'none'), 'Naída: sin botón de colocar');
+  await v.click('#talles button >> nth=1'); await listo();   // S/M: colocación de implante (abrigo)
+  await v.click('#colocar'); await v.waitForTimeout(400);
+  ok(await v.$eval('#pasos', e => e.classList.contains('visible') && e.children.length === 4), 'S/M: colocación con cuatro pasos');
+  await v.waitForTimeout(6000);
+  ok((await v.textContent('#colocar span')).trim() === 'Repetir colocación', 'S/M: la colocación termina');
   await v.click('#talles button >> nth=0'); await listo();   // XS: la colocación tipo bota
   await v.click('#colocar');
   await v.waitForTimeout(400);
