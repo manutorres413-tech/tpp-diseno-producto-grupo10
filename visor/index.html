@@ -45,6 +45,15 @@
   #colocar:hover { background: #184c49; }
   #colocar:disabled { background: #b7c0bf; box-shadow: none; cursor: default; }
   button:focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; }
+  /* banda de malla señalada: un punto sobre la banda y una nota que cambia con el tipo de malla */
+  #punto-banda { position: absolute; left: 0; top: 0; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--coral);
+    box-shadow: 0 0 0 2px #fff; pointer-events: none; display: none; }
+  #punto-banda::after { content: ""; position: absolute; inset: -7px; border-radius: 50%; border: 2px solid var(--coral); animation: latido 1.8s ease-out infinite; }
+  @keyframes latido { from { transform: scale(.55); opacity: .9; } to { transform: scale(1.5); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { #punto-banda::after { animation: none; opacity: .5; } }
+  #nota-banda { position: absolute; left: 14px; bottom: 12px; max-width: min(290px, calc(100% - 190px)); margin: 0; padding: 8px 11px; font-size: 12.5px; line-height: 1.45;
+    color: var(--texto); background: rgba(255, 255, 255, .93); border-left: 3px solid var(--coral); border-radius: 6px; pointer-events: none; display: none; }
+  #nota-banda b { display: block; margin-bottom: 2px; color: var(--verde); }
   #pasos { position: absolute; left: 14px; bottom: 12px; max-width: calc(100% - 190px); margin: 0; padding: 0; list-style: none; font-size: 13px;
     line-height: 1.45; color: var(--suave); pointer-events: none; opacity: 0; transition: opacity .3s; }
   #pasos.visible { opacity: 1; }
@@ -59,7 +68,8 @@
     #escena { height: 62vh; order: -1; }   /* en el celular, primero el modelo y abajo los controles */
     .lista { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
     .lista button { margin: 0; }
-    #pasos { bottom: 62px; max-width: calc(100% - 28px); }   /* encima del botón: al lado no entra */
+    #pasos { bottom: 62px; max-width: calc(100% - 28px); }
+    #nota-banda { bottom: 62px; max-width: calc(100% - 28px); font-size: 12px; padding: 6px 9px; }   /* encima del botón: al lado no entra */
     #pasos li:not(.activo) { display: none; }
   }
 </style>
@@ -89,6 +99,7 @@
     <label class="toggle" id="lbl-transp"><input type="checkbox" id="transp"> Funda transparente (ver micrófonos)</label>
     <label class="toggle" id="lbl-corte"><input type="checkbox" id="corte"> Vista en corte (plano medio)</label>
     <label class="toggle" id="lbl-cordon"><input type="checkbox" id="cordon"> Cordón anticaída</label>
+    <label class="toggle" id="lbl-banda"><input type="checkbox" id="banda" checked> Señalar la banda de malla</label>
     <label class="toggle"><input type="checkbox" id="giro"> Girar solo</label>
     <h2>Malla de la banda</h2>
     <div class="segmentos" id="mallas">
@@ -106,6 +117,8 @@
   </aside>
   <div id="escena">
     <div id="rotulo"></div><div id="cargando">Cargando…</div>
+    <div id="punto-banda" aria-hidden="true"></div>
+    <p id="nota-banda"><b>Pasa el sonido. No pasa el agua.</b><span id="nota-banda-txt"></span></p>
     <ol id="pasos" aria-live="polite">
     </ol>
     <button id="colocar" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Colocar funda</span></button>
@@ -130,10 +143,13 @@ const TALLES = [
     equipos: [["M90", "Advanced Bionics Naída CI M90"]] },
   { id: "MLS", nombre: "M/L Sonnet", detalle: "Implante MED-EL", funda: "funda_A_MLS.glb",
     equipos: [["S2", "MED-EL SONNET 2"]] },
-  { id: "M2",  nombre: "Módulo 2",   detalle: "Funda de bobina + anillo + manga", unico: "modulo2_bobina.glb",
+  { id: "M2",  nombre: "Módulo 2",   detalle: "Funda de bobina + anillo", unico: "modulo2_bobina.glb",
     equipos: [["BOBINA", "Bobina Nucleus 8 Slimline"]] },
 ];
-const PARTES_FUNDA = ["funda", "membrana", "anillo", "manga"];
+const PARTES_FUNDA = ["funda", "membrana", "anillo"];
+// La manga del cable del Módulo 2 no se muestra: cerrada no se puede poner sin desenchufar el cable y pasar la ficha
+// por 40 mm de tubo. Se reemplaza por una muesca con labios en la tapa (falta rehacer el modelo, en la compu de Manuel).
+const OCULTAS = ["manga"];
 const COLORES = ["#2f6b67", "#2b2b2e", "#d8cfc2", "#8a9aa8", "#b7413e", "#5b7f3a", "#e3a33b", "#7b5ea7"];
 const MALLAS = {
   eptfe:   { nombre: "ePTFE",   color: "#d9d8d2", roughness: 0.85, metalness: 0 },
@@ -144,7 +160,13 @@ const PETROLEO = "#1f5e5b", GRAFITO = "#2b2b2b";
 const DURACION = 5200;   // ms de la animación de colocación
 
 const estado = { talle: TALLES[0], equipo: "AUDEO_IR", vista: "ambos", transp: false, color: COLORES[0],
-  malla: "rejilla", cordon: false, corte: false };
+  malla: "rejilla", cordon: false, corte: false, banda: true };
+// Qué hace la banda según la malla. La meta acústica (≤ 2,5 dB entre 500 y 4.000 Hz) es la del brief.
+const NOTAS_MALLA = {
+  eptfe: "Membrana microporosa de ePTFE, como la de los celulares y relojes resistentes al agua: deja pasar el aire y el sonido, y frena el agua, el sudor y la arena. Meta: perder ≤\u00a02,5\u00a0dB.",
+  rejilla: "Rejilla metálica fina con tratamiento hidrofóbico: el sonido pasa por los agujeros y las gotas, el sudor y la arena quedan afuera. Meta: perder ≤\u00a02,5\u00a0dB.",
+  textil: "Tela técnica hidrofóbica: deja pasar el sonido y frena el agua, el sudor y la arena. Meta: perder ≤\u00a02,5\u00a0dB.",
+};
 
 // ---------- escena ----------
 const cont = document.getElementById("escena");
@@ -343,26 +365,39 @@ function medirGancho(e, caja) {
 }
 
 // Cordón anticaída: lazo que pasa por el ojal, pasador donde se juntan las hebras y cola que cuelga hasta el clip.
+// armar(u) lo arma con el pasador corrido: u = 1 ajustado (como queda puesto), u = 0 más abajo, con el lazo flojo.
 function armarCordon({ x, z }) {
   const g = new THREE.Group();
   const mat = new THREE.MeshStandardMaterial({ color: PETROLEO, roughness: 0.7 });
   const r = 0.75;                                            // Ø1,5 mm
   const P = (dx, y, dz) => new THREE.Vector3(x + dx, y, z + dz);
-  const pasador = P(-4, 0, -13);
-  const lazo = new THREE.CatmullRomCurve3([pasador, P(-2.6, -4.4, -5), P(0, -4.4, 0), P(0, 0, 0),
-    P(0, 4.4, 0), P(-2.6, 4.4, -5), pasador.clone()]);
-  const cola = new THREE.CatmullRomCurve3([pasador, P(-6.5, 0, -18), P(-13, 0, -22), P(-21, 0, -20.5), P(-28, 0, -15)]);
-  g.add(new THREE.Mesh(new THREE.TubeGeometry(lazo, 120, r, 10), mat),
-        new THREE.Mesh(new THREE.TubeGeometry(cola, 80, r, 10), mat));
+  const lazoMesh = new THREE.Mesh(new THREE.BufferGeometry(), mat), colaMesh = new THREE.Mesh(new THREE.BufferGeometry(), mat);
   const bolita = new THREE.Mesh(new THREE.SphereGeometry(1.7, 24, 16), mat);
-  bolita.position.copy(pasador);
+  const fin = P(-28, 0, -15);
+  const armar = u => {
+    const f = 1 - u, pasador = P(-4 - 1.6 * f, 0, -13 - 3.6 * f);
+    const lazo = new THREE.CatmullRomCurve3([pasador, P(-2.6 - 2 * f, -4.4 - 1.6 * f, -5 - 2 * f), P(0, -4.4, 0), P(0, 0, 0),
+      P(0, 4.4, 0), P(-2.6 - 2 * f, 4.4 + 1.6 * f, -5 - 2 * f), pasador.clone()]);
+    const cola = new THREE.CatmullRomCurve3([pasador, P(-6.5, 0, -18), P(-13, 0, -22), P(-21, 0, -20.5), fin]);
+    // se copia sobre la geometría de siempre: las tapas del corte la comparten
+    for (const [m, curva, n] of [[lazoMesh, lazo, 120], [colaMesh, cola, 80]]) {
+      const nueva = new THREE.TubeGeometry(curva, n, r, 10);
+      m.geometry.copy(nueva);
+      nueva.dispose();
+    }
+    bolita.position.copy(pasador);
+    return cola;
+  };
+  const cola = armar(1);
   // clip a la ropa en la punta, alineado con el cordón (la cápsula de three va a lo largo de Y)
   const clip = new THREE.Mesh(new THREE.CapsuleGeometry(1.6, 6, 6, 16), new THREE.MeshStandardMaterial({ color: GRAFITO, roughness: 0.5 }));
   const punta = cola.getTangent(1);
   clip.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), punta);
   clip.position.copy(cola.getPoint(1)).addScaledVector(punta, 4);
-  g.add(bolita, clip);
+  g.add(lazoMesh, colaMesh, bolita, clip);
   g.traverse(o => { if (o.isMesh) o.userData.cordon = true; });
+  // cada tramo del tubo son 10 caras de 2 triángulos: 60 índices
+  Object.assign(g.userData, { armar, lazo: lazoMesh, cola: colaMesh, bolita, clip, porTramo: 60, tramosLazo: 120, tramosCola: 80 });
   return g;
 }
 
@@ -425,7 +460,7 @@ function agregarTapas(obj) {
 
 // ---------- contenido ----------
 let fundaObj = null, equipoObj = null, encuadrado = null, carga = 0;
-let nodoFunda = null, nodoEquipo = null, medidas = null, cordonObj = null, coloc = null, anim = null, ocultarPasos = 0;
+let anclaBanda = null, nodoFunda = null, nodoEquipo = null, medidas = null, cordonObj = null, coloc = null, anim = null, ocultarPasos = 0;
 async function cargar() {
   const id = ++carga;                      // si el usuario cambia rápido, sólo vale la última carga
   document.getElementById("cargando").style.display = "grid";
@@ -436,6 +471,7 @@ async function cargar() {
     if (id !== carga) return;
     f = new THREE.Group(); e = new THREE.Group();
     [...s.children[0]?.children?.length ? s.children[0].children : s.children].slice().forEach(n => {
+      if (OCULTAS.some(p => n.name.startsWith(p))) return;
       (PARTES_FUNDA.some(p => n.name.startsWith(p)) ? f : e).add(n);
     });
   } else {
@@ -444,6 +480,7 @@ async function cargar() {
   }
   raiz.clear();
   pararAnim();
+  animCordon = null;
   document.querySelector("#colocar span").textContent = "Colocar funda";
   fundaObj = f; equipoObj = e;
   // materiales propios (para poder cambiar color y transparencia sin afectar la caché)
@@ -453,11 +490,15 @@ async function cargar() {
   if (encuadrado !== t.id) { encuadrar(); encuadrado = t.id; }
   nodoFunda = t.unico ? null : fundaObj.children[0];        // nodo raíz del GLB de la funda (lleva la rotación Z arriba)
   nodoEquipo = t.unico ? null : equipoObj.children[0];      // ídem del equipo: la colocación lo mueve
-  medidas = cordonObj = coloc = null;
+  medidas = cordonObj = coloc = anclaBanda = null;
   if (nodoFunda) {
     // geometría propia de la funda, más fina: la colocación la deforma vértice por vértice sin tocar la caché
     fundaObj.traverse(o => { if (o.isMesh) { o.geometry = subdividir(o.geometry, 1.5); o.userData.reposo = o.geometry.attributes.position.array.slice(); o.userData.normales = o.geometry.attributes.normal?.array.slice(); o.frustumCulled = false; } });
     medidas = medirFunda(fundaObj, equipoObj);
+    // punto de la banda para señalarla: el medio de la membrana, arriba (Y = 0, así se ve también en corte)
+    const banda = new THREE.Box3();
+    cadaVertice(fundaObj, n => /membrana/.test(n), v => banda.expandByPoint(v));
+    anclaBanda = banda.isEmpty() ? null : new THREE.Vector3((banda.min.x + banda.max.x) / 2, 0, banda.max.z);
     cordonObj = armarCordon(medidas.ojal);                   // después de encuadrar: el cordón no cambia el encuadre
     nodoFunda.add(cordonObj);
     if (colocacionLista()) prepararColocacion();
@@ -531,6 +572,9 @@ function aplicar() {
   document.getElementById("colocar").style.display = !unico && !coloc ? "none" : "";
   document.getElementById("ley-malla").style.background = malla.color;
   document.getElementById("ley-malla-txt").textContent = `Banda de malla hidrofóbica (${malla.nombre})`;
+  document.getElementById("nota-banda-txt").textContent = NOTAS_MALLA[estado.malla];
+  document.getElementById("lbl-banda").classList.toggle("apagado", unico);
+  document.getElementById("banda").disabled = unico;
   const eq = estado.talle.equipos.find(e => e[0] === estado.equipo);
   const vistaTxt = { equipo: "equipo solo", funda: "funda sola", ambos: "funda colocada" }[v];
   document.getElementById("rotulo").textContent = `Talle ${estado.talle.nombre} · ${eq ? eq[1] : ""} · ${vistaTxt}${estado.corte ? " · en corte" : ""}`;
@@ -542,8 +586,8 @@ function aplicar() {
 // · XS, audífonos RIC ("bota"): el equipo entra por la boca con el gancho adelante. El cable del auricular es
 //   flexible: entra primero, sube por adentro y sale por su agujero. El equipo lo sigue girando unos grados y la boca
 //   se estira lo justo para dejar pasar cada parte.
-// · Implantes ("abrigo"), como en el dibujo del equipo: el gancho rígido se saca para ponerla y vuelve a calzar por su
-//   agujero al final. La funda se abre por la ranura de atrás; el equipo arranca de costado, con la punta debajo del
+// · Implantes ("abrigo"), parecido a XS: el gancho rígido se saca para ponerla y vuelve a calzar por su agujero al
+//   final. La funda se abre por la ranura de atrás; el equipo arranca inclinado unos 30°, con la punta debajo del
 //   medio de la boca; la punta entra y sube por adentro hasta su lugar y el equipo se endereza mientras sube
 //   (planear() busca el giro que menos estira la funda). Los labios de atrás se cierran sobre el cable de la bobina.
 // En ningún cuadro el equipo atraviesa la funda: lo que quedaría adentro se lleva a la cara más cercana del equipo.
@@ -558,7 +602,7 @@ const GANCHO_SACADO = false;
 // también pasa la verificación y se habilita sumándolo acá; la Naída M90 no tiene animación.
 const COLOCACION_LISTA = ["XS:AUDEO_IR", "MLS:S2"];
 const colocacionLista = () => COLOCACION_LISTA.includes(`${estado.talle.id}:${estado.equipo}`);
-const GIRO_IMPLANTE = -100;   // implantes: grados con que arranca el equipo (de costado, con el frente arriba: entra primero la punta)
+const GIRO_IMPLANTE = -30;    // implantes: grados con que arranca el equipo (inclinado como en XS: entra primero la punta)
 const PASOS = {
   bota: ["El cable del auricular entra por la boca y sale por su agujero",
          "El equipo lo sigue y gira apenas para acomodarse a la funda",
@@ -1028,10 +1072,52 @@ function colocar() {
     ocultarPasos = setTimeout(() => document.getElementById("pasos").classList.remove("visible"), 6000);
     return;
   }
+  pararCordon();
   anim = { inicio: performance.now() };
   pose(0);
   document.querySelector("#colocar span").textContent = "Repetir colocación";
 }
+// ---------- pasar el cordón ----------
+// Al prender el cordón se muestra cómo se pone: el lazo entra por el ojal de las dos orejas (crece por su propio
+// recorrido, así nunca atraviesa la funda), el pasador sube y lo ajusta, y el clip se engancha a la ropa.
+const PASOS_CORDON = ["El lazo pasa por el ojal de las dos orejas", "El pasador sube y ajusta el lazo", "El clip se engancha a la ropa"];
+const DURACION_CORDON = 3400;
+let animCordon = null;
+function poseCordon(p) {
+  const c = cordonObj.userData, lazo = suave(tramo(p, 0, 0.42)), cola = suave(tramo(p, 0.66, 0.95));
+  c.armar(suave(tramo(p, 0.4, 0.68)));
+  c.lazo.geometry.setDrawRange(0, Math.max(1, Math.ceil(lazo * c.tramosLazo)) * c.porTramo);
+  c.cola.geometry.setDrawRange(0, Math.ceil(cola * c.tramosCola) * c.porTramo);
+  c.bolita.visible = p >= 0.4;
+  c.clip.visible = cola > 0.97;
+  marcarPaso(p < 0.4 ? 1 : p < 0.68 ? 2 : 3);
+}
+function pasarCordon() {
+  if (!cordonObj || anim || reducirMov.matches || estado.vista === "equipo") return;
+  document.getElementById("pasos").innerHTML = PASOS_CORDON.map(t => `<li>${t}</li>`).join("");
+  clearTimeout(ocultarPasos);
+  document.getElementById("pasos").classList.add("visible");
+  animCordon = { inicio: performance.now() };
+  poseCordon(0);
+}
+function pararCordon() {
+  animCordon = null;
+  if (!cordonObj) return;
+  const c = cordonObj.userData;
+  c.armar(1);
+  c.lazo.geometry.setDrawRange(0, Infinity); c.cola.geometry.setDrawRange(0, Infinity);
+  c.bolita.visible = c.clip.visible = true;
+}
+function animarCordon(ahora) {
+  if (!animCordon) return;
+  const p = tramo(ahora, animCordon.inicio, animCordon.inicio + DURACION_CORDON);
+  poseCordon(p);
+  if (p === 1) {
+    pararCordon();
+    ocultarPasos = setTimeout(() => document.getElementById("pasos").classList.remove("visible"), 2500);
+  }
+}
+
 function animar(ahora) {
   if (!anim) return;
   anim.p = tramo(ahora, anim.inicio, anim.inicio + DURACION);
@@ -1078,7 +1164,8 @@ function armarTalles() {
   c.innerHTML = "";
   for (const t of TALLES) {
     const b = document.createElement("button");
-    b.innerHTML = `${t.nombre}<small>${t.detalle}</small>`;
+    b.textContent = t.nombre;                                // sólo el talle; qué equipo es va en el rótulo
+    b.title = t.detalle;
     b.classList.toggle("activo", t === estado.talle);
     b.onclick = () => { estado.talle = t; estado.equipo = t.equipos[0][0]; armarTalles(); cargar(); };
     c.appendChild(b);
@@ -1098,7 +1185,8 @@ document.querySelectorAll("#vistas button").forEach(b => b.onclick = () => { est
 document.getElementById("transp").onchange = ev => { estado.transp = ev.target.checked; aplicar(); };
 document.getElementById("giro").onchange = ev => { controls.autoRotate = ev.target.checked; };
 document.getElementById("corte").onchange = ev => { estado.corte = ev.target.checked; aplicar(); };
-document.getElementById("cordon").onchange = ev => { estado.cordon = ev.target.checked; aplicar(); };
+document.getElementById("cordon").onchange = ev => { estado.cordon = ev.target.checked; pararCordon(); aplicar(); if (estado.cordon) pasarCordon(); };
+document.getElementById("banda").onchange = ev => { estado.banda = ev.target.checked; };
 document.querySelectorAll("#mallas button").forEach(b => b.onclick = () => { estado.malla = b.dataset.m; aplicar(); });
 document.getElementById("colocar").onclick = colocar;
 const cc = document.getElementById("colores");
@@ -1113,13 +1201,26 @@ cc.firstChild.classList.add("activo");
 armarTalles();
 redimensionar();
 cargar();
+// Ubica el punto sobre la banda en pantalla. No se muestra con el equipo solo, en Módulo 2 ni durante la colocación.
+const _banda = new THREE.Vector3(), punto = document.getElementById("punto-banda"), nota = document.getElementById("nota-banda");
+function senalarBanda() {
+  let ver = estado.banda && anclaBanda && nodoFunda && !anim && !animCordon && estado.vista !== "equipo";
+  if (ver) {
+    _banda.copy(anclaBanda).applyMatrix4(nodoFunda.matrixWorld).project(camera);
+    ver = _banda.z < 1 && Math.abs(_banda.x) < 0.95 && Math.abs(_banda.y) < 0.95;
+    punto.style.transform = `translate(${(_banda.x + 1) / 2 * cont.clientWidth}px, ${(1 - _banda.y) / 2 * cont.clientHeight}px)`;
+  }
+  punto.style.display = nota.style.display = ver ? "block" : "none";
+}
 const camaraGuardada = new THREE.Vector3();
 renderer.setAnimationLoop(t => {
   animar(t);
+  animarCordon(t);
   controls.update();
   const guardada = camaraGuardada.copy(camera.position), desvio = desvioCamara();
   renderer.render(scene, camera);
   if (desvio) camera.position.copy(guardada);
+  senalarBanda();
 });
 </script>
 </body>
