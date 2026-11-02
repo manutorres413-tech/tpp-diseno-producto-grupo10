@@ -43,11 +43,11 @@ The curve takes the lower bound of each price range in question 10 of the survey
 
 ## 3D viewer (`visor/index.html`)
 
-- Sizes and devices, three views, transparency, silicone color, mesh type (ePTFE, grille, textile), drop cord through the eyelet, section view at Y = 0 and the "Colocar funda" animation. Módulo 2 disables placement, cord and mesh.
+- Sizes with one device each (Audéo I-R, Nucleus 8, Naída M90, Sonnet 2; the device name shows only in the label at the top). The Audéo I-Sphere and the Nucleus 7 are hidden on purpose, because they are almost the same as the I-R and the Nucleus 8, only bigger. Their GLBs stay in `visor/GLB/`. Three views, transparency, silicone color, mesh type (ePTFE, grille, textile), drop cord through the eyelet, section view at Y = 0 and the "Colocar funda" animation. Módulo 2 disables placement, cord and mesh.
 - The placement is a "bota" (boot): the sleeve stays still and the device enters through the mouth, top first. It is never rolled up (with 0.8 mm LSR and the glued mesh band it would crease and peel), and the device must never pass through the sleeve.
   - XS (Audéo I-R): the device starts below the mouth, rotated about 14°, and rises while straightening. The receiver wire is flexible and is bent in the animation: it goes in first, up inside the sleeve and out through the hook hole, then takes its curl. The wall stretches only where the device passes further out than the sleeve allows (`pedirLugar`, in polar sections per height).
   - Implants ("abrigo", from the team's drawing): the rigid earhook is removed at the start and clicks back through its hole at the end. The rear lips open; the device starts on its side with its tip (the hook root) under the middle of the mouth; the tip goes in and climbs inside to its place while the device straightens (`caminoPunta`, and `planear` picks the rotation per step that stretches the sleeve least). The lips close over the coil cable.
-  - Enabled devices are listed in `COLOCACION_LISTA`: Audéo I-R, Nucleus 8 and Sonnet 2, all checked frame by frame with no new crossings. The Naída M90 (brief crossing at the front-top corner), the Nucleus 7 and the Audéo I-Sphere (both larger than their sleeve, which already overlaps them at rest) do not show the button.
+  - Enabled devices are listed in `COLOCACION_LISTA`. The team wants just one of each kind: the Audéo I-R (XS, boot) and the Sonnet 2 (M/L, abrigo). The Nucleus 8 also passes the frame-by-frame check and can be enabled by adding it to the list; the Naída M90 has no animation. Devices without animation do not show the button.
   - Texts that say the implant hook is removed are written but hidden: `class="gancho-sacado" hidden` in `index.html` and `GANCHO_SACADO = false` in the viewer.
 - GLB axes: X forward, Y thickness, Z up. The sleeve meshes are subdivided on load so they can bend. Check each change frame by frame on several sizes, also with transparency and the section view. A triangle-intersection check between the sleeve and the device (ignoring the overlaps the CAD models already have at rest) is the reliable test.
 
@@ -63,7 +63,7 @@ Some things can only be done locally: the `completa` branch, the full project an
 
 ## Pending ideas
 
-- 3D viewer: placement for the Naída M90, the Nucleus 7 and the Audéo I-Sphere; a link that keeps the chosen size, color and mesh; the four sizes side by side.
+- 3D viewer: a link that keeps the chosen size, color and mesh; the four sizes side by side.
 - Link previews: `og:` and `twitter:` tags with the hero render, so the link shows a card when shared.
 - The hero tagline ("…no apaguen tu día") is pending Manuel's decision.
 - When G to J are published again, the text "M2" in Objetivo G has to read "maqueta 2", because "M2" is confused with Módulo 2.

@@ -79,8 +79,7 @@
   <aside>
     <h2>Talle</h2>
     <div class="lista" id="talles"></div>
-    <h2>Equipo</h2>
-    <div class="lista" id="equipos"></div>
+    <div hidden><h2>Equipo</h2><div class="lista" id="equipos"></div></div>   <!-- un equipo por talle: su nombre va en el rótulo -->
     <h2>Qué ver</h2>
     <div class="segmentos" id="vistas">
       <button data-v="equipo">Equipo</button>
@@ -119,11 +118,14 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
 const GLB = "GLB/";
+// Un equipo por talle, a pedido del equipo (es tentativo): el Audéo I-Sphere y el Nucleus 7 quedan ocultos, porque
+// son casi iguales al I-R y al Nucleus 8, apenas más grandes. Sus modelos siguen en GLB/; para volver a mostrarlos,
+// descomentalos y mostrá la lista «Equipo» del costado (hidden).
 const TALLES = [
   { id: "XS",  nombre: "XS",         detalle: "Audífonos RIC", funda: "funda_A_XS.glb",
-    equipos: [["AUDEO_IR", "Phonak Audéo I-R"], ["AUDEO_ISPHERE", "Phonak Audéo I-Sphere"]] },
+    equipos: [["AUDEO_IR", "Phonak Audéo I-R"] /* , ["AUDEO_ISPHERE", "Phonak Audéo I-Sphere"] */] },
   { id: "SM",  nombre: "S/M",        detalle: "Implantes Cochlear", funda: "funda_A_SM.glb",
-    equipos: [["N8", "Cochlear Nucleus 8"], ["N7", "Cochlear Nucleus 7"]] },
+    equipos: [["N8", "Cochlear Nucleus 8"] /* , ["N7", "Cochlear Nucleus 7"] */] },
   { id: "ML",  nombre: "M/L Naída",  detalle: "Implante Advanced Bionics", funda: "funda_A_ML.glb",
     equipos: [["M90", "Advanced Bionics Naída CI M90"]] },
   { id: "MLS", nombre: "M/L Sonnet", detalle: "Implante MED-EL", funda: "funda_A_MLS.glb",
@@ -551,9 +553,10 @@ const lisa = (a, b, x) => { const t = tramo(x, a, b); return t * t * (3 - 2 * t)
 // Con GANCHO_SACADO = true los pasos dicen que en los implantes el gancho se saca y se vuelve a poner (como en la web:
 // ver «gancho-sacado» en index.html). Por ahora no se dice, a pedido del equipo; el gancho igual se ve salir y volver.
 const GANCHO_SACADO = false;
-// Equipos con la colocación terminada (talle:equipo), verificados cuadro por cuadro sin cruces con la funda. En los
-// demás (Audéo I-Sphere, Nucleus 7 y Naída M90) todavía cruza en algunos cuadros: no se muestra el botón.
-const COLOCACION_LISTA = ["XS:AUDEO_IR", "SM:N8", "MLS:S2"];
+// Equipos con la animación de colocación (talle:equipo), verificados cuadro por cuadro sin cruces con la funda. El
+// equipo eligió mostrar un par, uno de cada tipo: el RIC de XS (bota) y el implante Sonnet 2 (abrigo). El Nucleus 8
+// también pasa la verificación y se habilita sumándolo acá; la Naída M90 no tiene animación.
+const COLOCACION_LISTA = ["XS:AUDEO_IR", "MLS:S2"];
 const colocacionLista = () => COLOCACION_LISTA.includes(`${estado.talle.id}:${estado.equipo}`);
 const GIRO_IMPLANTE = -100;   // implantes: grados con que arranca el equipo (de costado, con el frente arriba: entra primero la punta)
 const PASOS = {
