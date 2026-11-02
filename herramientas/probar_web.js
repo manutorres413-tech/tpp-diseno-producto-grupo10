@@ -123,6 +123,10 @@ async function probarVisor(ctx, nombre) {
 
   await v.click('#talles button >> nth=4'); await listo();   // Módulo 2: sin colocar, cordón ni malla
   ok(await v.$eval('#colocar', b => b.disabled) && await v.$eval('#cordon', b => b.disabled), 'Módulo 2 deshabilita colocar y cordón');
+  // el link guarda talle y vista en corte
+  await v.goto(BASE + 'visor/index.html?nc=link' + Date.now() + '#talle=MLS&corte=1', { waitUntil: 'load' }); await listo();
+  const rot = await v.textContent('#rotulo');
+  ok(rot.includes('Sonnet') && rot.includes('en corte'), `link del visor con talle y corte (${rot.trim()})`);
   ok(errores.length === 0, `visor sin errores en consola${errores.length ? ':\n      ' + errores.join('\n      ') : ''}`);
   await v.close();
 }

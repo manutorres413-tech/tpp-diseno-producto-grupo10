@@ -558,6 +558,7 @@ function aplicar() {
   // los equipos sin colocación terminada no muestran el botón (Módulo 2 lo muestra apagado: es otra pieza)
   document.getElementById("colocar").style.display = !unico && !coloc ? "none" : "";
   document.getElementById("nota-banda-txt").textContent = NOTA_BANDA;
+  escribirLink();
   document.getElementById("lbl-banda").classList.toggle("apagado", unico);
   document.getElementById("banda").disabled = unico;
   const eq = estado.talle.equipos.find(e => e[0] === estado.equipo);
@@ -1180,7 +1181,23 @@ for (const c of COLORES) {
   b.onclick = () => { estado.color = c; cc.querySelectorAll("button").forEach(x => x.classList.toggle("activo", x === b)); aplicar(); };
   cc.appendChild(b);
 }
-cc.firstChild.classList.add("activo");
+// Link que guarda lo elegido: #talle=SM&color=2f6b67&vista=ambos&corte=1… Se lee al abrir y se reescribe al cambiar
+// (sin agregar pasos al historial), así se puede compartir el visor como quedó.
+function leerLink() {
+  const q = new URLSearchParams(location.hash.slice(1)), t = TALLES.find(x => x.id === q.get("talle"));
+  if (t) { estado.talle = t; estado.equipo = t.equipos[0][0]; }
+  const c = "#" + (q.get("color") || "");
+  if (COLORES.includes(c)) estado.color = c;
+  if (["equipo", "funda", "ambos"].includes(q.get("vista"))) estado.vista = q.get("vista");
+  for (const k of ["transp", "corte", "cordon"]) if (q.has(k)) { estado[k] = q.get(k) === "1"; document.getElementById(k).checked = estado[k]; }
+}
+function escribirLink() {
+  const q = new URLSearchParams({ talle: estado.talle.id, color: estado.color.slice(1), vista: estado.vista });
+  for (const k of ["transp", "corte", "cordon"]) if (estado[k]) q.set(k, "1");
+  history.replaceState(null, "", "#" + q);
+}
+leerLink();
+cc.querySelectorAll("button").forEach(x => x.classList.toggle("activo", x.title === estado.color));
 
 armarTalles();
 redimensionar();

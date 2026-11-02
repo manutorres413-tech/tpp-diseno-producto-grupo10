@@ -44,7 +44,7 @@ The curve takes the lower bound of each price range in question 10 of the survey
 
 ## 3D viewer (`visor/index.html`)
 
-- Sizes with one device each (Audéo I-R, Nucleus 8, Naída M90, Sonnet 2; the device name shows only in the label at the top). The Audéo I-Sphere and the Nucleus 7 are hidden on purpose, because they are almost the same as the I-R and the Nucleus 8, only bigger. Their GLBs stay in `visor/GLB/`. Three views, transparency, silicone color, mesh type (ePTFE, grille, textile), drop cord through the eyelet, section view at Y = 0 and the "Colocar funda" animation. Módulo 2 disables placement, cord and mesh.
+- Sizes with one device each (Audéo I-R, Nucleus 8, Naída M90, Sonnet 2; the device name shows only in the label at the top). The Audéo I-Sphere and the Nucleus 7 are hidden on purpose, because they are almost the same as the I-R and the Nucleus 8, only bigger. Their GLBs stay in `visor/GLB/`. Three views, transparency, silicone color, the band marked with a note (ePTFE only, graphite), the drop cord (threaded step by step when switched on), a link that keeps size, color, view and toggles in the hash (`#talle=MLS&corte=1`), section view at Y = 0 and the "Colocar funda" animation. Módulo 2 disables placement, cord and mesh.
 - The placement is a "bota" (boot): the sleeve stays still and the device enters through the mouth, top first. It is never rolled up (with 0.8 mm LSR and the glued mesh band it would crease and peel), and the device must never pass through the sleeve.
   - XS (Audéo I-R): the device starts below the mouth, rotated about 14°, and rises while straightening. The receiver wire is flexible and is bent in the animation: it goes in first, up inside the sleeve and out through the hook hole, then takes its curl. The wall stretches only where the device passes further out than the sleeve allows (`pedirLugar`, in polar sections per height).
   - Implants ("abrigo", from the team's drawing): the rigid earhook is removed at the start and clicks back through its hole at the end. The rear lips open; the device starts tilted about 30°, like XS, with its tip (the hook root) under the middle of the mouth; the tip goes in and climbs inside to its place while the device straightens (`caminoPunta`, and `planear` picks the rotation per step that stretches the sleeve least). The lips close over the coil cable.
@@ -64,7 +64,6 @@ Some things can only be done locally: the `completa` branch, the full project an
 
 ## Pending ideas
 
-- 3D viewer: a link that keeps the chosen size, color and mesh; the four sizes side by side.
-- Link previews: `og:` and `twitter:` tags with the hero render, so the link shows a card when shared.
+- 3D viewer: the four sizes side by side.
 - The hero tagline ("…no apaguen tu día") is pending Manuel's decision.
 - G still needs the mock-up results (photos, times, the acoustic and splash tests) once the team has them.
