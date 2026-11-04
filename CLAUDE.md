@@ -20,9 +20,9 @@ It is the public page of the AURA project: a medical-grade silicone sleeve that 
 
 - The page is in Rioplatense Spanish with voseo ("elegí", "mirá"), plain and direct. Each figure carries its source and must have the same value everywhere it appears.
 - Brand colors: petrol green `#1F5E5B`, sand `#E8DCC8`, graphite `#2B2B2B` and coral `#F08A3C` (accent only, never for body text). Titles use Nunito.
-- **The stages up to H are published.** After the 3D viewer come G (mock-up) and H (engineering), both open (not collapsible). I (costs), J (brand) and Downloads were removed on purpose.
+- **The stages up to I are published** (I since 2026-11-03). After the 3D viewer come G (mock-up), H (engineering) and I (costs), all open (not collapsible). I is HTML only and needs no media. J (brand) and Downloads were removed on purpose.
   - The full version is in the `completa` branch, which exists only on Manuel's computer.
-  - Do not recreate I or J or upload files from those stages unless the team asks for it.
+  - Do not recreate J or Downloads or upload their files unless the team asks for it.
   - Módulo 2 (redesigned 2026-11-02): the outer face is closed and the skin face is open, so nothing sits between the magnet and the skin and the magnet keeps its strength. The cable goes in sideways through a notch, without unplugging it. There is no cable sleeve, and the ring is 3D polyester mesh. The coil is already part of the Nucleus 8 IP68 system, so the sleeve does not seal it; never say that it waterproofs the coil. The photo `A_SM_conjunto_modulo2.jpg` and the tour clip `conjunto` still show the old version (open outer face); they will be re-rendered later on Manuel's computer.
   - The band membrane is **ePTFE only**, decided by the team on 2026-11-02. It is acoustic, hydrophobic and oleophobic, has a polyester backing and silicone adhesive, and is glued and replaceable. Polyester mesh and grille were compared against the brief and discarded: the mesh soaks up sweat and lets fine sand through, and the grille lets drops through and is rigid. Do not bring back a choice of meshes.
 - **Filler objectives are collapsible.** A·B, both C sections, D and F show only the header with a "Ver todo el objetivo" button (`.btn-plegar`). The content goes in `<div class="plegable" id="pl-<section>" hidden>`. E (mind map and alternatives) and the sleeve stay open.

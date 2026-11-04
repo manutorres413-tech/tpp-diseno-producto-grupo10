@@ -44,12 +44,12 @@ async function probarPagina(ctx, nombre) {
   await page.goto(BASE + nc, { waitUntil: 'load' });
   await page.waitForTimeout(1500);
 
-  // Publicado hasta H: sin I, J ni Descargas
+  // Publicado hasta I: sin J ni Descargas
   ok(!(await page.content()).includes('Entregas y planos'), 'sin botón "Entregas y planos"');
-  for (const id of ['costos', 'marca', 'descargas']) ok(await page.locator(`#${id}`).count() === 0, `sin sección #${id}`);
+  for (const id of ['marca', 'descargas']) ok(await page.locator(`#${id}`).count() === 0, `sin sección #${id}`);
   const ids = await page.$$eval('section[id]', s => s.map(x => x.id));
-  ok(ids.slice(-3).join() === 'visor,maqueta,ingenieria', `después del visor vienen G y H (${ids.join(', ')})`);
-  for (const id of ['maqueta', 'ingenieria']) ok(await page.locator(`.indice a[href="#${id}"]`).count() === 1, `#${id} en el índice`);
+  ok(ids.slice(-4).join() === 'visor,maqueta,ingenieria,costos', `después del visor vienen G, H e I (${ids.join(', ')})`);
+  for (const id of ['maqueta', 'ingenieria', 'costos']) ok(await page.locator(`.indice a[href="#${id}"]`).count() === 1, `#${id} en el índice`);
 
   // Objetivos de relleno plegados
   for (const id of ['problema', 'sondeo', 'mercado', 'brief', 'seleccion']) {
@@ -150,7 +150,7 @@ async function probarVisor(ctx, nombre) {
     await ctx.close();
   }
 
-  console.log('\n== archivos de I y J retirados ==');
+  console.log('\n== archivos de J y Descargas retirados ==');
   const ctx = await browser.newContext();
   for (const p of ['descargas/Objetivos_G_a_J_Grupo10.pdf', 'img/marca/estuche.jpg', 'img/ingenieria/m2_despiece.jpg']) {
     const r = await ctx.request.get(BASE + p + nc);
