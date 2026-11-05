@@ -51,6 +51,12 @@ async function probarPagina(ctx, nombre) {
   ok(ids.slice(-4).join() === 'visor,maqueta,ingenieria,costos', `después del visor vienen G, H e I (${ids.join(', ')})`);
   for (const id of ['maqueta', 'ingenieria', 'costos']) ok(await page.locator(`.indice a[href="#${id}"]`).count() === 1, `#${id} en el índice`);
 
+  // Módulo 2 descartado y comercial retirado hasta nuevo aviso (sus videos siguen en media/, sin referencia)
+  const html = await page.content();
+  ok(!/Módulo 2|modulo2|M2_Funda|funda de bobina|recorrido\/conjunto/i.test(html), 'sin rastros del Módulo 2');
+  ok(await page.locator('#comercial').count() === 0 && !/href="#comercial"|comercial_(16x9|9x16)/.test(html), 'sin el comercial ni enlaces a él');
+  ok(await page.locator('.rc-escena').count() === 4, 'recorrido con cuatro escenas');
+
   // Objetivos de relleno plegados
   for (const id of ['problema', 'sondeo', 'mercado', 'brief', 'seleccion']) {
     const pl = page.locator(`#pl-${id}`), btn = page.locator(`button[aria-controls="pl-${id}"]`);
@@ -121,8 +127,9 @@ async function probarVisor(ctx, nombre) {
   ok((await v.textContent('#rotulo')).includes('en corte'), 'vista en corte');
   await v.locator('#escena').screenshot({ path: path.join(OUT, `${nombre}-visor.png`) }).catch(() => {});
 
-  await v.click('#talles button >> nth=4'); await listo();   // Módulo 2: sin colocar, cordón ni malla
-  ok(await v.$eval('#colocar', b => b.disabled) && await v.$eval('#cordon', b => b.disabled), 'Módulo 2 deshabilita colocar y cordón');
+  // el Módulo 2 (funda de bobina) se descartó el 04/11/2026: el visor tiene sólo los cuatro talles
+  const talles = await v.$$eval('#talles button', bs => bs.map(b => b.textContent));
+  ok(talles.length === 4 && !talles.some(t => /Módulo|bobina/i.test(t)), `visor con cuatro talles y sin Módulo 2 (${talles.length})`);
   // el link guarda talle y vista en corte
   await v.goto(BASE + 'visor/index.html?nc=link' + Date.now() + '#talle=MLS&corte=1', { waitUntil: 'load' }); await listo();
   const rot = await v.textContent('#rotulo');
@@ -150,11 +157,18 @@ async function probarVisor(ctx, nombre) {
     await ctx.close();
   }
 
-  console.log('\n== archivos de J y Descargas retirados ==');
+  console.log('\n== archivos retirados (J, Descargas y Módulo 2) ==');
   const ctx = await browser.newContext();
-  for (const p of ['descargas/Objetivos_G_a_J_Grupo10.pdf', 'img/marca/estuche.jpg', 'img/ingenieria/m2_despiece.jpg']) {
+  for (const p of ['descargas/Objetivos_G_a_J_Grupo10.pdf', 'img/marca/estuche.jpg', 'img/ingenieria/m2_despiece.jpg',
+    'img/alternativas/M2_Funda_bobina.jpg', 'img/producto/A_SM_conjunto_modulo2.jpg', 'img/planos/plano_modulo2_bobina.jpg',
+    'descargas/plano_modulo2_bobina.pdf', 'media/recorrido/conjunto.mp4', 'media/recorrido/conjunto-m.mp4', 'visor/GLB/modulo2_bobina.glb']) {
     const r = await ctx.request.get(BASE + p + nc);
     ok(r.status() === 404, `${p} da ${r.status()}`);
+  }
+  // el comercial sale de la página pero sus videos se quedan en el repo hasta que vuelva
+  for (const p of ['media/comercial_16x9.mp4', 'media/comercial_9x16.mp4']) {
+    const r = await ctx.request.head(BASE + p + nc);
+    ok(r.status() === 200, `${p} sigue en el repo (${r.status()})`);
   }
   await browser.close();
   console.log(fallas ? `\n${fallas} FALLA(S). No publicar hasta resolverlas.` : '\nTodo OK. Capturas en herramientas/_capturas/.');

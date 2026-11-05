@@ -53,11 +53,12 @@ def ffmpeg(*args):
 
 def imagenes():
     img = WEB / "img"
-    for n in ("A_SM_heroe", "A_SM_detalle_malla", "A_SM_conjunto_modulo2", "A_talles_familia"):
+    for n in ("A_SM_heroe", "A_SM_detalle_malla", "A_talles_familia"):
         jpg(SAL / "renders_foto" / f"{n}.png", img / "producto" / f"{n}.jpg", 2000)
     # cada lámina y plano va también en 800 px de ancho (mini/): la grilla los muestra a un tercio de pantalla
     # y el visor de imágenes abre el grande
-    for f in sorted((EF / "Laminas").glob("*.png")):
+    # el Módulo 2 (funda de bobina) se descartó el 04/11/2026: su lámina M2_* no se publica
+    for f in sorted(f for f in (EF / "Laminas").glob("*.png") if not f.stem.startswith("M2")):
         jpg(f, img / "alternativas" / f"{f.stem}.jpg", 1800, 86)
         jpg(f, img / "alternativas" / "mini" / f"{f.stem}.jpg", 800, 82)
     if PUBLICAR_G_H:
@@ -76,8 +77,8 @@ def imagenes():
 
 
 def planos(ext):
-    """Planos de los cuatro talles y del Módulo 2."""
-    return sorted((SAL / "planos").glob(f"*.{ext}"))
+    """Planos de los cuatro talles (el del Módulo 2 ya no se publica: se descartó)."""
+    return sorted(f for f in (SAL / "planos").glob(f"*.{ext}") if "modulo2" not in f.stem)
 
 
 def estuche(dst):
@@ -113,7 +114,7 @@ def videos():
         ffmpeg("-ss", "38.5", "-i", str(src), "-frames:v", "1", "-q:v", "3", str(media / f"comercial_{fmt}.jpg"))
 
 
-RECORRIDO = ("orbita", "malla", "cordon", "talles", "conjunto")
+RECORRIDO = ("orbita", "malla", "cordon", "talles")   # "conjunto" mostraba el Módulo 2, descartado
 
 
 def recorrido():
@@ -186,7 +187,7 @@ def visor():
     v = WEB / "visor"
     (v / "GLB").mkdir(parents=True, exist_ok=True)
     for f in (SAL / "GLB").glob("*.glb"):
-        if f.stem.startswith(("funda_A_", "equipo_", "modulo2")) and not f.stem.endswith("_puesta"):
+        if f.stem.startswith(("funda_A_", "equipo_")) and not f.stem.endswith("_puesta"):
             shutil.copy2(f, v / "GLB" / f.name)
 
 

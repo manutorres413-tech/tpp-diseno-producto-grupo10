@@ -137,13 +137,7 @@ const TALLES = [
     equipos: [["M90", "Advanced Bionics Naída CI M90"]] },
   { id: "MLS", nombre: "M/L Sonnet", detalle: "Implante MED-EL", funda: "funda_A_MLS.glb",
     equipos: [["S2", "MED-EL SONNET 2"]] },
-  { id: "M2",  nombre: "Módulo 2",   detalle: "Funda de bobina + anillo", unico: "modulo2_bobina.glb",
-    equipos: [["BOBINA", "Bobina Nucleus 8 Slimline"]] },
 ];
-const PARTES_FUNDA = ["funda", "membrana", "anillo"];
-// La manga del cable del Módulo 2 no se muestra: cerrada no se puede poner sin desenchufar el cable y pasar la ficha
-// por 40 mm de tubo. Se reemplaza por una muesca con labios en la tapa (falta rehacer el modelo, en la compu de Manuel).
-const OCULTAS = ["manga"];
 const COLORES = ["#2f6b67", "#2b2b2e", "#d8cfc2", "#8a9aa8", "#b7413e", "#5b7f3a", "#e3a33b", "#7b5ea7"];
 // La banda es sólo de ePTFE acústico (hidrofóbico y oleofóbico, con soporte de poliéster y adhesivo de silicona),
 // pegado en el rebaje de 0,3 mm. Es la única opción que cumple a la vez con agua, polvo y arena y ≤ 2,5 dB: la malla
@@ -440,7 +434,7 @@ function agregarTapas(obj) {
   obj.traverse(o => { if (o.isMesh && !o.userData.tapa) mallas.push(o); });
   for (const o of mallas) {
     const tapa = new THREE.Mesh(o.geometry, new THREE.MeshBasicMaterial({ side: THREE.BackSide, clippingPlanes: PLANOS_CORTE,
-      polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 }));   // detrás de las caras que coinciden (bobina contra funda)
+      polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 }));   // detrás de las caras que coinciden (piezas que se tocan)
     tapa.userData.tapa = true;
     tapa.visible = false;
     o.add(tapa);
@@ -454,31 +448,20 @@ async function cargar() {
   const id = ++carga;                      // si el usuario cambia rápido, sólo vale la última carga
   document.getElementById("cargando").style.display = "grid";
   const t = estado.talle;
-  let f, e;
-  if (t.unico) {
-    const s = await cargarGLB(t.unico);
-    if (id !== carga) return;
-    f = new THREE.Group(); e = new THREE.Group();
-    [...s.children[0]?.children?.length ? s.children[0].children : s.children].slice().forEach(n => {
-      if (OCULTAS.some(p => n.name.startsWith(p))) return;
-      (PARTES_FUNDA.some(p => n.name.startsWith(p)) ? f : e).add(n);
-    });
-  } else {
-    [f, e] = await Promise.all([cargarGLB(t.funda), cargarGLB(`equipo_${estado.equipo}.glb`)]);
-    if (id !== carga) return;
-  }
+  const [f, e] = await Promise.all([cargarGLB(t.funda), cargarGLB(`equipo_${estado.equipo}.glb`)]);
+  if (id !== carga) return;
   raiz.clear();
   pararAnim();
   animCordon = null;
   document.querySelector("#colocar span").textContent = "Colocar funda";
   fundaObj = f; equipoObj = e;
   // materiales propios (para poder cambiar color y transparencia sin afectar la caché)
-  fundaObj.traverse(o => { if (o.isMesh) { o.material = o.material.clone(); o.userData.silicona = !/membrana|anillo/.test(nombreDe(o)); o.userData.membrana = /membrana/.test(nombreDe(o)); } });
+  fundaObj.traverse(o => { if (o.isMesh) { o.material = o.material.clone(); o.userData.silicona = !/membrana/.test(nombreDe(o)); o.userData.membrana = /membrana/.test(nombreDe(o)); } });
   equipoObj.traverse(o => { if (o.isMesh) o.material = o.material.clone(); });
   raiz.add(equipoObj, fundaObj);
   if (encuadrado !== t.id) { encuadrar(); encuadrado = t.id; }
-  nodoFunda = t.unico ? null : fundaObj.children[0];        // nodo raíz del GLB de la funda (lleva la rotación Z arriba)
-  nodoEquipo = t.unico ? null : equipoObj.children[0];      // ídem del equipo: la colocación lo mueve
+  nodoFunda = fundaObj.children[0];        // nodo raíz del GLB de la funda (lleva la rotación Z arriba)
+  nodoEquipo = equipoObj.children[0];      // ídem del equipo: la colocación lo mueve
   medidas = cordonObj = coloc = anclaBanda = null;
   if (nodoFunda) {
     // geometría propia de la funda, más fina: la colocación la deforma vértice por vértice sin tocar la caché
@@ -494,8 +477,7 @@ async function cargar() {
   }
   agregarTapas(fundaObj); agregarTapas(equipoObj);
   // El nodo raíz del GLB lleva Z hacia arriba, así que la Y del modelo queda sobre la Z de la escena.
-  // Módulo 2 se arma con las piezas sueltas, sin ese nodo: ahí la Y del modelo es la Y de la escena.
-  plano.normal.set(0, t.unico ? -1 : 0, t.unico ? 0 : -1);
+  plano.normal.set(0, 0, -1);
   aplicar();
   document.getElementById("cargando").style.display = "none";
 }
@@ -517,7 +499,6 @@ function aplicar() {
   fundaObj.visible = v !== "equipo";
   equipoObj.visible = v !== "funda";
   const transp = estado.transp && v === "ambos";
-  const unico = !!estado.talle.unico;
   fundaObj.traverse(o => {
     if (!o.isMesh || o.userData.tapa || o.userData.cordon) return;
     if (o.userData.silicona) o.material.color.set(estado.color);
@@ -552,15 +533,11 @@ function aplicar() {
   const lbl = document.getElementById("lbl-transp");
   lbl.classList.toggle("apagado", v !== "ambos");
   document.getElementById("transp").disabled = v !== "ambos";
-  document.getElementById("lbl-cordon").classList.toggle("apagado", unico);
-  document.getElementById("cordon").disabled = unico;
-  document.getElementById("colocar").disabled = unico || !coloc;
-  // los equipos sin colocación terminada no muestran el botón (Módulo 2 lo muestra apagado: es otra pieza)
-  document.getElementById("colocar").style.display = !unico && !coloc ? "none" : "";
+  document.getElementById("colocar").disabled = !coloc;
+  // los equipos sin colocación terminada no muestran el botón
+  document.getElementById("colocar").style.display = coloc ? "" : "none";
   document.getElementById("nota-banda-txt").textContent = NOTA_BANDA;
   escribirLink();
-  document.getElementById("lbl-banda").classList.toggle("apagado", unico);
-  document.getElementById("banda").disabled = unico;
   const eq = estado.talle.equipos.find(e => e[0] === estado.equipo);
   const vistaTxt = { equipo: "equipo solo", funda: "funda sola", ambos: "funda colocada" }[v];
   document.getElementById("rotulo").textContent = `Talle ${estado.talle.nombre} · ${eq ? eq[1] : ""} · ${vistaTxt}${estado.corte ? " · en corte" : ""}`;
@@ -1162,7 +1139,6 @@ function armarTalles() {
     const b = document.createElement("button");
     b.innerHTML = `${nombre}<small>${i === 0 ? "da la forma de la funda" : "entra en la misma funda estirándola"}</small>`;
     b.classList.toggle("activo", clave === estado.equipo);
-    b.disabled = !!estado.talle.unico;
     b.onclick = () => { estado.equipo = clave; armarTalles(); cargar(); };
     e.appendChild(b);
   });
@@ -1202,7 +1178,7 @@ cc.querySelectorAll("button").forEach(x => x.classList.toggle("activo", x.title 
 armarTalles();
 redimensionar();
 cargar();
-// Ubica el punto sobre la banda en pantalla. No se muestra con el equipo solo, en Módulo 2 ni durante la colocación.
+// Ubica el punto sobre la banda en pantalla. No se muestra con el equipo solo ni durante la colocación.
 const _banda = new THREE.Vector3(), punto = document.getElementById("punto-banda"), nota = document.getElementById("nota-banda");
 function senalarBanda() {
   let ver = estado.banda && anclaBanda && nodoFunda && !anim && !animCordon && estado.vista !== "equipo";

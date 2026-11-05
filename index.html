@@ -203,7 +203,7 @@ p { margin: 0; text-wrap: pretty; }
 @keyframes entra { from { opacity: 0; translate: 0 12px; filter: blur(4px); } }
 @keyframes aparece { from { opacity: 0; } }
 
-/* ---------- comercial ---------- */
+/* ---------- videos (el comercial está retirado hasta nuevo aviso; estas reglas quedan para cuando vuelva) ---------- */
 .videos { display: grid; grid-template-columns: minmax(0, 2.6fr) minmax(0, 1fr); gap: clamp(1rem, 2.5vw, 1.8rem); align-items: end; }
 .video figure, figure { margin: 0; }
 .video video { width: 100%; border-radius: var(--radio); background: #111; }
@@ -452,6 +452,7 @@ tr.aura td:first-child { font-weight: 700; color: var(--petroleo-hondo); }
 
 /* ---------- la funda ---------- */
 .galeria-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; margin-top: 1.2rem; }
+.galeria-1 { margin-top: 1.2rem; }
 /* banda de malla: qué hace, tres casos y un corte en esquema */
 .banda { align-items: center; }
 .banda > div > p { color: var(--arena-suave); max-width: 34rem; }
@@ -501,7 +502,7 @@ tr.aura td:first-child { font-weight: 700; color: var(--petroleo-hondo); }
 .galeria-3 .zoom { aspect-ratio: 3 / 2; background: var(--blanco); }
 .galeria-3 .zoom img { height: 100%; padding: clamp(0.5rem, 1.5vw, 1rem); object-fit: contain; }
 .explotado .nota { margin-top: 1.6rem; }
-.planos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.6rem 1.2rem; }
+.planos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem 1.2rem; }
 .planos figcaption a { font-weight: 600; }
 
 /* ---------- I costos ---------- */
@@ -691,9 +692,6 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         <p class="eslogan entra" style="--i:1">No tenés que elegir.</p>
         <h1 id="titulo-tapa" class="entra" style="--i:2"><span class="vh">AURA. </span>Que el agua, el sudor o una caída no apaguen tu día.</h1>
         <p class="lede entra" style="--i:3">Funda de silicona de grado médico para procesadores de implantes cocleares y audífonos retroauriculares. Se calza como una bota y una banda de malla hidrofóbica frena el agua sin tapar el sonido.</p>
-        <div class="acciones entra" style="--i:4">
-          <a class="btn btn-arena" href="#comercial"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg>Ver el comercial</a>
-        </div>
         <p class="equipo entra" style="--i:5">Grupo 10 · Diseño del Producto 2026 · UTN FRBA<br>
           <a href="https://www.linkedin.com/in/manueltorres02/" rel="noopener" target="_blank">Manuel Torres</a>,
           <a href="https://www.linkedin.com/in/luisina-infante-a794181b7/" rel="noopener" target="_blank">Luisina Infante</a>,
@@ -710,25 +708,6 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       <div><dt>&lt;&nbsp;15&nbsp;s</dt><dd>para colocarla, con el equipo armado<span class="gancho-sacado" hidden> (en los implantes, sin el gancho)</span></dd></div>
       <div><dt>$80.000</dt><dd>el kit de dos fundas</dd></div>
     </dl>
-  </div>
-</section>
-
-<!-- ============ COMERCIAL ============ -->
-<section id="comercial" class="cap grafito" aria-labelledby="t-comercial">
-  <div class="marco">
-    <div class="cabeza sola">
-      <div>
-        <h2 id="t-comercial">AURA en 40 segundos</h2>
-      </div>
-    </div>
-    <div class="videos">
-      <figure class="video">
-        <video controls preload="none" playsinline poster="media/comercial_16x9.jpg" width="1920" height="1080" aria-label="Comercial de AURA, versión horizontal"><source src="media/comercial_16x9.mp4" type="video/mp4"></video>
-      </figure>
-      <figure class="video vertical">
-        <video controls preload="none" playsinline poster="media/comercial_9x16.jpg" width="1080" height="1920" aria-label="Comercial de AURA, versión vertical"><source src="media/comercial_9x16.mp4" type="video/mp4"></video>
-      </figure>
-    </div>
   </div>
 </section>
 
@@ -1110,12 +1089,6 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         <p>Carcasa de dos valvas de TPU con bisagra, junta perimetral y ventanas con membrana. La única que también protege de golpes.</p>
         <p class="puntaje">69,5 / 100 <em>· cumple el brief</em></p>
       </article>
-      <article class="alt">
-        <button class="zoom" data-full="img/alternativas/M2_Funda_bobina.jpg"><img src="img/alternativas/mini/M2_Funda_bobina.jpg" srcset="img/alternativas/mini/M2_Funda_bobina.jpg 800w, img/alternativas/M2_Funda_bobina.jpg 1754w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 380px" alt="Lámina del Módulo 2, funda de bobina" loading="lazy" width="1754" height="1240"></button>
-        <h3><span>M2</span>Funda de bobina</h3>
-        <p>Complemento: silicona de menos de 0,5&nbsp;mm sobre el imán, anillo absorbente desmontable para el sudor y manga para el cable.</p>
-        <p class="puntaje">Se suma a la elegida</p>
-      </article>
     </div>
   </div>
 </section>
@@ -1143,7 +1116,8 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         </ol>
         <div class="texto">
           <p>A saca el mayor puntaje y cumple el brief, con dos puntos a verificar en la maqueta: la pérdida acústica de la malla y el anclaje de 5&nbsp;N en el ojal.</p>
-          <p>La funda descartable queda segunda, pero no pasa el filtro: no se puede lavar, no sujeta el equipo y no amortigua golpes. A se completa con el Módulo 2, la funda de bobina.</p>
+          <p>La funda descartable queda segunda, pero no pasa el filtro: no se puede lavar, no sujeta el equipo y no amortigua golpes.</p>
+          <p>La bobina se tuvo en cuenta, pero no se enfunda: ya es parte del sistema resistente al agua del procesador (IP68 en el Nucleus&nbsp;8), y cualquier capa entre el imán y la piel le resta fuerza. Su cable sale por la ranura trasera de la funda, sin desenchufarlo.</p>
         </div>
       </div>
       <figure>
@@ -1169,9 +1143,8 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       <button class="zoom" data-full="img/producto/A_talles_familia.jpg"><img src="img/producto/A_talles_familia.jpg" alt="Los cuatro talles de la funda AURA en fila, de menor a mayor." loading="lazy" width="2000" height="1333"></button>
       <figcaption>XS, S/M, M/L Naída y M/L Sonnet. Renders fotorrealistas en Blender.</figcaption>
     </figure>
-    <div class="galeria-2">
+    <div class="galeria-1">
       <figure class="foto"><button class="zoom" data-full="img/producto/A_SM_detalle_malla.jpg"><img src="img/producto/A_SM_detalle_malla.jpg" alt="Detalle de la banda de malla con gotas de agua." loading="lazy" width="2000" height="1333"></button><figcaption>La gota queda sobre la malla y no llega a los micrófonos.</figcaption></figure>
-      <figure class="foto"><button class="zoom" data-full="img/producto/A_SM_conjunto_modulo2.jpg"><img src="img/producto/A_SM_conjunto_modulo2.jpg" alt="Procesador enfundado junto a la funda de bobina del Módulo 2 con su anillo absorbente coral." loading="lazy" width="2000" height="1333"></button><figcaption>Con el Módulo 2: funda de bobina y anillo absorbente.</figcaption></figure>
     </div>
     <div class="sub"><h3>Pasa el sonido. No pasa el agua.</h3></div>
     <div class="dos banda">
@@ -1255,7 +1228,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         </picture>
       </div>
       <div class="rc-texto">
-        <p class="rc-num"><span class="vh">Escena </span>01 / 05</p>
+        <p class="rc-num"><span class="vh">Escena </span>01 / 04</p>
         <p class="rc-ante">Una sola pieza</p>
         <h3>Una segunda piel para el procesador.</h3>
         <p class="rc-cuerpo">Silicona LSR de grado médico, 0,8&nbsp;mm de pared y ninguna costura. Copia el equipo con 0,2&nbsp;mm de holgura: no baila y no aprieta los botones.</p>
@@ -1270,7 +1243,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         </picture>
       </div>
       <div class="rc-texto">
-        <p class="rc-num"><span class="vh">Escena </span>02 / 05</p>
+        <p class="rc-num"><span class="vh">Escena </span>02 / 04</p>
         <p class="rc-ante">Banda de malla hidrofóbica</p>
         <h3>La gota queda afuera. El sonido entra.</h3>
         <p class="rc-cuerpo">La banda cubre los micrófonos y frena agua, sudor y arena. La meta es perder 2,5&nbsp;dB o menos entre 500 y 4.000&nbsp;Hz.</p>
@@ -1285,7 +1258,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         </picture>
       </div>
       <div class="rc-texto">
-        <p class="rc-num"><span class="vh">Escena </span>03 / 05</p>
+        <p class="rc-num"><span class="vh">Escena </span>03 / 04</p>
         <p class="rc-ante">Ojal y cordón anticaída</p>
         <h3>Si se cae, queda colgando.</h3>
         <p class="rc-cuerpo">Un cordón de poliéster pasa por el ojal trasero y se prende a la ropa con un clip. El ojal tiene que aguantar 5&nbsp;N sin soltar el equipo.</p>
@@ -1300,26 +1273,11 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         </picture>
       </div>
       <div class="rc-texto">
-        <p class="rc-num"><span class="vh">Escena </span>04 / 05</p>
+        <p class="rc-num"><span class="vh">Escena </span>04 / 04</p>
         <p class="rc-ante">Cuatro talles</p>
         <h3>Seis procesadores, cuatro marcas.</h3>
         <p class="rc-cuerpo">Todos los talles salen del mismo modelo paramétrico, ajustado a las medidas de cada equipo.</p>
         <ul class="rc-etiquetas"><li>XS</li><li>S/M</li><li>M/L Naída</li><li>M/L Sonnet</li></ul>
-      </div>
-    </article>
-    <article class="rc-escena" data-etiqueta="Módulo 2" data-lado="izq" data-peso="1.5" data-linger="0.4" data-clip="media/recorrido/conjunto.mp4" data-clip-movil="media/recorrido/conjunto-m.mp4">
-      <div class="rc-medio">
-        <picture>
-          <source media="(max-width: 860px)" srcset="media/recorrido/conjunto-m.webp" width="720" height="1280">
-          <img src="media/recorrido/conjunto.webp" alt="El procesador enfundado junto a la bobina con su funda y el anillo absorbente coral." width="1920" height="1080" loading="lazy" decoding="async">
-        </picture>
-      </div>
-      <div class="rc-texto">
-        <p class="rc-num"><span class="vh">Escena </span>05 / 05</p>
-        <p class="rc-ante">Módulo 2, opcional</p>
-        <h3>También cuida la bobina.</h3>
-        <p class="rc-cuerpo">Cubre la cara de afuera contra la lluvia, la arena y los golpes, y del lado de la piel queda abierta: entre el imán y el implante no hay nada. Un anillo desmontable junta el sudor y el cable entra por una muesca, sin desenchufar nada.</p>
-        <ul class="rc-etiquetas"><li>Anillo desmontable</li><li>Nada entre el imán y la piel</li></ul>
         <a class="btn btn-petroleo rc-accion" href="#visor">Girala en el visor 3D<svg class="ico" aria-hidden="true"><use href="#i-abajo"/></svg></a>
       </div>
     </article>
@@ -1405,22 +1363,15 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       </figure>
       <div>
         <div class="modulo">
-          <h3>Módulo 1 · Funda del procesador</h3>
+          <h3>Funda del procesador</h3>
           <ol>
             <li><b>Funda de silicona</b> de una pieza, con orejas de ojal y textura interior de puntos de 0,2&nbsp;mm.</li>
             <li><b>Membrana hidrofóbica</b> en el rebaje de la banda del lomo.</li>
             <li><b>Cordón anticaída</b> de poliéster con clip.</li>
           </ol>
         </div>
-        <div class="modulo">
-          <h3>Módulo 2 · Funda de bobina, opcional</h3>
-          <ol>
-            <li><b>Funda de bobina</b> cerrada afuera y abierta del lado de la piel: no le resta fuerza al imán.</li>
-            <li><b>Anillo absorbente</b> desmontable.</li>
-            <li><b>Muesca</b> para el cable: entra de costado, sin desenchufar nada.</li>
-          </ol>
-        </div>
         <p class="nota">En XS el audífono entra por la boca, como un pie en una bota. En los implantes se abren los labios de atrás y el procesador se calza de costado.</p>
+        <p class="nota">La bobina se tuvo en cuenta, pero no se enfunda: ya es parte del sistema resistente al agua del procesador (IP68 en el Nucleus&nbsp;8), y cualquier capa entre el imán y la piel le resta fuerza. Su cable sale por la ranura trasera de la funda, sin desenchufarlo.</p>
       </div>
     </div>
 
@@ -1437,8 +1388,6 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
             <tr><td>Funda</td><td>LSR de grado médico, Shore A 30 ± 5, biocompatible (ISO 10993)</td></tr>
             <tr><td>Membrana</td><td>ePTFE acústico hidrofóbico y oleofóbico, con soporte de poliéster y adhesivo de silicona</td></tr>
             <tr><td>Cordón</td><td>Poliéster trenzado de 1,5&nbsp;mm y clip de POM</td></tr>
-            <tr><td>Funda de bobina</td><td>LSR, Shore A 20 a 30</td></tr>
-            <tr><td>Anillo absorbente</td><td>Malla 3D de poliéster, lavable y reemplazable</td></tr>
             <tr><td>Estuche</td><td>Cartulina reciclada y bandeja de pulpa moldeada</td></tr>
           </tbody>
         </table>
@@ -1474,11 +1423,10 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
 
     <div class="sub"><h3>Planos</h3><p>Generados desde el modelo paramétrico en CadQuery, con vistas, cortes y detalles acotados.</p></div>
     <div class="planos">
-      <figure><button class="zoom" data-full="img/planos/plano_funda_A_XS.jpg"><img src="img/planos/mini/plano_funda_A_XS.jpg" srcset="img/planos/mini/plano_funda_A_XS.jpg 800w, img/planos/plano_funda_A_XS.jpg 1800w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 380px" alt="Plano de la funda talle XS" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle XS</b> · Phonak Audéo I-R e I-Sphere · <a href="descargas/plano_funda_A_XS.pdf" target="_blank" rel="noopener">PDF</a></figcaption></figure>
-      <figure><button class="zoom" data-full="img/planos/plano_funda_A_SM.jpg"><img src="img/planos/mini/plano_funda_A_SM.jpg" srcset="img/planos/mini/plano_funda_A_SM.jpg 800w, img/planos/plano_funda_A_SM.jpg 1800w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 380px" alt="Plano de la funda talle S/M" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle S/M</b> · Cochlear Nucleus 8 y 7 · <a href="descargas/plano_funda_A_SM.pdf" target="_blank" rel="noopener">PDF</a></figcaption></figure>
-      <figure><button class="zoom" data-full="img/planos/plano_funda_A_ML.jpg"><img src="img/planos/mini/plano_funda_A_ML.jpg" srcset="img/planos/mini/plano_funda_A_ML.jpg 800w, img/planos/plano_funda_A_ML.jpg 1800w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 380px" alt="Plano de la funda talle M/L Naída" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle M/L Naída</b> · Advanced Bionics Naída CI M90 · <a href="descargas/plano_funda_A_ML.pdf" target="_blank" rel="noopener">PDF</a></figcaption></figure>
-      <figure><button class="zoom" data-full="img/planos/plano_funda_A_MLS.jpg"><img src="img/planos/mini/plano_funda_A_MLS.jpg" srcset="img/planos/mini/plano_funda_A_MLS.jpg 800w, img/planos/plano_funda_A_MLS.jpg 1800w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 380px" alt="Plano de la funda talle M/L Sonnet" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle M/L Sonnet</b> · MED-EL SONNET 2 · <a href="descargas/plano_funda_A_MLS.pdf" target="_blank" rel="noopener">PDF</a></figcaption></figure>
-      <figure><button class="zoom" data-full="img/planos/plano_modulo2_bobina.jpg"><img src="img/planos/mini/plano_modulo2_bobina.jpg" srcset="img/planos/mini/plano_modulo2_bobina.jpg 800w, img/planos/plano_modulo2_bobina.jpg 1800w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 380px" alt="Plano del Módulo 2, funda de bobina" loading="lazy" width="1800" height="1273"></button><figcaption><b>Módulo 2</b> · funda de bobina y anillo · <a href="descargas/plano_modulo2_bobina.pdf" target="_blank" rel="noopener">PDF</a></figcaption></figure>
+      <figure><button class="zoom" data-full="img/planos/plano_funda_A_XS.jpg"><img src="img/planos/mini/plano_funda_A_XS.jpg" srcset="img/planos/mini/plano_funda_A_XS.jpg 800w, img/planos/plano_funda_A_XS.jpg 1800w" sizes="(max-width: 560px) 100vw, 50vw" alt="Plano de la funda talle XS" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle XS</b> · Phonak Audéo I-R e I-Sphere · <a href="descargas/plano_funda_A_XS.pdf" target="_blank" rel="noopener">PDF</a></figcaption></figure>
+      <figure><button class="zoom" data-full="img/planos/plano_funda_A_SM.jpg"><img src="img/planos/mini/plano_funda_A_SM.jpg" srcset="img/planos/mini/plano_funda_A_SM.jpg 800w, img/planos/plano_funda_A_SM.jpg 1800w" sizes="(max-width: 560px) 100vw, 50vw" alt="Plano de la funda talle S/M" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle S/M</b> · Cochlear Nucleus 8 y 7 · <a href="descargas/plano_funda_A_SM.pdf" target="_blank" rel="noopener">PDF</a></figcaption></figure>
+      <figure><button class="zoom" data-full="img/planos/plano_funda_A_ML.jpg"><img src="img/planos/mini/plano_funda_A_ML.jpg" srcset="img/planos/mini/plano_funda_A_ML.jpg 800w, img/planos/plano_funda_A_ML.jpg 1800w" sizes="(max-width: 560px) 100vw, 50vw" alt="Plano de la funda talle M/L Naída" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle M/L Naída</b> · Advanced Bionics Naída CI M90 · <a href="descargas/plano_funda_A_ML.pdf" target="_blank" rel="noopener">PDF</a></figcaption></figure>
+      <figure><button class="zoom" data-full="img/planos/plano_funda_A_MLS.jpg"><img src="img/planos/mini/plano_funda_A_MLS.jpg" srcset="img/planos/mini/plano_funda_A_MLS.jpg 800w, img/planos/plano_funda_A_MLS.jpg 1800w" sizes="(max-width: 560px) 100vw, 50vw" alt="Plano de la funda talle M/L Sonnet" loading="lazy" width="1800" height="1273"></button><figcaption><b>Talle M/L Sonnet</b> · MED-EL SONNET 2 · <a href="descargas/plano_funda_A_MLS.pdf" target="_blank" rel="noopener">PDF</a></figcaption></figure>
     </div>
   </div>
 </section>
@@ -1520,7 +1468,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         <h3>Viabilidad</h3>
         <div class="barra-cv" role="img" aria-label="El costo variable es el 18 por ciento del PSF; el límite de la regla 2:1 es el 50 por ciento."><span></span><i></i></div>
         <div class="ref" aria-hidden="true"><span>CV 18&nbsp;%</span><span>Límite 2:1 · 50&nbsp;%</span></div>
-        <p>Aunque el fazón costara el triple, el costo variable seguiría debajo del límite. La inversión inicial (moldes de aluminio por USD&nbsp;15.000 a 30.000, equipamiento y marca) se recupera dentro del primer año. Con la mitad de las ventas (1.500 kits), la contribución de $64 millones todavía cubre los moldes.</p>
+        <p>Aunque el fazón costara el triple, el costo variable seguiría debajo del límite. La inversión inicial (cuatro moldes de aluminio, uno por talle, por USD&nbsp;12.000 a 24.000 ($18 a 36 millones), equipamiento y marca) se recupera dentro del primer año. Con la mitad de las ventas (1.500 kits), la contribución de $64 millones todavía cubre los moldes.</p>
         <p class="nota">Valores estimados con USD&nbsp;1 = $1.500, a reemplazar por cotizaciones de proveedores.</p>
       </div>
     </div>
@@ -1629,7 +1577,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
   document.fonts.ready.then(() => tiras.forEach(bordes));
 
   /* índice: marca la parte que se está leyendo, la última que ya pasó la mitad de la pantalla.
-     La colocación, el recorrido y el visor son parte de la funda; la tapa y el comercial no marcan nada */
+     La colocación, el recorrido y el visor son parte de la funda; la tapa no marca nada */
   const indice = document.querySelector(".indice");
   const enlaces = new Map([...indice.querySelectorAll("a")].map(a => [a.hash.slice(1), a]));
   const alias = { colocacion: "funda", recorrido: "funda", visor: "funda" };
