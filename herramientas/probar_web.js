@@ -73,9 +73,9 @@ async function probarPagina(ctx, nombre) {
     coral: s.querySelector('circle[fill="#F08A3C"]')?.getAttribute('cx'),
   }));
   ok(JSON.stringify(curva.v) === JSON.stringify(['83,3 %', '59,1 %', '36,4 %', '10,6 %']), `curva de demanda ${curva.v.join(' / ')}`);
-  ok(curva.coral === '200', 'punto destacado en $40.000');
+  ok(curva.coral === '320', 'punto destacado en $60.000');
   const texto = await page.evaluate(() => document.body.innerText);
-  for (const t of ['$80.000', '$52.000', '$26.000', 'Q = 3.000 kits por año', '91.000', '153.900']) ok(texto.includes(t), `aparece "${t}"`);
+  for (const t of ['$60.000', '$80.000', '$39.000', '$52.000', '$26.000', 'Q = 1.850 ventas por año', '53.000', '145.500']) ok(texto.includes(t), `aparece "${t}"`);
 
   // Enlaces a archivos: se abren en otra pestaña, nunca se descargan
   const archivos = await page.$$eval('a[href]', as => as

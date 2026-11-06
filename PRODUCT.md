@@ -27,7 +27,7 @@ AURA es una funda de silicona LSR de una pieza que se calza como una bota sobre 
 - Estética sobria, tipo Apple, que no parezca hecha por IA.
 
 ## Evidence on Hand
-- Valores vigentes de P y Q (Objetivo C, alineados con las láminas G a J): kit de dos fundas a $80.000 ($40.000 por funda), PSF $52.000, CV máx. $26.000, Q = 3.000 kits/año. Ver la tabla en `CLAUDE.md`.
+- Valores vigentes de P y Q (Objetivo C, alineados con las láminas G a J): funda suelta a $60.000 y kit de dos a $80.000, PSF $39.000 y $52.000, CV máx. $19.500 y $26.000, Q = 1.850 ventas por año. Ver la tabla en `CLAUDE.md`.
 - Sondeo: `Calculos_P_Q_y_Encuesta_Grupo10.xlsx` y respuestas crudas.
 - Renders, tomas animadas, comerciales, láminas y visor 3D en `img/`, `media/`, `visor/` y `descargas/` (sólo las láminas E y F).
 

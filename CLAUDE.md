@@ -23,7 +23,7 @@ It is the public page of the AURA project: a medical-grade silicone sleeve that 
 - **The stages up to I are published** (I since 2026-11-03). After the 3D viewer come G (mock-up), H (engineering) and I (costs), all open (not collapsible). I is HTML only and needs no media. J (brand) and Downloads were removed on purpose.
   - The full version is in the `completa` branch, which exists only on Manuel's computer.
   - Do not recreate J or Downloads or upload their files unless the team asks for it.
-  - **Módulo 2 (the coil sleeve) was discarded by the team on 2026-11-04**: the coil is already part of the processor's IP68 system (Nucleus 8), and any layer between the magnet and the skin weakens it. It was removed from the page (E sheet, F text, product photo, tour scene `conjunto`, H module card and materials rows, plan and PDF), from the viewer and from the repo, and `preparar_medios.py` no longer publishes it. Where the page explains this (F and H), it says the coil was considered but is not sleeved, and its cable leaves through the sleeve's rear slot without unplugging it. Keep the mentions of that rear slot. Do not bring Módulo 2 back. The I investment counts four aluminium molds, one per size (USD 12.000 to 24.000, $18 to 36 million), recovered within the first year.
+  - **Módulo 2 (the coil sleeve) was discarded by the team on 2026-11-04**: any layer between the magnet and the skin weakens it. It was removed from the page (E sheet, F text, product photo, tour scene `conjunto`, H module card and materials rows, plan and PDF), from the viewer and from the repo, and `preparar_medios.py` no longer publishes it. Where the page explains this (F and H), it says the coil was considered but is not sleeved, and its cable leaves through the sleeve's rear slot without unplugging it. Keep the mentions of that rear slot. Do not bring Módulo 2 back. The I investment counts four aluminium molds, one per size (USD 12.000 to 24.000, $18 to 36 million), recovered within the first year.
   - **The 40 s commercial is withdrawn until further notice** (2026-11-05): it shows the placement wrong, and the team will redo it on another computer. The `#comercial` section and the hero's "Ver el comercial" button were removed; the files `media/comercial_16x9.*` and `media/comercial_9x16.*` stay in the repo with no reference, and the `.videos` CSS stays for when it returns. Put it back only when the team says the corrected version is ready.
   - Size XS was measured on a real Phonak Audéo Sphere at Amplitone (2026-11-04). It has four microphones in two pairs on the spine, with the push button between the pairs. The button sticks out about 1 mm. So XS has **two membrane windows, one per pair**, and a relief over the button: a pocket inside with 0.2 mm clearance, and a bump outside. The sleeve never presses the button, and you can find the button by touch. Section H says this under "Medido con un equipo real". The other sizes keep a single continuous band.
   - The band membrane is **ePTFE only**, decided by the team on 2026-11-02. It is acoustic, hydrophobic and oleophobic, has a polyester backing and silicone adhesive, and is glued and replaceable. Polyester mesh and grille were compared against the brief and discarded: the mesh soaks up sweat and lets fine sand through, and the grille lets drops through and is rigid. Do not bring back a choice of meshes.
@@ -31,17 +31,21 @@ It is the public page of the AURA project: a medical-grade silicone sleeve that 
 - Files (PDF, sheets, images) open in a new tab with `target="_blank" rel="noopener"`, never with `download`: the visitor sees them without downloading.
 - The legal data on the packaging is fictitious and appears as placeholders (`CUIT XX-XXXXXXXX-X`). Do not invent a company name, address, CUIT or email.
 
+## Brand name
+
+AURA stays. It appears as registered at INPI (class 10: 3M; class 9: BNP Paribas), but the team was told this is not a problem for the coursework.
+
 ## Official figures (Objetivo C, aligned with sheets G to J)
 
 | Figure | Value |
 |---|---|
 | Demand curve: share who would pay at least that price per sleeve | $20.000: 83,3 % · $40.000: 59,1 % · $60.000: 36,4 % · $100.000: 10,6 % |
-| Optimum price | $40.000 per sleeve. Sold as a two-sleeve kit: **retail price $80.000** |
+| Price | **Single sleeve $60.000** (top of the brief's range, measured directly by the survey; maximum theoretical revenue is at $40.000, but contribution is about the same). **Two-sleeve kit $80.000** |
 | Net price excluding VAT | $66.116 |
 | Factory price (PSF) | $52.000 (21,3 % trade margin) |
-| Maximum variable cost (2:1 rule) | $26.000. Estimated variable cost: $9.550 per kit (18 % of PSF) |
-| Onion model | 46.000.000 → 2.300.000 (5 %) → TAM 300.000 → SAM 153.900 (65,1 % × 78,8 %) → SOM 91.000 (59,1 %) |
-| Q | **3.000 kits per year** (3,3 % of SOM), about 250 per month |
+| Maximum variable cost (2:1 rule) | $26.000. Single sleeve: PSF $39.000, maximum $19.500. Estimated variable cost: $10.100 per kit on average across sizes (19 % of PSF; XS $10.830, reference size $9.550) and $6.650 per single sleeve. None of these are supplier quotes |
+| Onion model | 46.000.000 → 2.300.000 (5 %) → TAM 300.000 → SAM 145.500 (65,1 % × 74,4 %, 64 of the 86 active respondents) → SOM 53.000 (36,4 %) |
+| Q | **1.850 sales per year** (3,5 % of SOM), about 155 per month: assumed 1.200 kits and 650 single sleeves |
 
 The curve takes the lower bound of each price range in question 10 of the survey (N = 132).
 
