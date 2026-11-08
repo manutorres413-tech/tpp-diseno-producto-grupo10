@@ -33,7 +33,7 @@ It is the public page of the AURA project: a medical-grade silicone sleeve that 
 
 ## Brand name
 
-AURA stays. It appears as registered at INPI (class 10: 3M; class 9: BNP Paribas), but the team was told this is not a problem for the coursework.
+AURA stays. This is coursework, so trademark registration does not apply.
 
 ## Official figures (Objetivo C, aligned with sheets G to J)
 

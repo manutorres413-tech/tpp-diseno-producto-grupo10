@@ -19,7 +19,7 @@ Desarrollo estratégico y diseño industrial de una solución integral de protec
 - [x] **Objetivo C:** Análisis Interdisciplinario (Sondeo N = 132, Curva de Demanda $P$, Cebolla de Mercado $Q$)
 - [x] **Objetivo D:** Pre-Brief y Documento Rector (6 dimensiones clave)
 - [x] **Objetivo E:** Generación de Ideas y 5 Alternativas de Diseño
-- [x] **Objetivo F:** Selección de Alternativa Ganadora (Alternativa A, funda tipo media con malla hidrofóbica)
+- [x] **Objetivo F:** Selección de Alternativa Ganadora (Alternativa A, funda de una pieza que se coloca por abajo, con malla hidrofóbica)
 
 ---
 

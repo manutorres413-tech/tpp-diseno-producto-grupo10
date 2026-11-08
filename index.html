@@ -412,6 +412,9 @@ tr.aura td:first-child { font-weight: 700; color: var(--petroleo-hondo); }
 .vivo .rc-medio { position: absolute; inset: 0; opacity: 0; }
 .vivo .rc-medio picture, .vivo .rc-medio img, .rc-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 45%; border-radius: 0; }
 .vivo .rc-medio.con-video picture { visibility: hidden; }
+/* el video queda invisible hasta pintar un cuadro de verdad: en Safari, uno que nunca se reprodujo se ve negro */
+.rc-video { opacity: 0; }
+.con-video .rc-video { opacity: 1; }
 /* velo del color del escenario del lado del texto: es parte de la toma, así se funde con ella */
 .vivo .rc-medio::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, var(--rc-fondo) 0%, var(--rc-fondo) 24%, color-mix(in srgb, var(--rc-fondo) 85%, transparent) 40%, color-mix(in srgb, var(--rc-fondo) 30%, transparent) 54%, transparent 66%); }
 .vivo [data-lado="der"] .rc-medio::after { background: linear-gradient(270deg, var(--rc-fondo) 0%, var(--rc-fondo) 24%, color-mix(in srgb, var(--rc-fondo) 85%, transparent) 40%, color-mix(in srgb, var(--rc-fondo) 30%, transparent) 54%, transparent 66%); }
@@ -691,7 +694,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         <p class="logo entra" style="--i:0" aria-hidden="true"><svg viewBox="0 0 100 40"><path d="M8 34 Q50 -6 92 34" pathLength="1"/></svg>aura</p>
         <p class="eslogan entra" style="--i:1">No tenés que elegir.</p>
         <h1 id="titulo-tapa" class="entra" style="--i:2"><span class="vh">AURA. </span>Que el agua, el sudor o una caída no apaguen tu día.</h1>
-        <p class="lede entra" style="--i:3">Funda de silicona de grado médico para procesadores de implantes cocleares y audífonos retroauriculares. Se calza como una bota y una banda de membrana hidrofóbica frena el agua sin tapar el sonido.</p>
+        <p class="lede entra" style="--i:3">Funda de silicona de grado médico para procesadores de implantes cocleares y audífonos retroauriculares. Se coloca por abajo y una banda de membrana hidrofóbica frena el agua sin tapar el sonido.</p>
         <p class="equipo entra" style="--i:5">Grupo 10 · Diseño del Producto 2026 · UTN FRBA<br>
           <a href="https://www.linkedin.com/in/manueltorres02/" rel="noopener" target="_blank">Manuel Torres</a>,
           <a href="https://www.linkedin.com/in/luisina-infante-a794181b7/" rel="noopener" target="_blank">Luisina Infante</a>,
@@ -733,8 +736,8 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
     </div>
 
     <div class="costo">
-      <strong class="num">USD&nbsp;7.000 a 10.000</strong>
-      <p>cuesta reponer un procesador fuera de garantía, entre $10.500.000 y $15.000.000. Para casi cualquier familia es un gasto imposible de cubrir de golpe.</p>
+      <strong class="num">USD&nbsp;7.000 a 10.700</strong>
+      <p>cuesta reponer un procesador fuera de garantía, entre $10.500.000 y $16.000.000. Para casi cualquier familia es un gasto imposible de cubrir de golpe.</p>
     </div>
 
     <div class="sub">
@@ -745,11 +748,11 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       <table class="tabla-ancha">
         <thead><tr><th scope="col">Alternativa</th><th scope="col">Protege de</th><th scope="col">Sonido</th><th scope="col" class="n">Precio (ARS)</th><th scope="col">Límite</th></tr></thead>
         <tbody>
-          <tr><td>Ear Gear, funda de tela</td><td>Polvo y sudor leve</td><td>Buena, menos de 2&nbsp;dB</td><td class="n">$20.000 a $38.000</td><td>Se empapa con lluvia o mucho sudor; no amortigua caídas.</td></tr>
-          <tr><td>Cochlear Aqua+, funda cerrada</td><td>Inmersión en agua</td><td>Atenúa 4 a 6&nbsp;dB</td><td class="n">$81.500 a $317.000</td><td>Hay que desarmar antena e imán; cara y poco práctica a diario.</td></tr>
-          <tr><td>Otoclip y diademas</td><td>Solo caídas</td><td>No cubre</td><td class="n">$17.000 a $52.000</td><td>Nada frente a agua, sudor o arena.</td></tr>
+          <tr><td>Ear Gear, funda de tela</td><td>Polvo y sudor leve</td><td>Buena, cerca de 1&nbsp;dB</td><td class="n">$30.000 a $57.000</td><td>Se empapa con lluvia o mucho sudor; no amortigua caídas.</td></tr>
+          <tr><td>Cochlear Aqua+, funda cerrada</td><td>Inmersión en agua</td><td>Cochlear avisa que cambia el sonido</td><td class="n">$101.500 a $317.700</td><td>Hay que desarmar antena e imán; cara y poco práctica a diario.</td></tr>
+          <tr><td>Otoclip y diademas</td><td>Solo caídas</td><td>No cubre</td><td class="n">$17.000 a $52.800</td><td>Nada frente a agua, sudor o arena.</td></tr>
           <tr><td>Deshumidificador eléctrico</td><td>Secado nocturno</td><td>Se usa apagado</td><td class="n">$174.000</td><td>Reactivo: no protege mientras la persona entrena o camina.</td></tr>
-          <tr class="aura"><td>AURA, Grupo 10</td><td>Agua, polvo y caídas</td><td>Hasta 2,5&nbsp;dB</td><td class="n">$80.000 el kit de 2</td><td>Se coloca en menos de 15&nbsp;s, deja pasar el sonido y trae cordón anticaída.</td></tr>
+          <tr class="aura"><td>AURA, Grupo 10</td><td>Agua, polvo y caídas</td><td>Estimada en 1 a 2&nbsp;dB</td><td class="n">$80.000 el kit de 2</td><td>Se coloca en menos de 15&nbsp;s, deja pasar el sonido y trae cordón anticaída.</td></tr>
         </tbody>
       </table>
     </div>
@@ -1115,7 +1118,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
           <li style="--v:62.5"><span class="nom">D · Fundas personalizadas<span class="filtro">Filtro del brief: no cumple</span></span><strong>62,5</strong><i></i></li>
         </ol>
         <div class="texto">
-          <p>A saca el mayor puntaje y cumple el brief, con cuatro puntos a verificar en la maqueta: la pérdida acústica, la protección IP54, el anclaje de 5&nbsp;N y la amortiguación de golpes.</p>
+          <p>A saca el mayor puntaje y cumple el brief, con tres puntos a verificar en la maqueta: la protección IP54, el anclaje de 5&nbsp;N y la amortiguación de golpes. La pérdida acústica se estima en 1 a 2&nbsp;dB, dentro de la meta.</p>
           <p>La funda descartable queda segunda, pero no pasa el filtro: no se puede lavar, no sujeta el equipo y no amortigua golpes.</p>
           <p>La bobina se tuvo en cuenta, pero no se enfunda: cualquier capa entre el imán y la piel le resta fuerza, y una funda aparte sumaba otro molde y otro producto. Su cable sale por la ranura trasera de la funda, sin desenchufarlo.</p>
         </div>
@@ -1203,8 +1206,8 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         <p>Un Phonak Audéo I-R armado, con el cable del auricular y la batería puestos. Así, armado y sin herramientas, lo tiene que poder enfundar cualquier usuario.</p>
       </div>
       <div class="paso-scroll" data-desde="0.3">
-        <h3>Se calza como una bota.</h3>
-        <p>El equipo entra por abajo y gira hasta encastrar: primero pasa el cable del auricular, que sale por su agujero. La boca se estira apenas un 10&nbsp;%, y la silicona recién se rompe por encima del 300&nbsp;%. En los implantes, la funda se abre por atrás y se cierra sobre el cable de la bobina.</p>
+        <h3>Se calza por abajo.</h3>
+        <p>El equipo entra por abajo y gira hasta encastrar: primero pasa el cable del auricular, que sale por su agujero. La boca se estira apenas un 10&nbsp;%, y la silicona recién se rompe por encima del 300&nbsp;%. En los implantes, el cable de la bobina pasa por la ranura trasera, que se cierra sola.</p>
       </div>
       <div class="paso-scroll" data-desde="0.72">
         <h3>Lista en menos de 15 segundos.</h3>
@@ -1232,7 +1235,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         <p class="rc-ante">Una sola pieza</p>
         <h3>Una segunda piel para el procesador.</h3>
         <p class="rc-cuerpo">Silicona LSR de grado médico, 0,8&nbsp;mm de pared y ninguna costura. Copia el equipo con 0,2&nbsp;mm de holgura: no baila y no aprieta los botones.</p>
-        <ul class="rc-etiquetas"><li>0,8&nbsp;mm de pared</li><li>Shore A 30</li><li>Lavable</li></ul>
+        <ul class="rc-etiquetas"><li>0,8&nbsp;mm de pared</li><li>Shore A 30 a 35</li><li>Lavable</li></ul>
       </div>
     </article>
     <article class="rc-escena" data-etiqueta="La membrana" data-lado="izq" data-peso="1.3" data-linger="0.35" data-clip="media/recorrido/malla.mp4" data-clip-movil="media/recorrido/malla-m.mp4">
@@ -1318,9 +1321,9 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         </ul>
       </div>
       <div class="historia">
-        <h3>De libro a media</h3>
+        <h3>De libro a una pieza</h3>
         <p>La primera versión se abría como un libro, con dos costuras y un cierre tipo ziploc de 0,8&nbsp;mm. Alinear ese cierre con lluvia o con las manos mojadas es difícil, las costuras sumaban casi 100&nbsp;mm de posibles entradas de agua y el cierre llevaba la pared a 1,8&nbsp;mm, por encima del límite de 1,2&nbsp;mm.</p>
-        <p>Por eso la funda pasó a ser de una pieza y sin cierres: el equipo entra por la boca, como un pie en una bota, y la silicona se estira para recibirlo. La versión libro se imprime igual (maqueta 2) para comparar tiempos.</p>
+        <p>Por eso la funda pasó a ser de una pieza y sin cierres: el equipo entra por la boca de abajo y la silicona se estira para recibirlo.</p>
       </div>
     </div>
     <div class="sub"><h3>Ensayos</h3></div>
@@ -1335,6 +1338,8 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
             <tr><td>Polvo, aprox. IP5X</td><td>Sin talco sobre los micrófonos tras 5 minutos.</td></tr>
             <tr><td>Anclaje de 5&nbsp;N</td><td>Sin desgarro en las orejas y sin que el equipo se salga.</td></tr>
             <tr><td>Peso</td><td>Menos de 8&nbsp;g; el modelo 3D da entre 1,0 y 2,6&nbsp;g.</td></tr>
+            <tr><td>Golpes y caídas</td><td>Tras cinco caídas desde 1,5&nbsp;m, la réplica no se rompe ni se marca, y la funda no se rasga ni se sale.</td></tr>
+            <tr><td>Lavado y desgaste</td><td>Tras 100 colocaciones y 30 lavados, sin desgarros, sin despegue de la membrana y sin perder ajuste.</td></tr>
             <tr><td>Sujeción en movimiento</td><td>El equipo no se cae y, si se cae, el cordón lo retiene.</td></tr>
           </tbody>
         </table>
@@ -1370,7 +1375,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
             <li><b>Cordón anticaída</b> de poliéster con clip.</li>
           </ol>
         </div>
-        <p class="nota">En XS el audífono entra por la boca, como un pie en una bota. En los implantes se abren los labios de atrás y el procesador se calza de costado.</p>
+        <p class="nota">En todos los talles el equipo entra por la boca de abajo, con el gancho y el cable puestos.</p>
         <p class="nota">La bobina se tuvo en cuenta, pero no se enfunda: cualquier capa entre el imán y la piel le resta fuerza, y una funda aparte sumaba otro molde y otro producto. Su cable sale por la ranura trasera de la funda, sin desenchufarlo.</p>
       </div>
     </div>
@@ -1379,7 +1384,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
     <div class="dos">
       <div class="texto">
         <p>Para pasar el procesador, la boca se estira hasta un 69&nbsp;%. La LSR de grado médico rompe recién entre el 300 y el 600&nbsp;%: más de cuatro veces de margen. Recupera la forma después de cada colocación, no se pone pegajosa con el sudor ni con el sol, aguanta el lavado y puede estar todo el día contra la piel.</p>
-        <p>Elegimos Shore A 30. Con 20 se calza más fácil pero queda floja; con 40 cuesta estirarla con una mano. El TPE pierde ajuste con el uso, el TPU 95A es demasiado duro y el látex da alergias.</p>
+        <p>Elegimos Shore A 30 a 35. Con 20 se calza más fácil pero queda floja; con 40 cuesta estirarla con una mano. El TPE pierde ajuste con el uso, el TPU 95A es demasiado duro y el látex da alergias.</p>
       </div>
       <div class="tabla-env">
         <table>
@@ -1751,8 +1756,16 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
           v.src = URL.createObjectURL(blob);
           v.addEventListener("loadedmetadata", () => { s.lista = true; pedir(); });
           /* el póster se va recién cuando el video pintó un cuadro de verdad */
-          v.addEventListener("seeked", () => s.medio.classList.add("con-video"), { once: true });
-          v.addEventListener("loadeddata", () => { v.pause(); if (gesto) cebar(v); });
+          const mostrar = () => s.medio.classList.add("con-video");
+          v.addEventListener("seeked", () => {
+            if ("requestVideoFrameCallback" in v) v.requestVideoFrameCallback(mostrar); else mostrar();
+          }, { once: true });
+          v.addEventListener("loadeddata", () => {
+            v.pause();
+            /* en la compu, un play y pausa silenciado hace que Safari pinte los cuadros al buscar */
+            if (!movil()) { try { const p = v.play(); if (p) p.then(() => v.pause()).catch(() => {}); } catch (e) {} }
+            else if (gesto) cebar(v);
+          });
           s.medio.appendChild(v);
           s.video = v;
         })
