@@ -203,13 +203,14 @@ p { margin: 0; text-wrap: pretty; }
 @keyframes entra { from { opacity: 0; translate: 0 12px; filter: blur(4px); } }
 @keyframes aparece { from { opacity: 0; } }
 
-/* ---------- videos (el comercial está retirado hasta nuevo aviso; estas reglas quedan para cuando vuelva) ---------- */
+/* ---------- comercial ---------- */
 .videos { display: grid; grid-template-columns: minmax(0, 2.6fr) minmax(0, 1fr); gap: clamp(1rem, 2.5vw, 1.8rem); align-items: end; }
 .video figure, figure { margin: 0; }
 .video video { width: 100%; border-radius: var(--radio); background: #111; }
 figcaption { margin-top: 0.75rem; font-size: 0.875rem; color: var(--grafito-2); }
 .oscuro figcaption, .oscuro .pie { color: var(--arena-suave); }
 .grafito figcaption { color: var(--grafito-suave); }
+.comercial-video { max-width: 64rem; }
 
 /* ---------- imágenes ampliables ---------- */
 .zoom { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: var(--radio); overflow: hidden; -webkit-tap-highlight-color: transparent; transition: opacity 150ms ease; }
@@ -695,6 +696,9 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         <p class="eslogan entra" style="--i:1">No tenés que elegir.</p>
         <h1 id="titulo-tapa" class="entra" style="--i:2"><span class="vh">AURA. </span>Que el agua, el sudor o una caída no apaguen tu día.</h1>
         <p class="lede entra" style="--i:3">Funda de silicona de grado médico para procesadores de implantes cocleares y audífonos retroauriculares. Se coloca por abajo y una banda de membrana hidrofóbica frena el agua sin tapar el sonido.</p>
+        <div class="acciones entra" style="--i:4">
+          <a class="btn btn-arena" href="#comercial"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg>Ver el comercial</a>
+        </div>
         <p class="equipo entra" style="--i:5">Grupo 10 · Diseño del Producto 2026 · UTN FRBA<br>
           <a href="https://www.linkedin.com/in/manueltorres02/" rel="noopener" target="_blank">Manuel Torres</a>,
           <a href="https://www.linkedin.com/in/luisina-infante-a794181b7/" rel="noopener" target="_blank">Luisina Infante</a>,
@@ -711,6 +715,21 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
       <div><dt>&lt;&nbsp;15&nbsp;s</dt><dd>para colocarla, con el equipo armado<span class="gancho-sacado" hidden> (en los implantes, sin el gancho)</span></dd></div>
       <div><dt>$80.000</dt><dd>el kit de dos fundas</dd></div>
     </dl>
+  </div>
+</section>
+
+<!-- ============ COMERCIAL ============ -->
+<section id="comercial" class="cap grafito" aria-labelledby="t-comercial">
+  <div class="marco">
+    <div class="cabeza sola">
+      <div>
+        <h2 id="t-comercial">AURA en un minuto</h2>
+        <p class="lede">Sin locución. Las personas y los lugares se generaron con IA; la funda que se ve sale del modelo 3D renderizado en Blender, y la edición se hizo en HyperFrames.</p>
+      </div>
+    </div>
+    <figure class="video comercial-video">
+      <video controls preload="none" playsinline poster="media/comercial_16x9.jpg" width="1920" height="1080"><source src="media/comercial_16x9.mp4" type="video/mp4"></video>
+    </figure>
   </div>
 </section>
 
@@ -911,7 +930,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
           </ul>
           <p class="conclusion"><b>Conclusión.</b> El 73&nbsp;% se concentra entre $20.000 y $100.000. Con estas respuestas se arma la curva de demanda que fija el precio.</p>
         </div>
-        <p class="fuente">Fuente: sondeo del Grupo 10, N = 132.</p>
+        <p class="fuente">Fuente: sondeo del Grupo 10, N = 132. Margen de error de unos ±8,5 puntos con un 95&nbsp;% de confianza, y menor en los extremos: ±7 para el 79&nbsp;%. Es una muestra por conveniencia, difundida en redes y grupos de usuarios, así que el margen es una referencia.</p>
       </div>
     </div>
       </div>
@@ -967,7 +986,7 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
         <ul class="escalera">
           <li style="--v:100"><span>Precio de venta al público</span><b>$80.000</b><small>Kit de dos fundas, IVA incluido.</small><i></i></li>
           <li style="--v:82.6"><span>Precio neto</span><b>$66.116</b><small>Sin IVA del 21&nbsp;%.</small><i></i></li>
-          <li style="--v:65"><span>Precio de salida de fábrica</span><b>$52.000</b><small>Menos 21,3&nbsp;% de margen comercial. Canal: venta directa online y distribuidores.</small><i></i></li>
+          <li style="--v:65"><span>Precio de salida de fábrica</span><b>$52.000</b><small>Menos 21,3&nbsp;% de margen comercial: la comisión de Mercado Libre o Mercado Pago en la venta online y un 33&nbsp;% para ortopedias y centros audiológicos, que venden la mitad. Canal: venta directa online y distribuidores.</small><i></i></li>
           <li style="--v:32.5"><span>Costo variable máximo</span><b>$26.000</b><small>50&nbsp;% del PSF, regla 2:1 del Objetivo I.</small><i></i></li>
         </ul>
       </div>
@@ -980,10 +999,10 @@ dialog.lb[open], dialog.lb[open]::backdrop { opacity: 1; transition-duration: 22
     <div class="cebolla" role="group" aria-label="Modelo de cebolla del mercado">
       <div class="capa k1"><div class="capa-fila"><b>Población argentina</b><strong>46.000.000</strong><small>Censo INDEC 2022.</small></div>
         <div class="capa k2"><div class="capa-fila"><b>Mercado potencial</b><strong>2.300.000</strong><small>5&nbsp;% de la población, personas con hipoacusia.</small></div>
-          <div class="capa k3"><div class="capa-fila"><b>TAM, mercado total</b><strong>300.000</strong><small>Usuarios de audífonos retroauriculares e implantes cocleares.</small></div>
+          <div class="capa k3"><div class="capa-fila"><b>TAM, mercado total</b><strong>300.000</strong><small>Usuarios de audífonos retroauriculares e implantes cocleares. Sale del estudio del INDEC de 2018: 364.057 personas no oyen o usan audífono o implante, y el 82,8&nbsp;% de los audífonos que se venden son retroauriculares. Es el techo del rango (150.000 a 300.000).</small></div>
             <div class="capa k4"><div class="capa-fila"><b>SAM, mercado disponible</b><strong>145.500</strong><small>300.000 × 65,1&nbsp;% que hace deporte o vida al aire libre × 74,4&nbsp;% de ese grupo que se limita por miedo.</small></div>
               <div class="capa k5"><div class="capa-fila"><b>SOM, mercado objetivo</b><strong>53.000</strong><small>145.500 × 36,4&nbsp;% que pagaría $60.000 por funda.</small></div>
-                <div class="capa k6"><div class="capa-fila"><b>Q, ventas por año</b><strong>1.850</strong><small>3,5&nbsp;% del SOM, unas 155 por mes: 1.200 kits y 650 fundas sueltas (supuesto). Convenios con ortopedias y centros audiológicos, más venta online.</small></div></div>
+                <div class="capa k6"><div class="capa-fila"><b>Q, ventas por año</b><strong>1.850</strong><small>3,5&nbsp;% del SOM, el borde optimista de las referencias (Bass da 3,6&nbsp;% el primer año; los innovadores de Rogers son el 2,5&nbsp;%). Con 2,5&nbsp;%, Q bajaría a 1.330. Unas 155 por mes: 1.200 kits y 650 fundas sueltas (supuesto). Convenios con ortopedias y centros audiológicos, más venta online.</small></div></div>
               </div>
             </div>
           </div>

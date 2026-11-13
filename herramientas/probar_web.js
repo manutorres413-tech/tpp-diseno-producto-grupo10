@@ -51,10 +51,11 @@ async function probarPagina(ctx, nombre) {
   ok(ids.slice(-4).join() === 'visor,maqueta,ingenieria,costos', `después del visor vienen G, H e I (${ids.join(', ')})`);
   for (const id of ['maqueta', 'ingenieria', 'costos']) ok(await page.locator(`.indice a[href="#${id}"]`).count() === 1, `#${id} en el índice`);
 
-  // Módulo 2 descartado y comercial retirado hasta nuevo aviso (sus videos siguen en media/, sin referencia)
+  // Módulo 2 descartado; el comercial final (59,5 s, 16:9) va después de la tapa
   const html = await page.content();
   ok(!/Módulo 2|modulo2|M2_Funda|funda de bobina|recorrido\/conjunto/i.test(html), 'sin rastros del Módulo 2');
-  ok(await page.locator('#comercial').count() === 0 && !/href="#comercial"|comercial_(16x9|9x16)/.test(html), 'sin el comercial ni enlaces a él');
+  ok(ids[1] === 'comercial' && await page.locator('.tapa a[href="#comercial"]').count() === 1, 'comercial después de la tapa, con su botón');
+  ok(await page.locator('#comercial video source[src="media/comercial_16x9.mp4"]').count() === 1 && !/comercial_9x16/.test(html), 'comercial 16:9, sin el vertical viejo');
   ok(await page.locator('.rc-escena').count() === 4, 'recorrido con cuatro escenas');
 
   // Objetivos de relleno plegados
@@ -165,11 +166,9 @@ async function probarVisor(ctx, nombre) {
     const r = await ctx.request.get(BASE + p + nc);
     ok(r.status() === 404, `${p} da ${r.status()}`);
   }
-  // el comercial sale de la página pero sus videos se quedan en el repo hasta que vuelva
-  for (const p of ['media/comercial_16x9.mp4', 'media/comercial_9x16.mp4']) {
-    const r = await ctx.request.head(BASE + p + nc);
-    ok(r.status() === 200, `${p} sigue en el repo (${r.status()})`);
-  }
+  // el comercial final está en el repo; el vertical viejo (con la bobina) se sacó
+  ok((await ctx.request.head(BASE + 'media/comercial_16x9.mp4' + nc)).status() === 200, 'media/comercial_16x9.mp4 da 200');
+  ok((await ctx.request.head(BASE + 'media/comercial_9x16.mp4' + nc)).status() === 404, 'media/comercial_9x16.mp4 da 404');
   await browser.close();
   console.log(fallas ? `\n${fallas} FALLA(S). No publicar hasta resolverlas.` : '\nTodo OK. Capturas en herramientas/_capturas/.');
   process.exit(fallas ? 1 : 0);

@@ -23,7 +23,7 @@ A3D = RAIZ / "3D_Alternativa_A"
 SAL = A3D / "salidas"
 LAM = RAIZ / "Objetivos_G_a_J_2026-10-16" / "laminas" / "assets"
 EF = RAIZ.parent / "03_Alternativas_D-F" / "Objetivo_F_Seleccion_2026-10-15"
-COM = RAIZ.parent / "99_Archivo" / "Descartes" / "video_comercial_40s_con_bobina"
+COM = RAIZ.parent / "00_ENTREGA_FINAL"   # el comercial final
 PUBLICAR_G_H = True
 PUBLICAR_I_J = False
 
@@ -105,13 +105,14 @@ def estuche(dst):
 
 
 def videos():
+    """Comercial final (59,5 s, 16:9), hecho con IA en Comercial_IA. Se recomprime para la web (unos 15 MB)."""
     media = WEB / "media"
     media.mkdir(exist_ok=True)
-    for fmt in ("16x9", "9x16"):
-        proyecto = "aura-comercial" if fmt == "16x9" else "aura-comercial-vertical"
-        src = COM / proyecto / "renders" / f"aura_comercial_{fmt}.mp4"
-        shutil.copy2(src, media / f"comercial_{fmt}.mp4")
-        ffmpeg("-ss", "38.5", "-i", str(src), "-frames:v", "1", "-q:v", "3", str(media / f"comercial_{fmt}.jpg"))
+    src = COM / "AURA_comercial.mp4"
+    ffmpeg("-i", str(src), "-c:v", "libx264", "-preset", "slow", "-crf", "24", "-pix_fmt", "yuv420p",
+           "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart", str(media / "comercial_16x9.mp4"))
+    # póster: la funda con gotas (plano héroe, P19)
+    ffmpeg("-ss", "35", "-i", str(src), "-frames:v", "1", "-vf", "scale=1600:-2", "-q:v", "3", str(media / "comercial_16x9.jpg"))
 
 
 RECORRIDO = ("orbita", "malla", "cordon", "talles")   # "conjunto" mostraba el Módulo 2, descartado
