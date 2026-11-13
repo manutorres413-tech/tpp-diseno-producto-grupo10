@@ -22,8 +22,8 @@ RAIZ = WEB.parent
 A3D = RAIZ / "3D_Alternativa_A"
 SAL = A3D / "salidas"
 LAM = RAIZ / "Objetivos_G_a_J_2026-10-16" / "laminas" / "assets"
-EF = RAIZ / "Objetivo_F_Seleccion_2026-10-15"
-COM = RAIZ / "video_comercial"
+EF = RAIZ.parent / "03_Alternativas_D-F" / "Objetivo_F_Seleccion_2026-10-15"
+COM = RAIZ.parent / "99_Archivo" / "Descartes" / "video_comercial_40s_con_bobina"
 PUBLICAR_G_H = True
 PUBLICAR_I_J = False
 
@@ -82,10 +82,10 @@ def planos(ext):
 
 
 def estuche(dst):
-    """Frente y dorso del estuche, recortados de la lámina J (página 16 del PDF de G a J)."""
+    """Frente y dorso del estuche, recortados de la lámina J (página 15 del PDF de G a J)."""
     tmp = WEB / "herramientas" / "_pagina_estuche"
     pdf = RAIZ / "Objetivos_G_a_J_2026-10-16" / "Objetivos G a J - Grupo 10.pdf"
-    subprocess.run(["pdftoppm", "-r", "150", "-png", "-f", "16", "-l", "16", "-singlefile", str(pdf), str(tmp)], check=True)
+    subprocess.run(["pdftoppm", "-r", "150", "-png", "-f", "15", "-l", "15", "-singlefile", str(pdf), str(tmp)], check=True)
     im = Image.open(f"{tmp}.png").convert("RGB")
     w, h = im.size
     # la tarjeta del estuche es la columna izquierda; se recorta a las cajas por color (no blanco del fondo de la tarjeta)
