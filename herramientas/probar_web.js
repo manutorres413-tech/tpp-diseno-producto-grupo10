@@ -110,11 +110,8 @@ async function probarVisor(ctx, nombre) {
   ok(await v.$eval('#colocar', b => getComputedStyle(b).display === 'none'), 'Naída: sin botón de colocar');
   await v.click('#talles button >> nth=1'); await listo();   // S/M: tampoco
   ok(await v.$eval('#colocar', b => getComputedStyle(b).display === 'none'), 'S/M: sin botón de colocar');
-  await v.click('#talles button >> nth=3'); await listo();   // M/L Sonnet: colocación de implante (abrigo)
-  await v.click('#colocar'); await v.waitForTimeout(400);
-  ok(await v.$eval('#pasos', e => e.classList.contains('visible') && e.children.length === 4), 'Sonnet: colocación con cuatro pasos');
-  await v.waitForTimeout(6000);
-  ok((await v.textContent('#colocar span')).trim() === 'Repetir colocación', 'Sonnet: la colocación termina');
+  await v.click('#talles button >> nth=3'); await listo();   // M/L Sonnet: sin colocación (se sacó el 13/11)
+  ok(await v.$eval('#colocar', b => getComputedStyle(b).display === 'none'), 'Sonnet: sin botón de colocar');
   await v.click('#talles button >> nth=0'); await listo();   // XS: la colocación tipo bota
   await v.click('#colocar');
   await v.waitForTimeout(400);

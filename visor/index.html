@@ -563,7 +563,7 @@ const GANCHO_SACADO = false;
 // Equipos con la animación de colocación (talle:equipo), verificados cuadro por cuadro sin cruces con la funda. El
 // equipo eligió mostrar un par, uno de cada tipo: el RIC de XS (bota) y el implante Sonnet 2 (abrigo). El Nucleus 8
 // también pasa la verificación y se habilita sumándolo acá; la Naída M90 no tiene animación.
-const COLOCACION_LISTA = ["XS:AUDEO_IR", "MLS:S2"];
+const COLOCACION_LISTA = ["XS:AUDEO_IR"];   // el Sonnet 2 ("MLS:S2") se sacó de la web a pedido del equipo (13/11)
 const colocacionLista = () => COLOCACION_LISTA.includes(`${estado.talle.id}:${estado.equipo}`);
 const GIRO_IMPLANTE = -30;    // implantes: grados con que arranca el equipo (inclinado como en XS: entra primero la punta)
 const PASOS = {
