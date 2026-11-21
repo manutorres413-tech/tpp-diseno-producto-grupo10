@@ -73,4 +73,4 @@ Some things can only be done locally: the `completa` branch, the full project an
 
 - 3D viewer: the four sizes side by side.
 - The hero tagline ("…no apaguen tu día") is pending Manuel's decision.
-- G still needs the mock-up results (photos, times, the acoustic and splash tests) once the team has them.
+- G still needs the photos of the printed mock-up. The team decided on 2026-11-21 not to run the tests (times, acoustic, splash, anchoring): G presents a form mock-up and states that those values are estimates. Do not bring back a test plan.
